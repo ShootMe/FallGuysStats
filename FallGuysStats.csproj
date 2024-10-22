@@ -301,6 +301,7 @@
     <None Include="Resources\ps_icon.png" />
     <None Include="Resources\xbox_icon.png" />
     <None Include="Resources\switch_icon.png" />
+    <None Include="Resources\mobile_icon.png" />
     <None Include="Resources\stat_icon.png" />
     <None Include="Resources\stat_gray_icon.png" />
     <None Include="Resources\fallguys_icon.png" />

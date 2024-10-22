@@ -49,6 +49,8 @@ namespace FallGuysStats {
         public int PlayersXsx { get; set; }
         public int PlayersSw { get; set; }
         public int PlayersPc { get; set; }
+        public int PlayersAndroid { get; set; }
+        public int PlayersIos { get; set; }
         public int PlayersBots { get; set; }
         public int PlayersEtc { get; set; }
         public bool InParty { get; set; }
@@ -108,6 +110,8 @@ namespace FallGuysStats {
                    && info.PlayersXsx == this.PlayersXsx
                    && info.PlayersSw == this.PlayersSw
                    && info.PlayersPc == this.PlayersPc
+                   && info.PlayersAndroid == this.PlayersAndroid
+                   && info.PlayersIos == this.PlayersIos
                    && info.PlayersBots == this.PlayersBots
                    && info.PlayersEtc == this.PlayersEtc
                    && info.Position == this.Position

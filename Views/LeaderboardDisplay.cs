@@ -100,7 +100,7 @@ namespace FallGuysStats {
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.Invoke((MethodInvoker)delegate {
-                        this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+                        this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers:N0}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
                         int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType) ?? -1;
                         this.myOverallRank = index + 1;
                         if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
@@ -195,7 +195,7 @@ namespace FallGuysStats {
                 this.mpsSpinner01.Visible = false;
                 this.spinnerTransition.Stop();
                 // this.targetSpinner = null;
-                this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+                this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers:N0}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
                 this.gridOverallRank.DataSource = this.overallRankList;
                 this.gridOverallRank.ClearSelection();
                 this.overallSummary = this.overallRankList?
@@ -427,7 +427,7 @@ namespace FallGuysStats {
 
         private void SetLevelRankData(int index) {
             this.mtcTabControl.Enabled = true;
-            this.mtpLevelRankPage.Text = $@"🏅 {this.cboLevelList.SelectedName} ({this.totalLevelPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+            this.mtpLevelRankPage.Text = $@"🏅 {this.cboLevelList.SelectedName} ({this.totalLevelPlayers:N0}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
             this.gridLevelRank.DataSource = this.levelRankList;
@@ -1571,7 +1571,7 @@ namespace FallGuysStats {
                         this.gridPlayerDetails.Top = this.gridPlayerList.Top;
                         this.mpsSpinner03.Visible = false;
                         this.gridPlayerList.DataSource = this.searchResult ?? this.searchResultNodata;
-                        this.mtpSearchPlayersPage.Text = this.searchResult == null ? Multilingual.GetWord("leaderboard_search_players") : $"{Multilingual.GetWord("leaderboard_search_players")} ({this.searchResult.Count}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+                        this.mtpSearchPlayersPage.Text = this.searchResult == null ? Multilingual.GetWord("leaderboard_search_players") : $"{Multilingual.GetWord("leaderboard_search_players")} ({this.searchResult.Count:N0}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
                         this.gridPlayerList.ClearSelection();
                         this.isSearchCompleted = true;
                         this.mtbSearchPlayersText.Enabled = true;

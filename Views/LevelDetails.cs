@@ -411,26 +411,14 @@ namespace FallGuysStats {
                 case "Name":
                     return 0;
                 case "Players":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersPs4":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersPs5":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersXb1":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersXsx":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersSw":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
                 case "PlayersPc":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
+                case "PlayersAndroid":
+                case "PlayersIos":
                 case "PlayersBots":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
@@ -611,6 +599,8 @@ namespace FallGuysStats {
                 ((Grid)sender).Columns["PlayersXsx"].Visible = false;
                 ((Grid)sender).Columns["PlayersSw"].Visible = false;
                 ((Grid)sender).Columns["PlayersPc"].Visible = false;
+                ((Grid)sender).Columns["PlayersAndroid"].Visible = false;
+                ((Grid)sender).Columns["PlayersIos"].Visible = false;
                 ((Grid)sender).Columns["PlayersBots"].Visible = false;
                 ((Grid)sender).Columns["PlayersEtc"].Visible = false;
             } else {
@@ -621,6 +611,8 @@ namespace FallGuysStats {
                 ((Grid)sender).Setup("PlayersXsx", pos++,  this.GetDataGridViewColumnWidth("PlayersXsx", $"{Multilingual.GetWord("level_detail_playersXsx")}"), $"{Multilingual.GetWord("level_detail_playersXsx")}", DataGridViewContentAlignment.MiddleCenter);
                 ((Grid)sender).Setup("PlayersSw", pos++,   this.GetDataGridViewColumnWidth("PlayersSw", $"{Multilingual.GetWord("level_detail_playersSw")}"), $"{Multilingual.GetWord("level_detail_playersSw")}", DataGridViewContentAlignment.MiddleCenter);
                 ((Grid)sender).Setup("PlayersPc", pos++,   this.GetDataGridViewColumnWidth("PlayersPc", $"{Multilingual.GetWord("level_detail_playersPc")}"), $"{Multilingual.GetWord("level_detail_playersPc")}", DataGridViewContentAlignment.MiddleCenter);
+                ((Grid)sender).Setup("PlayersAndroid", pos++,   this.GetDataGridViewColumnWidth("PlayersAndroid", $"{Multilingual.GetWord("level_detail_playersAndroid")}"), $"{Multilingual.GetWord("level_detail_playersAndroid")}", DataGridViewContentAlignment.MiddleCenter);
+                ((Grid)sender).Setup("PlayersIos", pos++,   this.GetDataGridViewColumnWidth("PlayersIos", $"{Multilingual.GetWord("level_detail_playersIos")}"), $"{Multilingual.GetWord("level_detail_playersIos")}", DataGridViewContentAlignment.MiddleCenter);
                 ((Grid)sender).Setup("PlayersBots", pos++, this.GetDataGridViewColumnWidth("PlayersBots", $"{Multilingual.GetWord("level_detail_playersBots")}"), $"{Multilingual.GetWord("level_detail_playersBots")}", DataGridViewContentAlignment.MiddleCenter);
                 ((Grid)sender).Columns["PlayersEtc"].Visible = false;
             }
@@ -799,6 +791,14 @@ namespace FallGuysStats {
                 e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.9f);
                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPc_desc");
                 if ((int)e.Value == 0) { e.Value = "-"; }
+            } else if (this.statType != StatType.Shows && ((Grid)sender).Columns[e.ColumnIndex].Name == "PlayersAndroid") {
+                e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.9f);
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersAndroid_desc");
+                if ((int)e.Value == 0) { e.Value = "-"; }
+            } else if (this.statType != StatType.Shows && ((Grid)sender).Columns[e.ColumnIndex].Name == "PlayersIos") {
+                e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.9f);
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersIos_desc");
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this.statType != StatType.Shows && ((Grid)sender).Columns[e.ColumnIndex].Name == "PlayersBots") {
                 e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.9f);
                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersBots_desc");
@@ -871,6 +871,12 @@ namespace FallGuysStats {
                     case "PlayersPc":
                         int playerPcCompare = one.PlayersPc.CompareTo(two.PlayersPc);
                         return playerPcCompare != 0 ? playerPcCompare : showCompare == 0 ? roundCompare : showCompare;
+                    case "PlayersAndroid":
+                        int playerAndroidCompare = one.PlayersAndroid.CompareTo(two.PlayersAndroid);
+                        return playerAndroidCompare != 0 ? playerAndroidCompare : showCompare == 0 ? roundCompare : showCompare;
+                    case "PlayersIos":
+                        int playerIosCompare = one.PlayersIos.CompareTo(two.PlayersIos);
+                        return playerIosCompare != 0 ? playerIosCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "PlayersBots":
                         int playersBotsCompare = one.PlayersBots.CompareTo(two.PlayersBots);
                         return playersBotsCompare != 0 ? playersBotsCompare : showCompare == 0 ? roundCompare : showCompare;

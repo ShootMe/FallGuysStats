@@ -40,6 +40,7 @@
             this.lblCountryIcon = new FallGuysStats.TransparentLabel();
             this.lblPlayers = new FallGuysStats.TransparentLabel();
             this.lblPlayersPc = new FallGuysStats.TransparentLabel();
+            this.lblPlayersMobile = new FallGuysStats.TransparentLabel();
             this.lblPlayersPs = new FallGuysStats.TransparentLabel();
             this.lblPlayersXbox = new FallGuysStats.TransparentLabel();
             this.lblPlayersSwitch = new FallGuysStats.TransparentLabel();
@@ -300,9 +301,25 @@
             this.lblPlayersPc.Location = new System.Drawing.Point(719, 12);
             this.lblPlayersPc.Name = "lblPlayersPc";
             this.lblPlayersPc.Size = new System.Drawing.Size(26, 16);
-            this.lblPlayersPc.TabIndex = 24;
+            this.lblPlayersPc.TabIndex = 23;
             this.lblPlayersPc.TextRight = "-";
             this.lblPlayersPc.Visible = false;
+            // 
+            // lblPlayersMobile
+            // 
+            this.lblPlayersMobile.DrawVisible = false;
+            this.lblPlayersMobile.PlatformIcon = Properties.Resources.mobile_icon;
+            this.lblPlayersMobile.ImageHeight = 13;
+            this.lblPlayersMobile.ImageWidth = 13;
+            this.lblPlayersMobile.ImageX = 0;
+            this.lblPlayersMobile.ImageY = 0;
+            this.lblPlayersMobile.LevelColor = System.Drawing.Color.Empty;
+            this.lblPlayersMobile.Location = new System.Drawing.Point(757, 12);
+            this.lblPlayersMobile.Name = "lblPlayersMobile";
+            this.lblPlayersMobile.Size = new System.Drawing.Size(26, 16);
+            this.lblPlayersMobile.TabIndex = 24;
+            this.lblPlayersMobile.TextRight = "-";
+            this.lblPlayersMobile.Visible = false;
             // 
             // lblPlayersPs
             // 
@@ -423,6 +440,7 @@
             this.Controls.Add(this.lblCountryIcon);
             this.Controls.Add(this.lblPlayers);
             this.Controls.Add(this.lblPlayersPc);
+            this.Controls.Add(this.lblPlayersMobile);
             this.Controls.Add(this.lblPlayersPs);
             this.Controls.Add(this.lblPlayersXbox);
             this.Controls.Add(this.lblPlayersSwitch);
@@ -474,6 +492,7 @@
         private FallGuysStats.TransparentLabel lblCountryIcon;
 
         private FallGuysStats.TransparentLabel lblPlayersPc;
+        private FallGuysStats.TransparentLabel lblPlayersMobile;
         private FallGuysStats.TransparentLabel lblPlayersPs;
         private FallGuysStats.TransparentLabel lblPlayersXbox;
         private FallGuysStats.TransparentLabel lblPlayersSwitch;

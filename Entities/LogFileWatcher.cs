@@ -796,8 +796,19 @@ namespace FallGuysStats {
                     Stats.InShow = true;
                     Stats.SucceededPlayerIds.Clear();
                     Stats.EliminatedPlayerIds.Clear();
+                    Stats.ReadyPlayerIds.Clear();
                     Stats.NumPlayersSucceeded = 0;
+                    Stats.NumPlayersPsSucceeded = 0;
+                    Stats.NumPlayersXbSucceeded = 0;
+                    Stats.NumPlayersSwSucceeded = 0;
+                    Stats.NumPlayersPcSucceeded = 0;
+                    Stats.NumPlayersMbSucceeded = 0;
                     Stats.NumPlayersEliminated = 0;
+                    Stats.NumPlayersPsEliminated = 0;
+                    Stats.NumPlayersXbEliminated = 0;
+                    Stats.NumPlayersSwEliminated = 0;
+                    Stats.NumPlayersPcEliminated = 0;
+                    Stats.NumPlayersMbEliminated = 0;
                     Stats.IsLastRoundRunning = true;
                     Stats.IsLastPlayedRoundStillPlaying = false;
                     Stats.LastPlayedRoundStart = null;
@@ -905,22 +916,57 @@ namespace FallGuysStats {
             } else if (logRound.Info != null && logRound.CountingPlayers && (line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) != -1 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) != -1)) {
                 logRound.Info.Players++;
             } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[CameraDirector] Adding Spectator target", StringComparison.OrdinalIgnoreCase) != -1) {
+                string playerId = line.Line.Substring(line.Line.IndexOf(" and playerID: ", StringComparison.OrdinalIgnoreCase) + 15);
                 if (line.Line.IndexOf("ps4", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPs4++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "ps4");
+                    }
                 } else if (line.Line.IndexOf("ps5", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPs5++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "ps5");
+                    }
                 } else if (line.Line.IndexOf("xb1", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersXb1++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "xb1");
+                    }
                 } else if (line.Line.IndexOf("xsx", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersXsx++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "xsx");
+                    }
                 } else if (line.Line.IndexOf("switch", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersSw++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "switch");
+                    }
                 } else if (line.Line.IndexOf("pc", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPc++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "pc");
+                    }
+                } else if (line.Line.IndexOf("android", StringComparison.OrdinalIgnoreCase) != -1) {
+                    logRound.Info.PlayersAndroid++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "android");
+                    }
+                } else if (line.Line.IndexOf("ios", StringComparison.OrdinalIgnoreCase) != -1) {
+                    logRound.Info.PlayersIos++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "ios");
+                    }
                 } else if (line.Line.IndexOf("bots", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersBots++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "bots");
+                    }
                 } else {
                     logRound.Info.PlayersEtc++;
+                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                        Stats.ReadyPlayerIds.Add(playerId, "etc");
+                    }
                 }
             } else if (logRound.Info != null && logRound.GetCurrentPlayerID && line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy", StringComparison.OrdinalIgnoreCase) != -1 && (index = line.Line.IndexOf("playerID = ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 logRound.GetCurrentPlayerID = false;
@@ -938,6 +984,23 @@ namespace FallGuysStats {
                     if (line.Date > Stats.LastRoundLoad && !Stats.SucceededPlayerIds.Contains(logRound.CurrentPlayerID)) {
                         Stats.SucceededPlayerIds.Add(logRound.CurrentPlayerID);
                         Stats.NumPlayersSucceeded++;
+                        if (Stats.ReadyPlayerIds.TryGetValue(logRound.CurrentPlayerID, out string platformId)) {
+                            switch (platformId) {
+                                case "ps4":
+                                case "ps5":
+                                    Stats.NumPlayersPsSucceeded++; break;
+                                case "xb1":
+                                case "xsx":
+                                    Stats.NumPlayersXbSucceeded++; break;
+                                case "switch":
+                                    Stats.NumPlayersSwSucceeded++; break;
+                                case "pc":
+                                    Stats.NumPlayersPcSucceeded++; break;
+                                case "android":
+                                case "ios":
+                                    Stats.NumPlayersMbSucceeded++; break;
+                            }
+                        }
                         this.UpdatePersonalBestLog(logRound.Info);
                     }
                     logRound.FindingPosition = true;
@@ -945,6 +1008,23 @@ namespace FallGuysStats {
                     if (line.Date > Stats.LastRoundLoad && !Stats.EliminatedPlayerIds.Contains(logRound.CurrentPlayerID)) {
                         Stats.EliminatedPlayerIds.Add(logRound.CurrentPlayerID);
                         Stats.NumPlayersEliminated++;
+                        if (Stats.ReadyPlayerIds.TryGetValue(logRound.CurrentPlayerID, out string platformId)) {
+                            switch (platformId) {
+                                case "ps4":
+                                case "ps5":
+                                    Stats.NumPlayersPsEliminated++; break;
+                                case "xb1":
+                                case "xsx":
+                                    Stats.NumPlayersXbEliminated++; break;
+                                case "switch":
+                                    Stats.NumPlayersSwEliminated++; break;
+                                case "pc":
+                                    Stats.NumPlayersPcEliminated++; break;
+                                case "android":
+                                case "ios":
+                                    Stats.NumPlayersMbEliminated++; break;
+                            }
+                        }
                     }
                     logRound.FindingPosition = true;
                 }
@@ -961,6 +1041,23 @@ namespace FallGuysStats {
                     if (!Stats.SucceededPlayerIds.Contains(playerId)) {
                         Stats.SucceededPlayerIds.Add(playerId);
                         Stats.NumPlayersSucceeded++;
+                        if (Stats.ReadyPlayerIds.TryGetValue(playerId, out string platformId)) {
+                            switch (platformId) {
+                                case "ps4":
+                                case "ps5":
+                                    Stats.NumPlayersPsSucceeded++; break;
+                                case "xb1":
+                                case "xsx":
+                                    Stats.NumPlayersXbSucceeded++; break;
+                                case "switch":
+                                    Stats.NumPlayersSwSucceeded++; break;
+                                case "pc":
+                                    Stats.NumPlayersPcSucceeded++; break;
+                                case "android":
+                                case "ios":
+                                    Stats.NumPlayersMbSucceeded++; break;
+                            }
+                        }
                     }
                 } else if (line.Line.IndexOf("succeeded=False", StringComparison.OrdinalIgnoreCase) != -1) {
                     int prevIndex = line.Line.IndexOf(" ", index + 36);
@@ -968,6 +1065,23 @@ namespace FallGuysStats {
                     if (!Stats.EliminatedPlayerIds.Contains(playerId)) {
                         Stats.EliminatedPlayerIds.Add(playerId);
                         Stats.NumPlayersEliminated++;
+                        if (Stats.ReadyPlayerIds.TryGetValue(playerId, out string platformId)) {
+                            switch (platformId) {
+                                case "ps4":
+                                case "ps5":
+                                    Stats.NumPlayersPsEliminated++; break;
+                                case "xb1":
+                                case "xsx":
+                                    Stats.NumPlayersXbEliminated++; break;
+                                case "switch":
+                                    Stats.NumPlayersSwEliminated++; break;
+                                case "pc":
+                                    Stats.NumPlayersPcEliminated++; break;
+                                case "android":
+                                case "ios":
+                                    Stats.NumPlayersMbEliminated++; break;
+                            }
+                        }
                     }
                 }
             } else if (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) != -1) {

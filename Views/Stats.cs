@@ -118,14 +118,25 @@ namespace FallGuysStats {
         public static long LastServerPing = 0;
         public static bool IsBadServerPing = false;
         
-        public static List<string> SucceededPlayerIds = new List<string>();
-        public static List<string> EliminatedPlayerIds = new List<string>();
+        public static readonly List<string> SucceededPlayerIds = new List<string>();
+        public static readonly List<string> EliminatedPlayerIds = new List<string>();
+        public static readonly Dictionary<string, string> ReadyPlayerIds = new Dictionary<string, string>();
         
         public static int CasualRoundNum { get; set; }
         public static string SavedSessionId { get; set; }
         public static int SavedRoundCount { get; set; }
         public static int NumPlayersSucceeded { get; set; }
+        public static int NumPlayersPsSucceeded { get; set; }
+        public static int NumPlayersXbSucceeded { get; set; }
+        public static int NumPlayersSwSucceeded { get; set; }
+        public static int NumPlayersMbSucceeded { get; set; }
+        public static int NumPlayersPcSucceeded { get; set; }
         public static int NumPlayersEliminated { get; set; }
+        public static int NumPlayersPsEliminated { get; set; }
+        public static int NumPlayersXbEliminated { get; set; }
+        public static int NumPlayersSwEliminated { get; set; }
+        public static int NumPlayersMbEliminated { get; set; }
+        public static int NumPlayersPcEliminated { get; set; }
         public static bool IsLastRoundRunning { get; set; }
         public static bool IsLastPlayedRoundStillPlaying { get; set; }
         public static DateTime LastGameStart { get; set; } = DateTime.MinValue;
@@ -509,7 +520,8 @@ namespace FallGuysStats {
                         var temps = new List<UpcomingShow>();
                         foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                             foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
-                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
+                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                       && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
                                     this.StatsDB.BeginTrans();
                                     this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
                                     this.UpcomingShow.DeleteAll();
