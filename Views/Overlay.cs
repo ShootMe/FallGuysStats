@@ -781,14 +781,11 @@ namespace FallGuysStats {
                             int pcCount = this.lastRound.PlayersPc;
                             int mobileCount = this.lastRound.PlayersAndroid + this.lastRound.PlayersIos;
                             if (this.StatsForm.CurrentSettings.CountPlayersDuringTheLevel) {
-                                if (type == LevelType.Survival || type == LevelType.CreativeSurvival 
-                                                               || ((type == LevelType.Logic || type == LevelType.CreativeLogic) && bestRecordType == BestRecordType.Longest)) {
-                                    psCount -= Stats.NumPlayersPsEliminated;
-                                    xbCount -= Stats.NumPlayersXbEliminated;
-                                    swCount -= Stats.NumPlayersSwEliminated;
-                                    pcCount -= Stats.NumPlayersPcEliminated;
-                                    mobileCount -= Stats.NumPlayersMbEliminated;
-                                }
+                                psCount -= (Stats.NumPlayersPsEliminated + Stats.NumPlayersPsSucceeded);
+                                xbCount -= (Stats.NumPlayersXbEliminated + Stats.NumPlayersXbSucceeded);
+                                swCount -= (Stats.NumPlayersSwEliminated + Stats.NumPlayersSwSucceeded);
+                                pcCount -= (Stats.NumPlayersPcEliminated + Stats.NumPlayersPcSucceeded);
+                                mobileCount -= (Stats.NumPlayersMbEliminated + Stats.NumPlayersMbSucceeded);
                             }
                             this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount}");
                             this.lblPlayersPs.Size = new Size((psCount > 9 ? 31 : 25), 16);
