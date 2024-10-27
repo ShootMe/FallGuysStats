@@ -884,7 +884,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void SetDurationLabel(LevelStats level, LevelType type, DateTime currentUtc, int setting) {
+        private void SetDurationLabel(LevelStats level, DateTime currentUtc, int setting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (setting == 0 || setting == 2 || setting == 4)) {
                 this.lblDuration.OverlaySetting = setting;
                 this.lblDuration.TickProgress = 0;
@@ -899,14 +899,10 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
                 int showType = (level == null) ? 0
-                               // : (string.Equals(this.lastRound.ShowNameId, "no_elimination_explore") && level.TimeLimitSecondsForLTM > 0) ? 3
                                : (showId.StartsWith("event_xtreme_fall_guys_") && level.TimeLimitSecondsForLTM > 0) ? 3
                                : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2
                                : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
-                int timeLimit = // this.lastRound.IsCasualShow ? ((showType == 3) ? level.TimeLimitSecondsForLTM
-                                //                                                : ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0))
-                                this.lastRound.IsCasualShow ? ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0)
-                                : this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds
+                int timeLimit = this.lastRound.IsCasualShow || this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds
                                 : (showType == 3) ? level.TimeLimitSecondsForLTM
                                 : (showType == 2) ? level.TimeLimitSecondsForSquad
                                 : (showType == 1) ? level.TimeLimitSeconds : 0;
@@ -1090,7 +1086,7 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetDurationLabel(this.levelStats, this.levelType, currentUtc, overlaySetting);
+                    this.SetDurationLabel(this.levelStats, currentUtc, overlaySetting);
                     this.SetFinishLabel(this.levelSummary, this.levelType, this.levelId, this.recordType, currentUtc, overlaySetting);
                 }
                 this.Invalidate();

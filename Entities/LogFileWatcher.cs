@@ -210,7 +210,7 @@ namespace FallGuysStats {
                                                         break;
                                                     }
                                                 }
-                                        }
+                                            }
                                         } else {
                                             tempLines.Add(logLine);
                                         }
