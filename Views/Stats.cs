@@ -3550,6 +3550,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 106;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 106) {
+                DateTime dateCond = new DateTime(2024, 10, 25, 12, 0, 0, DateTimeKind.Utc);
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where string.Equals(ri.ShowNameId, "event_only_button_bashers_template") && ri.Start >= dateCond
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Round < 4) {
+                        ri.IsFinal = false;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 107;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
