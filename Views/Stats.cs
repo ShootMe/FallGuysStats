@@ -5055,6 +5055,7 @@ namespace FallGuysStats {
         
         private bool IsCreativeShow(string showId) {
             return string.Equals(showId, "casual_show")
+                   || string.Equals(showId, "spotlight_mode")
                    || string.Equals(showId, "explore_points")
                    || string.Equals(showId, "showcase_fp13")
                    || showId.StartsWith("user_creative_")
