@@ -391,6 +391,9 @@ namespace FallGuysStats {
                     || (roundId.IndexOf("_squads_squadcelebration", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
 
+                    || (string.Equals(showId, "event_animals_template")
+                        && string.Equals(roundId, "round_drumtop_final_animals"))
+
                     || (string.Equals(showId, "event_only_hoverboard_template")
                         && string.Equals(roundId, "round_hoverboardsurvival_final"))
 
