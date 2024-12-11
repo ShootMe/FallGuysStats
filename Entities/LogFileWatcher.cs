@@ -782,7 +782,6 @@ namespace FallGuysStats {
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase) + 3;
                     Stats.LastServerIp = line.Line.Substring(ipIndex);
-
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 int index2 = line.Line.IndexOf(" IsUltimatePartyEpisode:");
@@ -800,9 +799,10 @@ namespace FallGuysStats {
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                     this.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
-            } else if ((index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 42, 14);
-                this.threadLocalVariable.Value.useShareCode = true;
+            } else if ((index = line.Line.IndexOf("[RoundLoader] Load UGC via share code: ", StringComparison.OrdinalIgnoreCase)) != -1) {
+                if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") || string.Equals(this.threadLocalVariable.Value.selectedShowId, "spotlight_mode")) {
+                    this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 39, 14);
+                }
             } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;
