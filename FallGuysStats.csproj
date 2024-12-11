@@ -1139,10 +1139,10 @@
     <None Include="Resources\leaderboard_gray_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
+    <PackageReference Include="Costura.Fody" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Fody" Version="6.9.0">
+    <PackageReference Include="Fody" Version="6.9.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LiteDB" Version="5.0.21" />
