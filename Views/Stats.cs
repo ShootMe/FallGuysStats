@@ -260,6 +260,7 @@ namespace FallGuysStats {
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
             "no_elimination_show",
+            "anniversary_fp12_ltm",
             "event_anniversary_season_1_alternate_name",
             "event_blast_ball_banger_template",
             "event_only_button_bashers_template",
