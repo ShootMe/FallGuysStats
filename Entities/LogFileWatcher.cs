@@ -192,7 +192,7 @@ namespace FallGuysStats {
                                                     sb.AppendLine(line);
                                                 }
                                             }
-                                        } else if (line.IndexOf("[FNMMSClientRemoteService] Message received: {") != -1) {
+                                        } else if (line.IndexOf("[FNMMSClientRemoteService] Status message received: {") != -1) {
                                             while ((line = sr.ReadLine()) != null) {
                                                 if (line.IndexOf("\"queuedPlayers\": ") != -1) {
                                                     string content = Regex.Replace(line.Substring(21), "[\",]", "");
@@ -507,7 +507,7 @@ namespace FallGuysStats {
         private void SetCreativeLevelVariables(string shareCode) {
             RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
             if (ri != null) {
-                this.threadLocalVariable.Value.creativeOnlinePlatformId = ri.CreativePlatformId;
+                this.threadLocalVariable.Value.creativeOnlinePlatformId = ri.CreativeOnlinePlatformId;
                 this.threadLocalVariable.Value.creativeAuthor = ri.CreativeAuthor;
                 // this.threadLocalVariable.Value.creativeShareCode = ri.CreativeShareCode;
                 this.threadLocalVariable.Value.creativeVersion = ri.CreativeVersion;
@@ -800,9 +800,7 @@ namespace FallGuysStats {
                     this.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
             } else if ((index = line.Line.IndexOf("[RoundLoader] Load UGC via share code: ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") || string.Equals(this.threadLocalVariable.Value.selectedShowId, "spotlight_mode")) {
-                    this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 39, 14);
-                }
+                this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 39, 14);
             } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;
@@ -842,18 +840,6 @@ namespace FallGuysStats {
                         OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
                     };
 
-                    if (logRound.Info.UseShareCode) {
-                        if (line.Date > Stats.LastCreativeRoundLoad) {
-                            Stats.LastCreativeRoundLoad = line.Date;
-                            this.threadLocalVariable.Value.creativeShareCode = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
-                            this.SetCreativeLevelVariables(this.threadLocalVariable.Value.creativeShareCode);
-                        }
-                        logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
-                    } else {
-                        logRound.Info.SceneName = this._sceneNameReplacer.TryGetValue(this.threadLocalVariable.Value.sceneName, out string sceneName)
-                                                  ? sceneName
-                                                  : this.threadLocalVariable.Value.sceneName;
-                    }
                     logRound.FindingPosition = false;
 
                     round.Add(logRound.Info);
@@ -870,18 +856,6 @@ namespace FallGuysStats {
                         OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
                     };
 
-                    if (logRound.Info.UseShareCode) {
-                        if (line.Date > Stats.LastCreativeRoundLoad) {
-                            Stats.LastCreativeRoundLoad = line.Date;
-                            this.threadLocalVariable.Value.creativeShareCode = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
-                            this.SetCreativeLevelVariables(this.threadLocalVariable.Value.creativeShareCode);
-                        }
-                        logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
-                    } else {
-                        logRound.Info.SceneName = this._sceneNameReplacer.TryGetValue(this.threadLocalVariable.Value.sceneName, out string sceneName)
-                                                  ? sceneName
-                                                  : this.threadLocalVariable.Value.sceneName;
-                    }
                     logRound.FindingPosition = false;
 
                     round.Add(logRound.Info);
@@ -898,10 +872,18 @@ namespace FallGuysStats {
                 }
 
                 if (logRound.Info.UseShareCode) {
-                    logRound.Info.Name = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
+                    if (line.Date > Stats.LastCreativeRoundLoad) {
+                        Stats.LastCreativeRoundLoad = line.Date;
+                        this.SetCreativeLevelVariables(this.threadLocalVariable.Value.creativeShareCode);
+                    }
+                    logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
+                    logRound.Info.Name = this.threadLocalVariable.Value.creativeShareCode;
                     logRound.Info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(this.threadLocalVariable.Value.creativeGameModeId);
                     this.SetCreativeLevelInfo(logRound.Info);
                 } else {
+                    logRound.Info.SceneName = this._sceneNameReplacer.TryGetValue(this.threadLocalVariable.Value.sceneName, out string sceneName)
+                                              ? sceneName
+                                              : this.threadLocalVariable.Value.sceneName;
                     int index2 = line.Line.IndexOf(". ", index + 62);
                     if (index2 < 0) { index2 = line.Line.Length; }
                     logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId ?? this.threadLocalVariable.Value.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
