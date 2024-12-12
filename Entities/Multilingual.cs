@@ -14477,7 +14477,7 @@ namespace FallGuysStats {
                     { "squads_show_ss2_parrot", "Groupes" },
                     { "survival_of_the_fittest", "Le plus fort survivra" },
                     { "teams_show", "Erreur de connexion" },
-                    { "teams_show_ltm", "Duo Dynamique" },
+                    { "teams_show_ltm", "Duos dynamiques" },
                     { "toms_main_show_5_2", "Émission principale" },
                     { "toms_show2", "Toms Show 2" },
                     { "turbo_show", "Solo" },
