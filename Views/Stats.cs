@@ -4460,11 +4460,12 @@ namespace FallGuysStats {
                                 stat.Profile = profile;
 
                                 if (((this.StatLookup.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeTitle))
-                                      || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeTitle)))) && Utils.IsInternetConnected()) {
-                                    string shareCode = stat.UseShareCode ? stat.Name : l1.ShareCode;
+                                      || (stat.UseShareCode && !string.IsNullOrEmpty(stat.CreativeShareCode) && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeTitle)))) && Utils.IsInternetConnected()) {
+                                    string shareCode = stat.UseShareCode ? stat.CreativeShareCode : l1.ShareCode;
                                     RoundInfo ri = this.GetRoundInfoFromShareCode(shareCode);
                                     if (ri != null) {
-                                        stat.CreativeOnlinePlatformId = ri.CreativePlatformId;
+                                        if (stat.UseShareCode) { stat.ShowNameId = ri.ShowNameId; }
+                                        stat.CreativeOnlinePlatformId = ri.CreativeOnlinePlatformId;
                                         stat.CreativeAuthor = ri.CreativeAuthor;
                                         stat.CreativeShareCode = shareCode;
                                         stat.CreativeVersion = ri.CreativeVersion;
@@ -4587,7 +4588,7 @@ namespace FallGuysStats {
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);
                                 
-                                // Below is where reporting to fallaytics happen
+                                // Below is where reporting to fallalytics happen
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
@@ -5287,7 +5288,7 @@ namespace FallGuysStats {
         }
         
         public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
-            return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
+            return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.CreativeShareCode, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         
         public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement levelData) {
