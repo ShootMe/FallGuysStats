@@ -701,8 +701,8 @@ namespace FallGuysStats {
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
 
-            if (info.IsCasualShow && string.Equals(info.ShowNameId, "user_creative_race_round")) {
-                if (string.IsNullOrEmpty(info.Name)) { return; }
+            if (info.IsCasualShow) {
+                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) { return; }
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                     string levelName = string.IsNullOrEmpty(info.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(info.Name) : info.CreativeTitle;
@@ -718,9 +718,7 @@ namespace FallGuysStats {
                 }
             } else {
                 string levelId = info.VerifiedName();
-                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) {
-                    return;
-                }
+                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) { return; }
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                     List<RoundInfo> roundInfoList;
