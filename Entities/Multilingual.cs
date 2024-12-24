@@ -18027,7 +18027,7 @@ namespace FallGuysStats {
                     { "event_yeetus_3005_to_3105_2022", "重錘巡迴賽" },
                     { "event_yeetus_template", "重錘巡迴賽" },
                     { "explore_points", "探索模式 - 奪分關卡" },
-                    { "fp16_ski_fall_high_scorers", "舞洞飛揚挑戰者" },
+                    { "fp16_ski_fall_high_scorers", "雪山速降高分賽" },
                     { "ftue_uk_show", "淘汰賽" },
                     { "invisibeans_0508_to_0708_2022", "糖果竊賊" },
                     { "invisibeans_0707_to_1107_2022", "糖果竊賊" },
