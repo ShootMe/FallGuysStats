@@ -260,6 +260,7 @@ namespace FallGuysStats {
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
             "no_elimination_show",
+            "anniversary_fp12_ltm",
             "event_anniversary_season_1_alternate_name",
             "event_blast_ball_banger_template",
             "event_only_button_bashers_template",
@@ -275,6 +276,7 @@ namespace FallGuysStats {
             "event_only_jump_club_template",
             "event_only_hoverboard_template",
             "event_only_drumtop_template",
+            "event_only_skeefall_timetrial_s6_1",
             "event_walnut_template",
             "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
@@ -3640,6 +3642,21 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 110;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 110) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where string.Equals(ri.ShowNameId, "fp16_ski_fall_high_scorers")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = true;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 111;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -5109,6 +5126,8 @@ namespace FallGuysStats {
                 case "knockout_squads":
                 case "squadcelebration":
                     return "squads_4player";
+                case "fp16_ski_fall_high_scorers":
+                    return "event_only_skeefall_timetrial_s6_1";
                 case "invisibeans_pistachio_template":
                 case "invisibeans_template":
                     return "invisibeans_mode";

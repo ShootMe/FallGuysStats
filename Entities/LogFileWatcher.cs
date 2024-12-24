@@ -402,6 +402,9 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "event_only_button_bashers_template")
                         && roundNum == 4)
 
+                    || (string.Equals(showId, "fp16_ski_fall_high_scorers")
+                        && string.Equals(roundId, "round_event_only_skeefall_timetrial_s6_1"))
+
                     || (string.Equals(showId, "ftue_uk_show")
                         && string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2"))
 
