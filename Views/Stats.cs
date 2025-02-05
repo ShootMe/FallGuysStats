@@ -277,6 +277,7 @@ namespace FallGuysStats {
             "event_only_hoverboard_template",
             "event_only_drumtop_template",
             "event_only_skeefall_timetrial_s6_1",
+            "event_only_roll_out",
             "event_walnut_template",
             "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
