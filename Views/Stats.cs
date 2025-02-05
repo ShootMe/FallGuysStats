@@ -3657,6 +3657,45 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 111;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 111) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "showcase_fp17")
+                    select ri).ToList();
+                
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
+                    if (string.Equals(ri.Name, "round_fp17_gardenpardon") || string.Equals(ri.Name, "round_fp17_castlesiege")) {
+                        ri.IsFinal = true;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "ftue_uk_show")
+                    select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList2) {
+                    if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege")
+                        || string.Equals(ri.Name, "knockout_circleoslime_final_survival")
+                        || string.Equals(ri.Name, "knockout_goopropegrandslamgoldrush_final_survival")
+                        || string.Equals(ri.Name, "knockout_rollerderby_final")
+                        || string.Equals(ri.Name, "knockout_mode_cloudyteacupsgoldrush_final")
+                        || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")
+                        || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
+                        ri.IsFinal = true;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 112;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -5151,6 +5190,7 @@ namespace FallGuysStats {
                    || string.Equals(showId, "explore_points")
                    || string.Equals(showId, "showcase_fp13")
                    || string.Equals(showId, "showcase_fp16")
+                   || string.Equals(showId, "showcase_fp17")
                    || showId.StartsWith("user_creative_")
                    || showId.StartsWith("creative_")
                    || showId.StartsWith("event_wle_")

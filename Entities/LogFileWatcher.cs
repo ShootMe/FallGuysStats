@@ -406,7 +406,14 @@ namespace FallGuysStats {
                         && string.Equals(roundId, "round_event_only_skeefall_timetrial_s6_1"))
 
                     || (string.Equals(showId, "ftue_uk_show")
-                        && string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2"))
+                        && (string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2") 
+                            || string.Equals(roundId, "round_fp17_knockout_castlesiege")
+                            || string.Equals(roundId, "knockout_circleoslime_final_survival")
+                            || string.Equals(roundId, "knockout_goopropegrandslamgoldrush_final_survival")
+                            || string.Equals(roundId, "knockout_rollerderby_final")
+                            || string.Equals(roundId, "knockout_mode_cloudyteacupsgoldrush_final")
+                            || string.Equals(roundId, "round_fp17_knockout_gardenpardon")
+                            || string.Equals(roundId, "knockout_trickortrapeze_final_points")))
 
                     || (string.Equals(showId, "no_elimination_show")
                         && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")))
@@ -416,7 +423,11 @@ namespace FallGuysStats {
 
                     || (string.Equals(showId, "showcase_fp16")
                         && (roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase)
-                            || roundId.EndsWith("_goopropegrandslam", StringComparison.OrdinalIgnoreCase)));
+                            || roundId.EndsWith("_goopropegrandslam", StringComparison.OrdinalIgnoreCase)))
+
+                    || (string.Equals(showId, "showcase_fp17")
+                        && (string.Equals(roundId, "round_fp17_gardenpardon")
+                            || string.Equals(roundId, "round_fp17_castlesiege")));
         }
 
         private bool IsModeException(string roundId, string showId) {
