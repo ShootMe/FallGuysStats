@@ -283,6 +283,7 @@ namespace FallGuysStats {
             "show_robotrampage_ss2_show1_template",
             "event_le_anchovy_template",
             "event_pixel_palooza_template",
+            "event_snowday_stumble",
             "mrs_pegwin_winter_2teamsfinal",
             "xtreme_party",
             "invisibeans_mode",
@@ -565,10 +566,9 @@ namespace FallGuysStats {
                         if (string.Equals(upcomingShow.xstatus, "success")) {
                             var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
                             foreach (var liveShow in upcomingShow.shows.live_shows) {
-                                if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) { continue; }
                                 foreach (var showDetails in liveShow.showInfo.Values) {
                                     var show = showDetails.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                                    if (string.Equals(show.id, "ftue_uk_show") || show.victory_rewards.Count == 0) { continue; }
+                                    if ((string.Equals(liveShow.section_name, "CLASSIC GAMES") && !string.Equals(show.id, "event_snowday_stumble")) || string.Equals(show.id, "ftue_uk_show") || show.victory_rewards.Count == 0) { continue; }
                                     selectedShows.Add(show);
                                 }
                             }
@@ -3695,6 +3695,36 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList2);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 112;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 112) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                  where string.Equals(ri.ShowNameId, "knockout_mode")
+                                                  select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege") || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
+                        ri.IsFinal = true;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                 where string.Equals(ri.ShowNameId, "event_snowday_stumble")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList2) {
+                    if (string.Equals(ri.Name, "round_cloudyteacups_final_sds") || string.Equals(ri.Name, "round_goopropegrandslam_final_sds")) {
+                        ri.IsFinal = true;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 113;
                 this.SaveUserSettings();
             }
         }
