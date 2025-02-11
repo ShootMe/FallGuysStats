@@ -402,18 +402,14 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "event_only_button_bashers_template")
                         && roundNum == 4)
 
+                    || (string.Equals(showId, "event_snowday_stumble")
+                        && (string.Equals(roundId, "round_cloudyteacups_final_sds") || string.Equals(roundId, "round_goopropegrandslam_final_sds")))
+
                     || (string.Equals(showId, "fp16_ski_fall_high_scorers")
                         && string.Equals(roundId, "round_event_only_skeefall_timetrial_s6_1"))
 
                     || (string.Equals(showId, "ftue_uk_show")
-                        && (string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2") 
-                            || string.Equals(roundId, "round_fp17_knockout_castlesiege")
-                            || string.Equals(roundId, "knockout_circleoslime_final_survival")
-                            || string.Equals(roundId, "knockout_goopropegrandslamgoldrush_final_survival")
-                            || string.Equals(roundId, "knockout_rollerderby_final")
-                            || string.Equals(roundId, "knockout_mode_cloudyteacupsgoldrush_final")
-                            || string.Equals(roundId, "round_fp17_knockout_gardenpardon")
-                            || string.Equals(roundId, "knockout_trickortrapeze_final_points")))
+                        && string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2"))
 
                     || (string.Equals(showId, "no_elimination_show")
                         && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")))
@@ -484,6 +480,9 @@ namespace FallGuysStats {
 
                      || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger")
 
+                     // "Knockout" Shows
+                     || string.Equals(roundId, "round_fp17_knockout_castlesiege")
+                     || string.Equals(roundId, "round_fp17_knockout_gardenpardon")
                      || (!string.Equals(roundId, "knockout_fp10_final_8")
                          && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
                          && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
