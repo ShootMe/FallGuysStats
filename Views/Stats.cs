@@ -813,8 +813,9 @@ namespace FallGuysStats {
                 .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
                 .ToList();
             
+            this.UpdateDatabaseDateFormat();
             this.UpdateDatabaseVersion();
-
+            
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
@@ -1494,7 +1495,7 @@ namespace FallGuysStats {
                 lblInfo.ForeColor = this.infoStripForeColor;
             }
         }
-
+        
         public void ReloadProfileMenuItems() {
             this.ProfileMenuItems.Clear();
             this.menuProfile.DropDownItems.Clear();
@@ -1595,7 +1596,7 @@ namespace FallGuysStats {
 #endif
         }
         
-        private void UpdateDatabaseVersion() {
+        private void UpdateDatabaseDateFormat() {
             if (!this.CurrentSettings.UpdatedDateFormat) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
@@ -1611,2120 +1612,1945 @@ namespace FallGuysStats {
                 this.CurrentSettings.UpdatedDateFormat = true;
                 this.SaveUserSettings();
             }
-
-            if (this.CurrentSettings.Version == 0) {
-                this.CurrentSettings.SwitchBetweenQualify = this.CurrentSettings.SwitchBetweenLongest;
-                this.CurrentSettings.Version = 1;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 1) {
-                this.CurrentSettings.SwitchBetweenPlayers = this.CurrentSettings.SwitchBetweenLongest;
-                this.CurrentSettings.Version = 2;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 2) {
-                this.CurrentSettings.SwitchBetweenStreaks = this.CurrentSettings.SwitchBetweenLongest;
-                this.CurrentSettings.Version = 3;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 3 || this.CurrentSettings.Version == 4) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    int index;
-                    if ((index = info.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 5;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 5 || this.CurrentSettings.Version == 6) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    int index;
-                    if ((index = info.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 7;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 7) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    int index;
-                    if ((index = info.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 8;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 8) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    int index;
-                    if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 9;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 9) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (string.Equals(info.Name, "round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
-                        info.Name = "round_fall_mountain_hub_complete";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 10;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 10) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    int index;
-                    if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
-                        || (index = info.Name.IndexOf(". D", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 11;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 11) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.AllStats.Sort();
-                this.StatsDB.BeginTrans();
-                int lastShow = -1;
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (lastShow != info.ShowID) {
-                        lastShow = info.ShowID;
-                        info.IsFinal = this.StatLookup.TryGetValue(info.Name, out LevelStats stats) && stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"));
-                    } else {
-                        info.IsFinal = false;
-                    }
-
-                    this.RoundDetails.Update(info);
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 12;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 12 || this.CurrentSettings.Version == 13) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_fruitpunch", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_fruitpunch_s4_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_hoverboardsurvival", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_hoverboardsurvival_s4_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_basketfall_s4_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_territory", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_territory_control_s4_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_shortcircuit", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_shortcircuit";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_gauntlet_06", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_gauntlet_06";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_tunnel_race", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_tunnel_race";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_1v1_button", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_1v1_button_basher";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_slimeclimb", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_slimeclimb_2";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 14;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 14) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = AllStats[i];
-
-                    if (info.Name.IndexOf("round_king_of", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_king_of_the_hill";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_drumtop", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_drumtop";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_penguin_solos", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_penguin_solos";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_gauntlet_07", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_gauntlet_07";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_robotrampage", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_robotrampage_arena_2";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_crown_maze", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_crown_maze";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 15;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 15) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_gauntlet_08", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_gauntlet_08";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_airtime", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_airtime";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_follow-", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_follow-the-leader_s6_launch";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_pipedup", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_pipedup_s6_launch";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_see_saw_360", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_see_saw_360";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 16;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 16) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = AllStats[i];
-
-                    if (info.Name.IndexOf("round_fruit_bowl", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_fruit_bowl";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 17;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 17) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = AllStats[i];
-
-                    if (info.Name.IndexOf("round_invisibeans", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_invisibeans";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 18;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 18) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_1v1_volleyfall_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_gauntlet_09", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_gauntlet_09_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_short_circuit_2", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_short_circuit_2_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_hoops_revenge", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_hoops_revenge_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_hexaring", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_hexaring_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_spin_ring", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_spin_ring_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_blastball", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_blastball_arenasurvival_symphony_launch_show";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 19;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 19) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_satellitehoppers", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_satellitehoppers_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_ffa_button_bashers", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_ffa_button_bashers_squads_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_hoverboardsurvival2", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_hoverboardsurvival2_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_gauntlet_10", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_gauntlet_10_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_starlink", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_starlink_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_tiptoefinale", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_tiptoefinale_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_pixelperfect_almond";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_hexsnake", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_hexsnake_almond";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 20;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 20) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_follow-the-leader", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_follow-the-leader_s6_launch";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 21;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 21) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_slippy_slide", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_slippy_slide";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_follow_the_line", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_follow_the_line";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_slide_chute", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_slide_chute";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_blastballruins", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_blastballruins";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_kraken_attack", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_kraken_attack";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_bluejay", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_bluejay";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 22;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 22) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-
-                    if (info.Name.IndexOf("round_slippy_slide", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_slippy_slide";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_follow_the_line", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_follow_the_line";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_slide_chute", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_slide_chute";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_blastballruins", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_blastballruins";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_kraken_attack", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_kraken_attack";
-                        this.RoundDetails.Update(info);
-                    } else if (info.Name.IndexOf("round_bluejay", StringComparison.OrdinalIgnoreCase) == 0) {
-                        info.Name = "round_bluejay";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 23;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 23) {
-                this.CurrentSettings.OverlayColor = 0;
-                this.CurrentSettings.GameExeLocation = string.Empty;
-                this.CurrentSettings.GameShortcutLocation = string.Empty;
-                this.CurrentSettings.AutoLaunchGameOnStartup = false;
-                this.CurrentSettings.Version = 24;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 24) {
-                this.CurrentSettings.WinsFilter = 1;
-                this.CurrentSettings.QualifyFilter = 1;
-                this.CurrentSettings.FastestFilter = 1;
-                this.CurrentSettings.Version = 25;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 25) {
-                this.CurrentSettings.OverlayBackground = 0;
-                this.CurrentSettings.OverlayBackgroundResourceName = string.Empty;
-                this.CurrentSettings.OverlayTabResourceName = string.Empty;
-                this.CurrentSettings.IsOverlayBackgroundCustomized = false;
-                this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
-                this.CurrentSettings.Version = 26;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 26) {
-                this.CurrentSettings.OverlayBackgroundOpacity = 100;
-                this.CurrentSettings.Version = 27;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 27) {
-                this.CurrentSettings.PreventOverlayMouseClicks = false;
-                this.CurrentSettings.Version = 28;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 28) {
-                this.CurrentSettings.Visible = true;
-                this.CurrentSettings.Version = 29;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 29) {
-                this.CurrentSettings.SystemTrayIcon = true;
-                this.CurrentSettings.Version = 30;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 30) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.Name, "wle_s10_user_creative_round", StringComparison.OrdinalIgnoreCase)) {
-                        info.Name = "wle_s10_user_creative_race_round";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 31;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 31) {
-                this.CurrentSettings.OverlayColor = this.CurrentSettings.OverlayColor > 0 ? this.CurrentSettings.OverlayColor + 1 : this.CurrentSettings.OverlayColor;
-                this.CurrentSettings.Version = 32;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 32) {
-                this.CurrentSettings.FilterType += 1;
-                this.CurrentSettings.SelectedCustomTemplateSeason = -1;
-                this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
-                this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
-                this.CurrentSettings.Version = 33;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 33) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.Name, "round_bluejay_40", StringComparison.OrdinalIgnoreCase)) {
-                        info.Name = "round_bluejay";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.CurrentSettings.Version = 34;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 34) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue && string.IsNullOrEmpty(info.CreativeOnlinePlatformId)) {
-                        info.CreativeOnlinePlatformId = "eos";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.CurrentSettings.FilterType = 1;
-                this.CurrentSettings.SelectedCustomTemplateSeason = -1;
-                this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
-                this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
-                this.CurrentSettings.Version = 35;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 35) {
-                this.CurrentSettings.AutoUpdate = true;
-                this.CurrentSettings.Version = 36;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 36) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.Name, "round_follow-the-leader_ss2_launch", StringComparison.OrdinalIgnoreCase)
-                        || string.Equals(info.Name, "round_follow-the-leader_ss2_parrot", StringComparison.OrdinalIgnoreCase)) {
-                        info.Name = "round_follow_the_line";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 37;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 37) {
-                this.AllProfiles.AddRange(this.Profiles.FindAll());
-                for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
-                    Profiles profiles = this.AllProfiles[i];
-                    if (string.Equals(profiles.LinkedShowId, "event_only_survival_ss2_3009_0210_2022")) {
-                        profiles.LinkedShowId = "survival_of_the_fittest";
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.Profiles.DeleteAll();
-                this.Profiles.InsertBulk(this.AllProfiles);
-                this.StatsDB.Commit();
-                this.AllProfiles.Clear();
-                this.CurrentSettings.Version = 38;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 38) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.NotifyServerConnected = false;
-                this.CurrentSettings.Version = 39;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 39) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.NotifyServerConnected = false;
-                this.CurrentSettings.Version = 40;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 40) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if ((!string.IsNullOrEmpty(info.ShowNameId) && info.ShowNameId.StartsWith("wle_mrs_bagel")) && info.Name.StartsWith("wle_mrs_bagel_final")) {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.NotifyServerConnected = false;
-                this.CurrentSettings.Version = 41;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 41) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.NotifyServerConnected = false;
-                this.CurrentSettings.Version = 42;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 42) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.NotifyServerConnected = false;
-                this.CurrentSettings.Version = 43;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 43) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.Name, "wle_s10_user_creative_race_round", StringComparison.OrdinalIgnoreCase)) {
-                        info.Name = "user_creative_race_round";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 44;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 44) {
-                this.CurrentSettings.ShowChangelog = true;
-                this.CurrentSettings.Version = 45;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 45) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 46;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 46) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 47;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 47) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) &&
-                        ((info.ShowNameId.StartsWith("show_wle_s10_wk") || info.ShowNameId.StartsWith("event_wle_s10_wk")) && info.ShowNameId.EndsWith("_mrs")) &&
-                        !this.IsFinalWithCreativeLevel(info.Name))
-                    {
-                        info.IsFinal = false;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.GroupingCreativeRoundLevels = true;
-                this.CurrentSettings.Version = 48;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 48) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.ShowNameId, "main_show") &&
-                        this.IsFinalWithCreativeLevel(info.Name))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 49;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 49) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("wle_s10_cf_round_")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 50;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 50) {
-                this.CurrentSettings.EnableFallalyticsReporting = true;
-                this.CurrentSettings.Version = 51;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 51) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (string.Equals(info.Name, "current_wle_fp4_10_08") && info.Start < new DateTime(2023, 8, 22)) {
-                        info.Name = "current_wle_fp4_10_08_m";
-                        info.ShowNameId = "current_wle_fp4_10_08_m";
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 52;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 52) {
-                this.CurrentSettings.DisplayCurrentTime = true;
-                this.CurrentSettings.Version = 53;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 53) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.IsFinal &&
-                                                       string.Equals(ri.ShowNameId, "survival_of_the_fittest") &&
-                                                       string.Equals(ri.Name, "round_kraken_attack") &&
-                                                       ri.Round != 4
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 54;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 54) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.IsFinal &&
-                                                       string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
-                                                       ri.Round < 3
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 55;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 55) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show")
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.Name = ri.Name.StartsWith("mrs_wle_fp") ? $"current{ri.Name.Substring(3)}" : ri.Name.Substring(4);
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 56;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 56) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.IsFinal &&
-                                                       string.Equals(ri.ShowNameId, "event_only_thin_ice_template") &&
-                                                       ri.Round < 3
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 57;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 57) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.IsFinal &&
-                                                       string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
-                                                       ri.Round < 3
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 58;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 58) {
-                this.CurrentSettings.DisplayGamePlayedInfo = true;
-                this.CurrentSettings.Version = 59;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 59) {
-                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                //                                  where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") &&
-                //                                        ri.Name.StartsWith("shuffle_halloween_")
-                //                                  select ri).ToList();
-                // foreach (RoundInfo ri in roundInfoList) {
-                //     if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue($"wle_{ri.Name}", out string newName)) {
-                //         ri.Name = newName;
-                //     }
-                // }
-                // this.StatsDB.BeginTrans();
-                // this.RoundDetails.Update(roundInfoList);
-                // this.StatsDB.Commit();
-                this.CurrentSettings.Version = 60;
-                this.SaveUserSettings();
-            }
-
-            if (this.CurrentSettings.Version == 60) {
-                if (this.StatsDB.CollectionExists("FallalyticsPbInfo")) {
-                    this.StatsDB.DropCollection("FallalyticsPbInfo");
-                }
-                this.CurrentSettings.NotifyServerConnected = true;
-                this.CurrentSettings.MuteNotificationSounds = false;
-                this.CurrentSettings.Version = 61;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 61) {
-                this.CurrentSettings.NotifyServerConnected = true;
-                this.CurrentSettings.MuteNotificationSounds = false;
-                this.CurrentSettings.NotificationSounds = 0;
-                this.CurrentSettings.Version = 62;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 62) {
-                List<Profiles> profileList = (from p in this.Profiles.FindAll()
-                                              where string.IsNullOrEmpty(p.ProfileName)
-                                              select p).ToList();
-                foreach (Profiles p in profileList) {
-                    p.ProfileName = Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
-                }
-                this.StatsDB.BeginTrans();
-                this.Profiles.Update(profileList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.NotificationSounds = 0;
-                this.CurrentSettings.NotificationWindowPosition = 0;
-                this.CurrentSettings.NotificationWindowAnimation = 1;
-                this.CurrentSettings.Version = 63;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 63) {
-                this.CurrentSettings.RecordEscapeDuringAGame = true;
-                this.CurrentSettings.Version = 64;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 64) {
-                this.CurrentSettings.NotifyPersonalBest = true;
-                this.CurrentSettings.Version = 65;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 65) {
-                this.CurrentSettings.EnableFallalyticsReporting = true;
-                this.CurrentSettings.Version = 66;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 66) {
-                if (this.StatsDB.CollectionExists("FallalyticsPbLog")) {
-                    this.StatsDB.BeginTrans();
-                    this.FallalyticsPbLog.DeleteAll();
-                    this.StatsDB.Commit();
-                }
-                this.CurrentSettings.EnableFallalyticsReporting = true;
-                this.CurrentSettings.Version = 67;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 67) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 68;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 68) {
-                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                //                                  where string.Equals(ri.ShowNameId, "wle_shuffle_discover") ||
-                //                                        string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                //                                  select ri).ToList();
-                //
-                // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                // int profileId = profile?.ProfileId ?? -1;
-                //
-                // this.StatsDB.BeginTrans();
-                // foreach (RoundInfo ri in roundInfoList) {
-                //     if (profileId != -1) ri.Profile = profileId;
-                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
-                //         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
-                //     }
-                //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
-                //         ri.Name = newName;
-                //     }
-                //     ri.IsFinal = true;
-                //
-                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
-                //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
-                //         foreach (RoundInfo r in ril) {
-                //             if (r.Round != ri.Round) {
-                //                 r.IsFinal = false;
-                //             }
-                //         }
-                //         this.RoundDetails.Update(ril);
-                //     }
-                // }
-                //
-                // this.RoundDetails.Update(roundInfoList);
-                // this.StatsDB.Commit();
-                this.CurrentSettings.Version = 69;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 69) {
-                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                //                                  where string.Equals(ri.ShowNameId, "wle_shuffle_discover") ||
-                //                                        string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                //                                  select ri).ToList();
-                //
-                // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                // int profileId = profile?.ProfileId ?? -1;
-                //
-                // this.StatsDB.BeginTrans();
-                // foreach (RoundInfo ri in roundInfoList) {
-                //     if (profileId != -1) ri.Profile = profileId;
-                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
-                //         ri.Name = ri.Name.Replace("_squads", "");
-                //     }
-                //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
-                //         ri.Name = newName;
-                //     }
-                //     ri.IsFinal = true;
-                //
-                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
-                //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
-                //         foreach (RoundInfo r in ril) {
-                //             if (r.Round != ri.Round) {
-                //                 r.IsFinal = false;
-                //             }
-                //         }
-                //         this.RoundDetails.Update(ril);
-                //     }
-                // }
-                // this.RoundDetails.Update(roundInfoList);
-                // this.StatsDB.Commit();
-                
-                // Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                //     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
-                //     { "wle_discover_level_wk2_011", "current_wle_fp6_wk4_05_01" },
-                //     { "wle_discover_level_wk2_042", "current_wle_fp6_wk4_02_04" },
-                //     { "wle_discover_level_wk2_044", "current_wle_fp6_wk4_05_02" },
-                //     { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
-                // };
-                //
-                // List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                //                                   where duplicatedKey.ContainsKey(ri.Name)
-                //                                   select ri).ToList();
-                //
-                // foreach (RoundInfo ri in roundInfoList2) {
-                //     if (duplicatedKey.TryGetValue(ri.Name, out string newName)) {
-                //         ri.Name = newName;
-                //     }
-                // }
-                
-                // this.StatsDB.BeginTrans();
-                // this.RoundDetails.Update(roundInfoList2);
-                // this.StatsDB.Commit();
-                this.CurrentSettings.Version = 70;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 70) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = ri.Name.EndsWith("_final");
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 71;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 71) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_anniversary_season_1_alternate_name")
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Name.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
-                        || ri.Name.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1) {
-                        ri.IsFinal = false;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 72;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 72) {
-                DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.Start >= dateCond &&
-                                                       string.Equals(ri.Name, "user_creative_race_round") &&
-                                                       (ri.PrivateLobby == false || ri.Round > 1)
-                                                 select ri).ToList();
-                this.StatsDB.BeginTrans();
-                foreach (RoundInfo info in roundInfoList) {
-                    this.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID);
-                }
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 73;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 73) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_winter")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    if (ri.Name.IndexOf("_final_", StringComparison.OrdinalIgnoreCase) != -1) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 74;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 74) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_blast_ball_banger_template")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_blast_ball_banger_template"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 75;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 75) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Name.StartsWith("wle_shuffle_squads_fp")) {
-                        ri.Name = ri.Name.Replace("_squads_", "_discover_");
-                    } else if (ri.Name.StartsWith("wle_shuffle_fp")) {
-                        ri.Name = ri.Name.Replace("wle_shuffle_fp", "wle_shuffle_discover_fp");
-                    }
-                    if (profileId != -1) ri.Profile = profileId;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 76;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 76) {
-                this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = true;
-                this.CurrentSettings.Version = 77;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 77) {
-                this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = true;
-                this.CurrentSettings.Version = 78;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 78) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Name.StartsWith("wle_shuffle_squads_2_24_01_")) {
-                        ri.Name = ri.Name.Replace("_squads_", "_").Replace("_24_01_", "_24_");
-                    } else if (ri.Name.StartsWith("wle_shuffle_2_24_01_")) {
-                        ri.Name = ri.Name.Replace("_24_01_", "_24_");
-                    }
-                    if (profileId != -1) ri.Profile = profileId;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 79;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 79) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 80;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 80) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "no_elimination_show")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.Name, "round_snowballsurvival") || string.Equals(ri.Name, "round_robotrampage_arena_2")) {
-                        if (ri.Round == 3) {
-                            ri.IsFinal = true;
-                        } else {
-                            var filteredList = roundInfoList.Where(r => r.ShowID == ri.ShowID);
-                            int maxRound = filteredList.Max(r => r.Round);
-                            if (ri.Round == maxRound && ri.Qualified) {
+        }
+        
+        private void UpdateDatabaseVersion() {
+            int lastVersion = 114;
+            for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
+                switch (version) {
+                    case 113: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 112: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "knockout_mode")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege") || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "event_snowday_stumble")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (string.Equals(ri.Name, "round_cloudyteacups_final_sds") || string.Equals(ri.Name, "round_goopropegrandslam_final_sds")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 111: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp17")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (string.Equals(ri.Name, "round_fp17_gardenpardon") || string.Equals(ri.Name, "round_fp17_castlesiege")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            //
+                            // List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                            //     where string.Equals(ri.ShowNameId, "ftue_uk_show")
+                            //     select ri).ToList();
+                            //
+                            // foreach (RoundInfo ri in roundInfoList2) {
+                            //     if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege")
+                            //         || string.Equals(ri.Name, "knockout_circleoslime_final_survival")
+                            //         || string.Equals(ri.Name, "knockout_goopropegrandslamgoldrush_final_survival")
+                            //         || string.Equals(ri.Name, "knockout_rollerderby_final")
+                            //         || string.Equals(ri.Name, "knockout_mode_cloudyteacupsgoldrush_final")
+                            //         || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")
+                            //         || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
+                            //         ri.IsFinal = true;
+                            //     }
+                            // }
+                            // this.StatsDB.BeginTrans();
+                            // this.RoundDetails.Update(roundInfoList2);
+                            // this.StatsDB.Commit();
+                            break;
+                        }
+                    case 110: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "fp16_ski_fall_high_scorers")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
                                 ri.IsFinal = true;
                             }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
                         }
-                    } else if (ri.Name.StartsWith("wle_main_filler_") || ri.Name.StartsWith("wle_main_opener_")) {
-                        ri.Name = ri.Name.Replace("_noelim", "");
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    ri.Name = $"wle_{ri.Name}";
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
-                                                  where string.Equals(ri.ShowNameId, "wle_shuffle_chill")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList3) {
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList3);
-                this.StatsDB.Commit();
-                
-                this.CurrentSettings.Version = 81;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 81) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_mrs_survival_showdown")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    if (ri.Name.IndexOf("_showdown_final", StringComparison.OrdinalIgnoreCase) != -1) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                DateTime dateCond = new DateTime(2024, 2, 28, 10, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where ri.Start <= dateCond && string.Equals(ri.Name, "user_creative_race_round")
-                                                  select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList2) {
-                    ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
-                    ri.SceneName = "GAMEMODE_GAUNTLET";
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 82;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 82) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.Name.StartsWith("user_creative_") && ri.Name.EndsWith("_round")
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    (ri.ShowNameId, ri.Name) = (ri.Name, ri.ShowNameId);
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 83;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 83) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "wle_shuffle_survival")
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 84;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 84) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_only_button_bashers_template")
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Round > 3) ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers") ||
-                                                        string.Equals(ri.ShowNameId, "wle_playful_shuffle")
-                                                  select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (string.Equals(ri.ShowNameId, "wle_playful_shuffle")) {
-                        ri.IsFinal = true;
-                    } else if (string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers")) {
-                        if (LevelStats.ALL.TryGetValue(ri.Name, out LevelStats l1)) {
-                            ri.IsFinal = l1.IsFinal;
-                        }
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 85;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 85) {
-                this.StatsDB.BeginTrans();
-                this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "wle_shuffle_discover") && u.LevelId.StartsWith("wle_shuggle_mwk3_"));
-                this.UpcomingShow.DeleteAll();
-                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                this.StatsDB.Commit();
-                if (this.CurrentSettings.NotificationWindowPosition == 0) {
-                    this.CurrentSettings.NotificationWindowPosition += 3;
-                }
-                this.CurrentSettings.NotificationWindowAnimation = 0;
-                this.CurrentSettings.Version = 86;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 86) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_april_fools") && ri.IsFinal == false
-                                                 select ri).ToList();
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                this.StatsDB.BeginTrans();
-                this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "event_april_fools") && !u.LevelId.StartsWith("wle_shuffle_falljam_april_"));
-                this.UpcomingShow.DeleteAll();
-                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 87;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 87) {
-                List<Profiles> profileList = this.Profiles.FindAll().ToList();
-                foreach (Profiles p in profileList) {
-                    if (string.Equals(p.LinkedShowId, "event_only_finals_v2_template")) {
-                        p.LinkedShowId = "event_only_finals_v3_template";
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.Profiles.DeleteAll();
-                this.Profiles.InsertBulk(profileList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 88;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 88) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.PrivateLobby && (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(ri.CreativeGameModeId) || string.IsNullOrEmpty(ri.CreativeLevelThemeId))
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase)) {
-                        ri.ShowNameId = "user_creative_race_round";
-                    }
-                    
-                    if (!string.IsNullOrEmpty(ri.CreativeShareCode)) {
-                        if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
-                            ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
-                        }
-                        if (string.IsNullOrEmpty(ri.CreativeLevelThemeId)) {
-                            ri.CreativeLevelThemeId = "THEME_VANILLA";
-                        }
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 89;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 89) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where ri.PrivateLobby && string.Equals(ri.Name, "unknown", StringComparison.OrdinalIgnoreCase)
-                                                 select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.Name = ri.ShowNameId;
-                    ri.ShowNameId = this.GetUserCreativeLevelTypeId(ri.CreativeGameModeId);
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 90;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 90) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
-                                                 select ri).ToList();
-                
-                Dictionary<string, string> sceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                    { "knockout_fp10_filler_9", "round_airtime" },
-                    { "knockout_fp10_opener_3", "round_fruitpunch_s4_show" },
-                    { "knockout_fp10_opener_4", "round_blastball_arenasurvival_symphony_launch_show" },
-                    { "knockout_fp10_opener_9", "round_see_saw_360" },
-                    { "knockout_fp10_filler_8", "round_hoops" },
-                    { "knockout_fp10_filler_15", "round_hoverboardsurvival_s4_show" },
-                    { "knockout_fp10_filler_3", "round_jump_club" },
-                    { "knockout_fp10_filler_7", "round_kraken_attack" },
-                    { "knockout_fp10_opener_8", "round_follow-the-leader_s6_launch" },
-                    { "knockout_fp10_opener_2", "round_snowballsurvival" },
-                    { "knockout_fp10_opener_7", "round_tail_tag" },
-                    { "knockout_fp10_filler_4", "round_spin_ring_symphony_launch_show" },
-                    { "knockout_fp10_opener_17", "round_gauntlet_03" },
-                    { "knockout_fp10_filler_6", "round_1v1_volleyfall_symphony_launch_show" },
-                    { "knockout_fp10_final_3", "round_fall_mountain_hub_complete" },
-                    { "knockout_fp10_final_1", "round_crown_maze" },
-                    { "knockout_fp10_final_2", "round_tunnel_final" },
-                };
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (sceneToRound.TryGetValue(ri.Name, out string levelId)) {
-                        int profileId = -1;
-                        if (string.Equals(ri.ShowNameId, "knockout_mode")) {
-                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                            profileId = profile?.ProfileId ?? -1;
-                        } else if (string.Equals(ri.ShowNameId, "knockout_duos")) {
-                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
-                            profileId = profile?.ProfileId ?? -1;
-                        } else if (string.Equals(ri.ShowNameId, "knockout_squads")) {
-                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
-                            profileId = profile?.ProfileId ?? -1;
-                        }
-                        if (profileId != -1) ri.Profile = profileId;
-                        ri.Name = levelId;
-                        ri.IsFinal = string.Equals(levelId, "round_crown_maze") || string.Equals(levelId, "round_tunnel_final") || string.Equals(levelId, "round_fall_mountain_hub_complete");
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 91;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 91) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = ri.Name.StartsWith("knockout_fp10_final_") || string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete");
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 92;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 92) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack")) {
-                        ri.IsFinal = false;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 93;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 93) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = (ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1) || (ri.ShowNameId.StartsWith("knockout_fp") && ri.ShowNameId.EndsWith("_srs"));
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                        ri.Start >= dateCond &&
-                                                        ri.ShowNameId.StartsWith("knockout_")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack") || string.Equals(ri.Name, "round_jump_showdown") ||
-                                 string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete") ||
-                                 (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1);
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 94;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 94) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                       ri.ShowNameId.StartsWith("user_creative_") &&
-                                                       ri.IsFinal &&
-                                                       !ri.PrivateLobby
-                                                 select ri).ToList();
-                
-                if (roundInfoList.Any()) {
-                    int showId = roundInfoList.First().ShowID;
-                    
-                    foreach (RoundInfo ri in roundInfoList) {
-                        ri.IsCasualShow = true;
-                        ri.Round = 1;
-                        ri.Qualified = ri.Finish.HasValue;
-                        ri.IsFinal = false;
-                        ri.Crown = false;
-                        ri.IsAbandon = false;
-                    }
-                    this.StatsDB.BeginTrans();
-                    this.RoundDetails.Update(roundInfoList);
-                    this.StatsDB.Commit();
-                    
-                    List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                      where ri.ShowID >= showId
-                                                      select ri).ToList();
-                    
-                    bool isFirstShow = true;
-                    bool isFixRequired = false;
-                    bool waitForNextCasualShow = false;
-                    int i = 1;
-                    foreach (RoundInfo ri in roundInfoList2) {
-                        if (!isFixRequired) {
-                            if (!ri.IsCasualShow) {
-                                if (isFirstShow && ri.ShowID == showId) {
-                                    isFixRequired = true;
-                                    waitForNextCasualShow = true;
-                                } else {
-                                    isFirstShow = false;
-                                    if (ri.Round == 1) {
-                                        showId = ri.ShowID;
-                                    }
-                                }
-                            } else {
-                                if (isFirstShow) {
-                                    isFirstShow = false;
-                                } else if (ri.ShowID == showId) {
-                                    isFixRequired = true;
-                                    ri.ShowID = showId + i;
-                                    i++;
+                    case 109: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp16")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Name.EndsWith("_final") || ri.Name.EndsWith("_goopropegrandslam")) {
+                                    ri.IsFinal = true;
                                 }
                             }
-                            continue;
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "mrs_pegwin_winter_2teamsfinal")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (string.Equals(ri.Name, "round_penguin_solos") || string.Equals(ri.Name, "round_chicken_chase")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
                         }
-                        if (ri.IsCasualShow) {
-                            waitForNextCasualShow = false;
-                            ri.ShowID = showId + i;
-                            i++;
-                            continue;
+                    case 108: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp13")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Name.EndsWith("_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
                         }
-                        if (waitForNextCasualShow) {
-                            continue;
+                    case 107: {
+                            DateTime dateCond = new DateTime(2024, 11, 17, 10, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_animals_template") && ri.Start >= dateCond
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_drumtop") && ri.Players <= 10) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
                         }
-                        if (ri.Round == 1) {
-                            ri.ShowID = showId + i;
-                            showId = ri.ShowID;
-                            i = 1;
-                        } else {
-                            ri.ShowID = showId;
+                    case 106: {
+                            DateTime dateCond = new DateTime(2024, 10, 25, 12, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_button_bashers_template") && ri.Start >= dateCond
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round < 4) {
+                                    ri.IsFinal = false;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
                         }
-                    }
-                    this.StatsDB.BeginTrans();
-                    this.RoundDetails.Update(roundInfoList2);
-                    this.StatsDB.Commit();
+                    case 105: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "explore_points")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.ShowNameId = "user_creative_hunt_round";
+                                ri.UseShareCode = true;
+                                ri.Name = ri.Name.Substring(4, 14);
+                                ri.CreativeShareCode = ri.Name;
+                                ri.CreativeTitle = ri.Name;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 104: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "explore_points")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsCasualShow = true;
+                                ri.Round = 1;
+                                ri.Qualified = ri.Finish.HasValue;
+                                ri.IsFinal = false;
+                                ri.Crown = false;
+                                ri.IsAbandon = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 103: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "xtreme_explore")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_xtreme_fall_guys_template"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsCasualShow = true;
+                                ri.Round = 1;
+                                ri.Qualified = ri.Finish.HasValue;
+                                ri.IsFinal = false;
+                                ri.Crown = false;
+                                ri.IsAbandon = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 102: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "teams_show_ltm")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (string.Equals(ri.Name, "round_territory_control_s4_show") || (string.Equals(ri.Name, "round_fall_ball_60_players") && (ri.Players % 2 == 0) && ri.Round == 1)) {
+                                    ri.IsFinal = false;
+                                } else if (string.Equals(ri.Name, "round_1v1_volleyfall_symphony_launch_show")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 101: {
+                            this.StatsDB.BeginTrans();
+                            this.UpcomingShow.UpdateMany(
+                                lv => new UpcomingShow { LevelType = LevelType.Hunt },
+                                lv => lv.LevelType == LevelType.Unknown
+                            );
+                            this.StatsDB.Commit();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            if (profileId != -1) {
+                                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                                 where string.Equals(ri.ShowNameId, "showcase_fp13")
+                                                                 select ri).ToList();
+                                
+                                foreach (RoundInfo ri in roundInfoList) {
+                                    ri.Profile = profileId;
+                                }
+                                this.StatsDB.BeginTrans();
+                                this.RoundDetails.Update(roundInfoList);
+                                this.StatsDB.Commit();
+                            }
+                            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
+                            break;
+                        }
+                    case 100: {
+                            this.CurrentSettings.CountPlayersDuringTheLevel = true;
+                            break;
+                        }
+                    case 99: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "ftue_uk_show")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = string.Equals(ri.Name, "round_snowballsurvival");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                    ri.Start >= dateCond &&
+                                                                    ri.ShowNameId.StartsWith("knockout_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_floor_fall") ||
+                                             string.Equals(ri.Name, "round_hexaring_symphony_launch_show") || string.Equals(ri.Name, "round_hexsnake_almond") || string.Equals(ri.Name, "round_royal_rumble") ||
+                                             (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_") && (ri.Name.EndsWith("_opener_4") || ri.Name.IndexOf("_final") != -1));
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 98: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "no_elimination_explore")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsCasualShow = true;
+                                ri.Round = 1;
+                                ri.Qualified = ri.Finish.HasValue;
+                                ri.IsFinal = false;
+                                ri.Crown = false;
+                                ri.IsAbandon = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 97: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_basketfall_s4_show") || string.Equals(ri.Name, "round_territory_control_s4_show")) {
+                                    ri.IsFinal = (string.Equals(ri.ShowNameId, "classic_duos_show") && ri.Players <= 4) || (string.Equals(ri.ShowNameId, "classic_squads_show") && ri.Players <= 8);
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 96: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                int profileId = -1;
+                                if (string.Equals(ri.ShowNameId, "classic_solo_main_show")) {
+                                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                                    profileId = profile?.ProfileId ?? -1;
+                                } else if (string.Equals(ri.ShowNameId, "classic_duos_show")) {
+                                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                                    profileId = profile?.ProfileId ?? -1;
+                                } else if (string.Equals(ri.ShowNameId, "classic_squads_show")) {
+                                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
+                                    profileId = profile?.ProfileId ?? -1;
+                                }
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 95: {
+                            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
+                            bool isDelete = false;
+                            this.StatsDB.BeginTrans();
+                            foreach (var level in this.UpcomingShowCache) {
+                                if (LevelStats.ALL.ContainsKey(level.LevelId)) {
+                                    BsonExpression condition = Query.EQ("LevelId", level.LevelId);
+                                    this.UpcomingShow.DeleteMany(condition);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            if (isDelete) this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
+                            break;
+                        }
+                    case 94: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                   ri.ShowNameId.StartsWith("user_creative_") &&
+                                                                   ri.IsFinal &&
+                                                                   !ri.PrivateLobby
+                                                             select ri).ToList();
+                            
+                            if (roundInfoList.Any()) {
+                                int showId = roundInfoList.First().ShowID;
+                                
+                                foreach (RoundInfo ri in roundInfoList) {
+                                    ri.IsCasualShow = true;
+                                    ri.Round = 1;
+                                    ri.Qualified = ri.Finish.HasValue;
+                                    ri.IsFinal = false;
+                                    ri.Crown = false;
+                                    ri.IsAbandon = false;
+                                }
+                                this.StatsDB.BeginTrans();
+                                this.RoundDetails.Update(roundInfoList);
+                                this.StatsDB.Commit();
+                                
+                                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                                  where ri.ShowID >= showId
+                                                                  select ri).ToList();
+                                
+                                bool isFirstShow = true;
+                                bool isFixRequired = false;
+                                bool waitForNextCasualShow = false;
+                                int i = 1;
+                                foreach (RoundInfo ri in roundInfoList2) {
+                                    if (!isFixRequired) {
+                                        if (!ri.IsCasualShow) {
+                                            if (isFirstShow && ri.ShowID == showId) {
+                                                isFixRequired = true;
+                                                waitForNextCasualShow = true;
+                                            } else {
+                                                isFirstShow = false;
+                                                if (ri.Round == 1) {
+                                                    showId = ri.ShowID;
+                                                }
+                                            }
+                                        } else {
+                                            if (isFirstShow) {
+                                                isFirstShow = false;
+                                            } else if (ri.ShowID == showId) {
+                                                isFixRequired = true;
+                                                ri.ShowID = showId + i;
+                                                i++;
+                                            }
+                                        }
+                                        continue;
+                                    }
+                                    if (ri.IsCasualShow) {
+                                        waitForNextCasualShow = false;
+                                        ri.ShowID = showId + i;
+                                        i++;
+                                        continue;
+                                    }
+                                    if (waitForNextCasualShow) {
+                                        continue;
+                                    }
+                                    if (ri.Round == 1) {
+                                        ri.ShowID = showId + i;
+                                        showId = ri.ShowID;
+                                        i = 1;
+                                    } else {
+                                        ri.ShowID = showId;
+                                    }
+                                }
+                                this.StatsDB.BeginTrans();
+                                this.RoundDetails.Update(roundInfoList2);
+                                this.StatsDB.Commit();
+                            }
+                            break;
+                        }
+                    case 93: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = (ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1) || (ri.ShowNameId.StartsWith("knockout_fp") && ri.ShowNameId.EndsWith("_srs"));
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                    ri.Start >= dateCond &&
+                                                                    ri.ShowNameId.StartsWith("knockout_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack") || string.Equals(ri.Name, "round_jump_showdown") ||
+                                             string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete") ||
+                                             (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1);
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 92: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack")) {
+                                    ri.IsFinal = false;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 91: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = ri.Name.StartsWith("knockout_fp10_final_") || string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 90: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                                                             select ri).ToList();
+                            
+                            Dictionary<string, string> sceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                                { "knockout_fp10_filler_9", "round_airtime" },
+                                { "knockout_fp10_opener_3", "round_fruitpunch_s4_show" },
+                                { "knockout_fp10_opener_4", "round_blastball_arenasurvival_symphony_launch_show" },
+                                { "knockout_fp10_opener_9", "round_see_saw_360" },
+                                { "knockout_fp10_filler_8", "round_hoops" },
+                                { "knockout_fp10_filler_15", "round_hoverboardsurvival_s4_show" },
+                                { "knockout_fp10_filler_3", "round_jump_club" },
+                                { "knockout_fp10_filler_7", "round_kraken_attack" },
+                                { "knockout_fp10_opener_8", "round_follow-the-leader_s6_launch" },
+                                { "knockout_fp10_opener_2", "round_snowballsurvival" },
+                                { "knockout_fp10_opener_7", "round_tail_tag" },
+                                { "knockout_fp10_filler_4", "round_spin_ring_symphony_launch_show" },
+                                { "knockout_fp10_opener_17", "round_gauntlet_03" },
+                                { "knockout_fp10_filler_6", "round_1v1_volleyfall_symphony_launch_show" },
+                                { "knockout_fp10_final_3", "round_fall_mountain_hub_complete" },
+                                { "knockout_fp10_final_1", "round_crown_maze" },
+                                { "knockout_fp10_final_2", "round_tunnel_final" }
+                            };
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (sceneToRound.TryGetValue(ri.Name, out string levelId)) {
+                                    int profileId = -1;
+                                    if (string.Equals(ri.ShowNameId, "knockout_mode")) {
+                                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                                        profileId = profile?.ProfileId ?? -1;
+                                    } else if (string.Equals(ri.ShowNameId, "knockout_duos")) {
+                                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                                        profileId = profile?.ProfileId ?? -1;
+                                    } else if (string.Equals(ri.ShowNameId, "knockout_squads")) {
+                                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
+                                        profileId = profile?.ProfileId ?? -1;
+                                    }
+                                    if (profileId != -1) ri.Profile = profileId;
+                                    ri.Name = levelId;
+                                    ri.IsFinal = string.Equals(levelId, "round_crown_maze") || string.Equals(levelId, "round_tunnel_final") || string.Equals(levelId, "round_fall_mountain_hub_complete");
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 89: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.PrivateLobby && string.Equals(ri.Name, "unknown", StringComparison.OrdinalIgnoreCase)
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.Name = ri.ShowNameId;
+                                ri.ShowNameId = this.GetUserCreativeLevelTypeId(ri.CreativeGameModeId);
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 88: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.PrivateLobby && (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(ri.CreativeGameModeId) || string.IsNullOrEmpty(ri.CreativeLevelThemeId))
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase)) {
+                                    ri.ShowNameId = "user_creative_race_round";
+                                }
+                                
+                                if (!string.IsNullOrEmpty(ri.CreativeShareCode)) {
+                                    if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
+                                        ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                                    }
+                                    if (string.IsNullOrEmpty(ri.CreativeLevelThemeId)) {
+                                        ri.CreativeLevelThemeId = "THEME_VANILLA";
+                                    }
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 87: {
+                            List<Profiles> profileList = this.Profiles.FindAll().ToList();
+                            
+                            foreach (Profiles p in profileList) {
+                                if (string.Equals(p.LinkedShowId, "event_only_finals_v2_template")) {
+                                    p.LinkedShowId = "event_only_finals_v3_template";
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.Profiles.DeleteAll();
+                            this.Profiles.InsertBulk(profileList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 86: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_april_fools") && ri.IsFinal == false
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            this.StatsDB.BeginTrans();
+                            this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "event_april_fools") && !u.LevelId.StartsWith("wle_shuffle_falljam_april_"));
+                            this.UpcomingShow.DeleteAll();
+                            this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 85: {
+                            this.StatsDB.BeginTrans();
+                            this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "wle_shuffle_discover") && u.LevelId.StartsWith("wle_shuggle_mwk3_"));
+                            this.UpcomingShow.DeleteAll();
+                            this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                            this.StatsDB.Commit();
+                            if (this.CurrentSettings.NotificationWindowPosition == 0) {
+                                this.CurrentSettings.NotificationWindowPosition += 3;
+                            }
+                            this.CurrentSettings.NotificationWindowAnimation = 0;
+                            break;
+                        }
+                    case 84: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_button_bashers_template")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round > 3) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers") ||
+                                                                    string.Equals(ri.ShowNameId, "wle_playful_shuffle")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (string.Equals(ri.ShowNameId, "wle_playful_shuffle")) {
+                                    ri.IsFinal = true;
+                                } else if (string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers")) {
+                                    if (LevelStats.ALL.TryGetValue(ri.Name, out LevelStats l1)) {
+                                        ri.IsFinal = l1.IsFinal;
+                                    }
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 83: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_shuffle_survival")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 82: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.Name.StartsWith("user_creative_") && ri.Name.EndsWith("_round")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                (ri.ShowNameId, ri.Name) = (ri.Name, ri.ShowNameId);
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 81: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_survival_showdown")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Name.IndexOf("_showdown_final", StringComparison.OrdinalIgnoreCase) != -1) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            DateTime dateCond = new DateTime(2024, 2, 28, 10, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where ri.Start <= dateCond && string.Equals(ri.Name, "user_creative_race_round")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                                ri.SceneName = "GAMEMODE_GAUNTLET";
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 80: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "no_elimination_show")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_snowballsurvival") || string.Equals(ri.Name, "round_robotrampage_arena_2")) {
+                                    if (ri.Round == 3) {
+                                        ri.IsFinal = true;
+                                    } else {
+                                        var filteredList = roundInfoList.Where(r => r.ShowID == ri.ShowID);
+                                        int maxRound = filteredList.Max(r => r.Round);
+                                        if (ri.Round == maxRound && ri.Qualified) {
+                                            ri.IsFinal = true;
+                                        }
+                                    }
+                                } else if (ri.Name.StartsWith("wle_main_filler_") || ri.Name.StartsWith("wle_main_opener_")) {
+                                    ri.Name = ri.Name.Replace("_noelim", "");
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                ri.Name = $"wle_{ri.Name}";
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "wle_shuffle_chill")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList3) {
+                                ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList3);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 79: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 78: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Name.StartsWith("wle_shuffle_squads_2_24_01_")) {
+                                    ri.Name = ri.Name.Replace("_squads_", "_").Replace("_24_01_", "_24_");
+                                } else if (ri.Name.StartsWith("wle_shuffle_2_24_01_")) {
+                                    ri.Name = ri.Name.Replace("_24_01_", "_24_");
+                                }
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 77:
+                    case 76: {
+                            if (version == 76) ++version;
+                            this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = true;
+                            break;
+                        }
+                    case 75: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Name.StartsWith("wle_shuffle_squads_fp")) {
+                                    ri.Name = ri.Name.Replace("_squads_", "_discover_");
+                                } else if (ri.Name.StartsWith("wle_shuffle_fp")) {
+                                    ri.Name = ri.Name.Replace("wle_shuffle_fp", "wle_shuffle_discover_fp");
+                                }
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 74: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_blast_ball_banger_template")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_blast_ball_banger_template"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 73: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_winter")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Name.IndexOf("_final_", StringComparison.OrdinalIgnoreCase) != -1) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 72: {
+                            DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.Start >= dateCond &&
+                                                                   string.Equals(ri.Name, "user_creative_race_round") &&
+                                                                   (ri.PrivateLobby == false || ri.Round > 1)
+                                                             select ri).ToList();
+                            
+                            this.StatsDB.BeginTrans();
+                            foreach (RoundInfo info in roundInfoList) {
+                                this.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID);
+                            }
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 71: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_anniversary_season_1_alternate_name")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Name.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
+                                    || ri.Name.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1) {
+                                    ri.IsFinal = false;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 70: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = ri.Name.EndsWith("_final");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 69: {
+                            // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                            //                                  where string.Equals(ri.ShowNameId, "wle_shuffle_discover") ||
+                            //                                        string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                            //                                  select ri).ToList();
+                            //
+                            // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            // int profileId = profile?.ProfileId ?? -1;
+                            //
+                            // this.StatsDB.BeginTrans();
+                            // foreach (RoundInfo ri in roundInfoList) {
+                            //     if (profileId != -1) ri.Profile = profileId;
+                            //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
+                            //         ri.Name = ri.Name.Replace("_squads", "");
+                            //     }
+                            //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
+                            //         ri.Name = newName;
+                            //     }
+                            //     ri.IsFinal = true;
+                            //
+                            //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                            //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                            //         foreach (RoundInfo r in ril) {
+                            //             if (r.Round != ri.Round) {
+                            //                 r.IsFinal = false;
+                            //             }
+                            //         }
+                            //         this.RoundDetails.Update(ril);
+                            //     }
+                            // }
+                            // this.RoundDetails.Update(roundInfoList);
+                            // this.StatsDB.Commit();
+                            //
+                            // Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                            //     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
+                            //     { "wle_discover_level_wk2_011", "current_wle_fp6_wk4_05_01" },
+                            //     { "wle_discover_level_wk2_042", "current_wle_fp6_wk4_02_04" },
+                            //     { "wle_discover_level_wk2_044", "current_wle_fp6_wk4_05_02" },
+                            //     { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
+                            // };
+                            //
+                            // List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                            //                                   where duplicatedKey.ContainsKey(ri.Name)
+                            //                                   select ri).ToList();
+                            //
+                            // foreach (RoundInfo ri in roundInfoList2) {
+                            //     if (duplicatedKey.TryGetValue(ri.Name, out string newName)) {
+                            //         ri.Name = newName;
+                            //     }
+                            // }
+                            //
+                            // this.StatsDB.BeginTrans();
+                            // this.RoundDetails.Update(roundInfoList2);
+                            // this.StatsDB.Commit();
+                            break;
+                        }
+                    case 68: {
+                            // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                            //                                  where string.Equals(ri.ShowNameId, "wle_shuffle_discover") ||
+                            //                                        string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                            //                                  select ri).ToList();
+                            //
+                            // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            // int profileId = profile?.ProfileId ?? -1;
+                            //
+                            // this.StatsDB.BeginTrans();
+                            // foreach (RoundInfo ri in roundInfoList) {
+                            //     if (profileId != -1) ri.Profile = profileId;
+                            //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
+                            //         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
+                            //     }
+                            //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
+                            //         ri.Name = newName;
+                            //     }
+                            //     ri.IsFinal = true;
+                            //
+                            //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                            //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                            //         foreach (RoundInfo r in ril) {
+                            //             if (r.Round != ri.Round) {
+                            //                 r.IsFinal = false;
+                            //             }
+                            //         }
+                            //         this.RoundDetails.Update(ril);
+                            //     }
+                            // }
+                            //
+                            // this.RoundDetails.Update(roundInfoList);
+                            // this.StatsDB.Commit();
+                            break;
+                        }
+                    case 67: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 66: {
+                            if (this.StatsDB.CollectionExists("FallalyticsPbLog")) {
+                                this.StatsDB.BeginTrans();
+                                this.FallalyticsPbLog.DeleteAll();
+                                this.StatsDB.Commit();
+                            }
+                            this.CurrentSettings.EnableFallalyticsReporting = true;
+                            break;
+                        }
+                    case 65: {
+                            this.CurrentSettings.EnableFallalyticsReporting = true;
+                            break;
+                        }
+                    case 64: {
+                            this.CurrentSettings.NotifyPersonalBest = true;
+                            break;
+                        }
+                    case 63: {
+                            this.CurrentSettings.RecordEscapeDuringAGame = true;
+                            break;
+                        }
+                    case 62: {
+                            List<Profiles> profileList = (from p in this.Profiles.FindAll()
+                                                          where string.IsNullOrEmpty(p.ProfileName)
+                                                          select p).ToList();
+                            
+                            foreach (Profiles p in profileList) {
+                                p.ProfileName = Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.Profiles.Update(profileList);
+                            this.StatsDB.Commit();
+                            this.CurrentSettings.NotificationSounds = 0;
+                            this.CurrentSettings.NotificationWindowPosition = 0;
+                            this.CurrentSettings.NotificationWindowAnimation = 1;
+                            break;
+                        }
+                    case 61: {
+                            this.CurrentSettings.NotifyServerConnected = true;
+                            this.CurrentSettings.MuteNotificationSounds = false;
+                            this.CurrentSettings.NotificationSounds = 0;
+                            break;
+                        }
+                    case 60: {
+                            if (this.StatsDB.CollectionExists("FallalyticsPbInfo")) {
+                                this.StatsDB.DropCollection("FallalyticsPbInfo");
+                            }
+                            this.CurrentSettings.NotifyServerConnected = true;
+                            this.CurrentSettings.MuteNotificationSounds = false;
+                            break;
+                        }
+                    case 59: {
+                            // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                            //                                  where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") &&
+                            //                                        ri.Name.StartsWith("shuffle_halloween_")
+                            //                                  select ri).ToList();
+                            //
+                            // foreach (RoundInfo ri in roundInfoList) {
+                            //     if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue($"wle_{ri.Name}", out string newName)) {
+                            //         ri.Name = newName;
+                            //     }
+                            // }
+                            // this.StatsDB.BeginTrans();
+                            // this.RoundDetails.Update(roundInfoList);
+                            // this.StatsDB.Commit();
+                            break;
+                        }
+                    case 58: {
+                            this.CurrentSettings.DisplayGamePlayedInfo = true;
+                            break;
+                        }
+                    case 57: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.IsFinal &&
+                                                                   string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
+                                                                   ri.Round < 3
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 56: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.IsFinal &&
+                                                                   string.Equals(ri.ShowNameId, "event_only_thin_ice_template") &&
+                                                                   ri.Round < 3
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 55: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.Name = ri.Name.StartsWith("mrs_wle_fp") ? $"current{ri.Name.Substring(3)}" : ri.Name.Substring(4);
+                                ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 54: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.IsFinal &&
+                                                                   string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
+                                                                   ri.Round < 3
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 53: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where ri.IsFinal &&
+                                                                   string.Equals(ri.ShowNameId, "survival_of_the_fittest") &&
+                                                                   string.Equals(ri.Name, "round_kraken_attack") &&
+                                                                   ri.Round != 4
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = false;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
+                    case 52: {
+                            this.CurrentSettings.DisplayCurrentTime = true;
+                            break;
+                        }
+                    case 51: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.Name, "current_wle_fp4_10_08") && info.Start < new DateTime(2023, 8, 22)) {
+                                    info.Name = "current_wle_fp4_10_08_m";
+                                    info.ShowNameId = "current_wle_fp4_10_08_m";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 50: {
+                            this.CurrentSettings.EnableFallalyticsReporting = true;
+                            break;
+                        }
+                    case 49: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("wle_s10_cf_round_"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 48: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.ShowNameId, "main_show") &&
+                                    this.IsFinalWithCreativeLevel(info.Name)) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 47: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) &&
+                                    ((info.ShowNameId.StartsWith("show_wle_s10_wk") || info.ShowNameId.StartsWith("event_wle_s10_wk")) && info.ShowNameId.EndsWith("_mrs")) &&
+                                    !this.IsFinalWithCreativeLevel(info.Name)) {
+                                    info.IsFinal = false;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.GroupingCreativeRoundLevels = true;
+                            break;
+                        }
+                    case 46: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 45: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 44: {
+                            this.CurrentSettings.ShowChangelog = true;
+                            break;
+                        }
+                    case 43: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.Name, "wle_s10_user_creative_race_round", StringComparison.OrdinalIgnoreCase)) {
+                                    info.Name = "user_creative_race_round";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 42: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.NotifyServerConnected = false;
+                            break;
+                        }
+                    case 41: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.NotifyServerConnected = false;
+                            break;
+                        }
+                    case 40: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if ((!string.IsNullOrEmpty(info.ShowNameId) && info.ShowNameId.StartsWith("wle_mrs_bagel")) && info.Name.StartsWith("wle_mrs_bagel_final")) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.NotifyServerConnected = false;
+                            break;
+                        }
+                    case 39: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.NotifyServerConnected = false;
+                            break;
+                        }
+                    case 38: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                                    (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                     info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                     info.ShowNameId.StartsWith("current_wle_fp"))) {
+                                    info.IsFinal = true;
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            this.CurrentSettings.NotifyServerConnected = false;
+                            break;
+                        }
+                    case 37: {
+                            this.AllProfiles.AddRange(this.Profiles.FindAll());
+                            for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
+                                Profiles profiles = this.AllProfiles[i];
+                                if (string.Equals(profiles.LinkedShowId, "event_only_survival_ss2_3009_0210_2022")) {
+                                    profiles.LinkedShowId = "survival_of_the_fittest";
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.Profiles.DeleteAll();
+                            this.Profiles.InsertBulk(this.AllProfiles);
+                            this.StatsDB.Commit();
+                            this.AllProfiles.Clear();
+                            break;
+                        }
+                    case 36: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.Name, "round_follow-the-leader_ss2_launch", StringComparison.OrdinalIgnoreCase)
+                                    || string.Equals(info.Name, "round_follow-the-leader_ss2_parrot", StringComparison.OrdinalIgnoreCase)) {
+                                    info.Name = "round_follow_the_line";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 35: {
+                            this.CurrentSettings.AutoUpdate = true;
+                            break;
+                        }
+                    case 34: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue && string.IsNullOrEmpty(info.CreativeOnlinePlatformId)) {
+                                    info.CreativeOnlinePlatformId = "eos";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.CurrentSettings.FilterType = 1;
+                            this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                            this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
+                            this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
+                            break;
+                        }
+                    case 33: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.Name, "round_bluejay_40", StringComparison.OrdinalIgnoreCase)) {
+                                    info.Name = "round_bluejay";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            break;
+                        }
+                    case 32: {
+                            this.CurrentSettings.FilterType += 1;
+                            this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                            this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
+                            this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
+                            break;
+                        }
+                    case 31: {
+                            this.CurrentSettings.OverlayColor = this.CurrentSettings.OverlayColor > 0 ? this.CurrentSettings.OverlayColor + 1 : this.CurrentSettings.OverlayColor;
+                            break;
+                        }
+                    case 30: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                if (string.Equals(info.Name, "wle_s10_user_creative_round", StringComparison.OrdinalIgnoreCase)) {
+                                    info.Name = "wle_s10_user_creative_race_round";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 29: {
+                            this.CurrentSettings.SystemTrayIcon = true;
+                            break;
+                        }
+                    case 28: {
+                            this.CurrentSettings.Visible = true;
+                            break;
+                        }
+                    case 27: {
+                            this.CurrentSettings.PreventOverlayMouseClicks = false;
+                            break;
+                        }
+                    case 26: {
+                            this.CurrentSettings.OverlayBackgroundOpacity = 100;
+                            break;
+                        }
+                    case 25: {
+                            this.CurrentSettings.OverlayBackground = 0;
+                            this.CurrentSettings.OverlayBackgroundResourceName = string.Empty;
+                            this.CurrentSettings.OverlayTabResourceName = string.Empty;
+                            this.CurrentSettings.IsOverlayBackgroundCustomized = false;
+                            this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
+                            break;
+                        }
+                    case 24: {
+                            this.CurrentSettings.WinsFilter = 1;
+                            this.CurrentSettings.QualifyFilter = 1;
+                            this.CurrentSettings.FastestFilter = 1;
+                            break;
+                        }
+                    case 23: {
+                            this.CurrentSettings.OverlayColor = 0;
+                            this.CurrentSettings.GameExeLocation = string.Empty;
+                            this.CurrentSettings.GameShortcutLocation = string.Empty;
+                            this.CurrentSettings.AutoLaunchGameOnStartup = false;
+                            break;
+                        }
+                    case 22: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_slippy_slide", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_slippy_slide";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_follow_the_line", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_follow_the_line";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_slide_chute", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_slide_chute";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_blastballruins", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_blastballruins";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_kraken_attack", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_kraken_attack";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_bluejay", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_bluejay";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 21: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_slippy_slide", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_slippy_slide";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_follow_the_line", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_follow_the_line";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_slide_chute", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_slide_chute";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_blastballruins", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_blastballruins";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_kraken_attack", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_kraken_attack";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_bluejay", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_bluejay";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 20: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_follow-the-leader", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_follow-the-leader_s6_launch";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 19: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_satellitehoppers", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_satellitehoppers_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_ffa_button_bashers", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_ffa_button_bashers_squads_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_hoverboardsurvival2", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_hoverboardsurvival2_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_gauntlet_10", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_gauntlet_10_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_starlink", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_starlink_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_tiptoefinale", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_tiptoefinale_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_pixelperfect_almond";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_hexsnake", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_hexsnake_almond";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 18: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_1v1_volleyfall_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_gauntlet_09", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_gauntlet_09_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_short_circuit_2", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_short_circuit_2_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_hoops_revenge", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_hoops_revenge_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_hexaring", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_hexaring_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_spin_ring", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_spin_ring_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_blastball", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_blastball_arenasurvival_symphony_launch_show";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 17: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_invisibeans", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_invisibeans";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 16: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_fruit_bowl", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_fruit_bowl";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 15: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_gauntlet_08", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_gauntlet_08";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_airtime", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_airtime";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_follow-", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_follow-the-leader_s6_launch";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_pipedup", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_pipedup_s6_launch";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_see_saw_360", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_see_saw_360";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 14: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_king_of", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_king_of_the_hill";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_drumtop", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_drumtop";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_penguin_solos", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_penguin_solos";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_gauntlet_07", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_gauntlet_07";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_robotrampage", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_robotrampage_arena_2";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_crown_maze", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_crown_maze";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 13:
+                    case 12: {
+                            if (version == 12) ++version;
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (info.Name.IndexOf("round_fruitpunch", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_fruitpunch_s4_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_hoverboardsurvival", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_hoverboardsurvival_s4_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_basketfall_s4_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_territory", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_territory_control_s4_show";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_shortcircuit", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_shortcircuit";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_gauntlet_06", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_gauntlet_06";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_tunnel_race", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_tunnel_race";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_1v1_button", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_1v1_button_basher";
+                                    this.RoundDetails.Update(info);
+                                } else if (info.Name.IndexOf("round_slimeclimb", StringComparison.OrdinalIgnoreCase) == 0) {
+                                    info.Name = "round_slimeclimb_2";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 11: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.AllStats.Sort();
+                            this.StatsDB.BeginTrans();
+                            int lastShow = -1;
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (lastShow != info.ShowID) {
+                                    lastShow = info.ShowID;
+                                    info.IsFinal = this.StatLookup.TryGetValue(info.Name, out LevelStats stats) && stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"));
+                                } else {
+                                    info.IsFinal = false;
+                                }
+                                
+                                this.RoundDetails.Update(info);
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 10: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                int index;
+                                if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
+                                    || (index = info.Name.IndexOf(". D", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                    info.Name = info.Name.Substring(0, index);
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 9: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                if (string.Equals(info.Name, "round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
+                                    info.Name = "round_fall_mountain_hub_complete";
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 8: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                int index;
+                                if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                    info.Name = info.Name.Substring(0, index);
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 7: {
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                int index;
+                                if ((index = info.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                    info.Name = info.Name.Substring(0, index);
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 6:
+                    case 5: {
+                            if (version == 5) ++version;
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                int index;
+                                if ((index = info.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                    info.Name = info.Name.Substring(0, index);
+                                    RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 4:
+                    case 3: {
+                            if (version == 3) ++version;
+                            this.AllStats.AddRange(this.RoundDetails.FindAll());
+                            this.StatsDB.BeginTrans();
+                            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo info = this.AllStats[i];
+                                
+                                int index;
+                                if ((index = info.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                    info.Name = info.Name.Substring(0, index);
+                                    this.RoundDetails.Update(info);
+                                }
+                            }
+                            this.StatsDB.Commit();
+                            this.AllStats.Clear();
+                            break;
+                        }
+                    case 2: {
+                            this.CurrentSettings.SwitchBetweenStreaks = this.CurrentSettings.SwitchBetweenLongest;
+                            break;
+                        }
+                    case 1: {
+                            this.CurrentSettings.SwitchBetweenPlayers = this.CurrentSettings.SwitchBetweenLongest;
+                            break;
+                        }
+                    case 0: {
+                            this.CurrentSettings.SwitchBetweenQualify = this.CurrentSettings.SwitchBetweenLongest;
+                            break;
+                        }
                 }
-                
-                this.CurrentSettings.Version = 95;
-                this.SaveUserSettings();
             }
-            
-            if (this.CurrentSettings.Version == 95) {
-                this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
-                bool isDelete = false;
-                this.StatsDB.BeginTrans();
-                foreach (var level in this.UpcomingShowCache) {
-                    if (LevelStats.ALL.ContainsKey(level.LevelId)) {
-                        BsonExpression condition = Query.EQ("LevelId", level.LevelId);
-                        this.UpcomingShow.DeleteMany(condition);
-                    }
-                }
-                this.StatsDB.Commit();
-                if (isDelete) this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
-                this.CurrentSettings.Version = 96;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 96) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    int profileId = -1;
-                    if (string.Equals(ri.ShowNameId, "classic_solo_main_show")) {
-                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                        profileId = profile?.ProfileId ?? -1;
-                    } else if (string.Equals(ri.ShowNameId, "classic_duos_show")) {
-                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
-                        profileId = profile?.ProfileId ?? -1;
-                    } else if (string.Equals(ri.ShowNameId, "classic_squads_show")) {
-                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
-                        profileId = profile?.ProfileId ?? -1;
-                    }
-                    if (profileId != -1) ri.Profile = profileId;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 97;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 97) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.Name, "round_basketfall_s4_show") || string.Equals(ri.Name, "round_territory_control_s4_show")) {
-                        ri.IsFinal = (string.Equals(ri.ShowNameId, "classic_duos_show") && ri.Players <= 4) || (string.Equals(ri.ShowNameId, "classic_squads_show") && ri.Players <= 8);
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 98;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 98) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "no_elimination_explore")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsCasualShow = true;
-                    ri.Round = 1;
-                    ri.Qualified = ri.Finish.HasValue;
-                    ri.IsFinal = false;
-                    ri.Crown = false;
-                    ri.IsAbandon = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 99;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 99) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "ftue_uk_show")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = string.Equals(ri.Name, "round_snowballsurvival");
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                        ri.Start >= dateCond &&
-                                                        ri.ShowNameId.StartsWith("knockout_")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_floor_fall") ||
-                                 string.Equals(ri.Name, "round_hexaring_symphony_launch_show") || string.Equals(ri.Name, "round_hexsnake_almond") || string.Equals(ri.Name, "round_royal_rumble") ||
-                                 (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_") && (ri.Name.EndsWith("_opener_4") || ri.Name.IndexOf("_final") != -1));
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 100;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 100) {
-                this.CurrentSettings.CountPlayersDuringTheLevel = true;
-                this.CurrentSettings.Version = 101;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 101) {
-                this.StatsDB.BeginTrans();
-                this.UpcomingShow.UpdateMany(
-                    lv => new UpcomingShow { LevelType = LevelType.Hunt },
-                    lv => lv.LevelType == LevelType.Unknown
-                );
-                this.StatsDB.Commit();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                if (profileId != -1) {
-                    List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                     where string.Equals(ri.ShowNameId, "showcase_fp13")
-                                                     select ri).ToList();
-                    foreach (RoundInfo ri in roundInfoList) {
-                        ri.Profile = profileId;
-                    }
-                    this.StatsDB.BeginTrans();
-                    this.RoundDetails.Update(roundInfoList);
-                    this.StatsDB.Commit();
-                }
-                this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
-                this.CurrentSettings.Version = 102;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 102) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "teams_show_ltm")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    if (string.Equals(ri.Name, "round_territory_control_s4_show") || (string.Equals(ri.Name, "round_fall_ball_60_players") && (ri.Players % 2 == 0) && ri.Round == 1)) {
-                        ri.IsFinal = false;
-                    } else if (string.Equals(ri.Name, "round_1v1_volleyfall_symphony_launch_show")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 103;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 103) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "xtreme_explore")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_xtreme_fall_guys_template"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsCasualShow = true;
-                    ri.Round = 1;
-                    ri.Qualified = ri.Finish.HasValue;
-                    ri.IsFinal = false;
-                    ri.Crown = false;
-                    ri.IsAbandon = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 104;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 104) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "explore_points")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsCasualShow = true;
-                    ri.Round = 1;
-                    ri.Qualified = ri.Finish.HasValue;
-                    ri.IsFinal = false;
-                    ri.Crown = false;
-                    ri.IsAbandon = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 105;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 105) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "explore_points")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.ShowNameId = "user_creative_hunt_round";
-                    ri.UseShareCode = true;
-                    ri.Name = ri.Name.Substring(4, 14);
-                    ri.CreativeShareCode = ri.Name;
-                    ri.CreativeTitle = ri.Name;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 106;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 106) {
-                DateTime dateCond = new DateTime(2024, 10, 25, 12, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_only_button_bashers_template") && ri.Start >= dateCond
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Round < 4) {
-                        ri.IsFinal = false;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 107;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 107) {
-                DateTime dateCond = new DateTime(2024, 11, 17, 10, 0, 0, DateTimeKind.Utc);
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_animals_template") && ri.Start >= dateCond
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.Name, "round_drumtop") && ri.Players <= 10) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 108;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 108) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "showcase_fp13")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.Name.EndsWith("_final")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 109;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 109) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "showcase_fp16")
-                                                 select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    if (ri.Name.EndsWith("_final") || ri.Name.EndsWith("_goopropegrandslam")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where string.Equals(ri.ShowNameId, "mrs_pegwin_winter_2teamsfinal")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (string.Equals(ri.Name, "round_penguin_solos") || string.Equals(ri.Name, "round_chicken_chase")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 110;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 110) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "fp16_ski_fall_high_scorers")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = true;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 111;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 111) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where string.Equals(ri.ShowNameId, "showcase_fp17")
-                    select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (profileId != -1) ri.Profile = profileId;
-                    if (string.Equals(ri.Name, "round_fp17_gardenpardon") || string.Equals(ri.Name, "round_fp17_castlesiege")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                    where string.Equals(ri.ShowNameId, "ftue_uk_show")
-                    select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege")
-                        || string.Equals(ri.Name, "knockout_circleoslime_final_survival")
-                        || string.Equals(ri.Name, "knockout_goopropegrandslamgoldrush_final_survival")
-                        || string.Equals(ri.Name, "knockout_rollerderby_final")
-                        || string.Equals(ri.Name, "knockout_mode_cloudyteacupsgoldrush_final")
-                        || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")
-                        || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 112;
-                this.SaveUserSettings();
-            }
-            
-            if (this.CurrentSettings.Version == 112) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                  where string.Equals(ri.ShowNameId, "knockout_mode")
-                                                  select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.Name, "round_fp17_knockout_castlesiege") || string.Equals(ri.Name, "round_fp17_knockout_gardenpardon")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                 where string.Equals(ri.ShowNameId, "event_snowday_stumble")
-                                                 select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (string.Equals(ri.Name, "round_cloudyteacups_final_sds") || string.Equals(ri.Name, "round_goopropegrandslam_final_sds")) {
-                        ri.IsFinal = true;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
-                this.CurrentSettings.Version = 113;
+            if (this.CurrentSettings.Version < lastVersion) {
+                this.CurrentSettings.Version = lastVersion;
                 this.SaveUserSettings();
             }
         }

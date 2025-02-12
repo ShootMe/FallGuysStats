@@ -4763,7 +4763,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -4973,9 +4972,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -6411,7 +6412,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -6621,9 +6621,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -8059,7 +8061,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -8269,9 +8270,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -9707,7 +9710,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -9917,9 +9919,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -11355,7 +11359,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -11565,9 +11568,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -13003,7 +13008,6 @@ namespace FallGuysStats {
                             // { "survival_shuffle_3wk3_81", "fall in a storm" },
                             // { "survival_shuffle_3wk3_82", "BATTLE IN THE SEAS" },
                             // { "survival_shuffle_3wk3_83", "Rebellion of block ver2" },
-                            // // { "survival_shuffle_wk11_86", "ブラストボールエンド" },
                             // { "survival_shuffle_3wk3_86", "怒りのすとんぴんぐ・ぐらうんど" },
                             // { "survival_shuffle_3wk3_87", "Jump Show Fall" },
                             // { "survival_shuffle_3wk3_88", "カウントブロック" },
@@ -13213,9 +13217,11 @@ namespace FallGuysStats {
                             // { "wle_mrs_bouncy_bean_time_filler", "Ball Park" },
                             // { "wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival" },
                             // { "wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial" },
+                            // { "wle_mrs_bouncy_bean_time_filler_04", "Golf Fall" },
                             // { "wle_mrs_bouncy_bean_time_final", "Downtown Rush" },
                             // { "wle_mrs_bouncy_bean_time_final_02", "Skyview Derby" },
                             // { "wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway" },
+                            // { "wle_mrs_bouncy_bean_time_final_04", "SEA FLOW!" },
                         }
             },
         };
