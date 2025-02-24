@@ -30,7 +30,7 @@ namespace FallGuysStats {
             Objects = new List<JsonObject>();
             for (int i = index + 1; i < json.Length; i++) {
                 char c = json[i];
-                if (char.IsWhiteSpace(c)) { continue; }
+                if (char.IsWhiteSpace(c)) continue;
 
                 if (c == '[') {
                     Objects.Add(new JsonArray(this, json, ref i));
