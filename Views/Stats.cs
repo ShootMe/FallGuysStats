@@ -566,10 +566,15 @@ namespace FallGuysStats {
                         if (string.Equals(upcomingShow.xstatus, "success")) {
                             var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
                             foreach (var liveShow in upcomingShow.shows.live_shows) {
-                                foreach (var showDetails in liveShow.showInfo.Values) {
-                                    var show = showDetails.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                                    if ((string.Equals(liveShow.section_name, "CLASSIC GAMES") && !string.Equals(show.id, "event_snowday_stumble")) || string.Equals(show.id, "ftue_uk_show") || show.victory_rewards.Count == 0) { continue; }
-                                    selectedShows.Add(show);
+                                foreach (var showInfo in liveShow.showInfo.Values) {
+                                    var show = showInfo.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                                    if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) {
+                                        if (this.IsCreativeShow(show.id) || string.Equals(show.id, "event_snowday_stumble")) {
+                                            selectedShows.Add(show);
+                                        }
+                                    } else if (!string.Equals(show.id, "ftue_uk_show") && show.victory_rewards.Count != 0) {
+                                        selectedShows.Add(show);
+                                    }
                                 }
                             }
                             var temps = new List<UpcomingShow>();
@@ -578,8 +583,8 @@ namespace FallGuysStats {
                                     json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
                                     FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
                                     if (string.Equals(roundpool.xstatus, "success")) {
-                                        foreach (var levelDetails in roundpool.shows.roundpool.roundpoolInfo.Values) {
-                                            var level = levelDetails.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
+                                        foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
+                                            var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
                                             if (string.Equals(level.type, "wushu")) {
                                                 if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
                                                     this.StatsDB.BeginTrans();
@@ -1615,9 +1620,22 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 114;
+            int lastVersion = 115;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 114: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_nature_ltm")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                ri.IsFinal = string.Equals(ri.Name, "logroll_nature_ltm") || string.Equals(ri.Name, "lilypadlimbo_nature_ltm") || string.Equals(ri.Name, "junglewall_nature_ltm");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 113: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
@@ -3735,7 +3753,7 @@ namespace FallGuysStats {
                         for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = this.AllStats[i];
                             info.ToLocalTime();
-                            if (info.Profile != profile) { continue; }
+                            if (info.Profile != profile) continue;
 
                             if (info.ShowID == lastAddedShowId || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
                                 lastAddedShowId = info.ShowID;
@@ -3754,7 +3772,7 @@ namespace FallGuysStats {
                 this.CurrentRound.Clear();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
-                    if (info.Profile != profile) { continue; }
+                    if (info.Profile != profile) continue;
 
                     this.CurrentRound.Insert(0, info);
                     if (info.Round == 1) {
@@ -5119,7 +5137,7 @@ namespace FallGuysStats {
                             continue;
                         }
                     }
-                    if (this.AllProfiles[i].DoNotCombineShows) { continue; }
+                    if (this.AllProfiles[i].DoNotCombineShows) continue;
                     if (isPrivateLobbies) {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && string.Equals(this.AllProfiles[i].LinkedShowId, "private_lobbies")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
@@ -5160,7 +5178,7 @@ namespace FallGuysStats {
                                 continue;
                             }
                         } else {
-                            if (this.AllProfiles[j].DoNotCombineShows || string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) { continue; }
+                            if (this.AllProfiles[j].DoNotCombineShows || string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) continue;
                             
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
                             if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
@@ -5170,7 +5188,7 @@ namespace FallGuysStats {
                 }
                 // select ProfileId 0 if no linked profile was found/matched
                 for (int k = 0; k < this.AllProfiles.Count; k++) {
-                    if (this.AllProfiles[k].ProfileId != 0) { continue; }
+                    if (this.AllProfiles[k].ProfileId != 0) continue;
                     
                     ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
                     if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
@@ -6804,7 +6822,7 @@ namespace FallGuysStats {
         private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
-                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
+                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) continue;
                     if (this.shiftKeyToggle) {
                         if (menuItem.Checked && i - 1 >= 0) {
                             this.menuStats_Click(this.ProfileMenuItems[i - 1], EventArgs.Empty);
@@ -6827,7 +6845,7 @@ namespace FallGuysStats {
                 }
             } else if (e.Button == MouseButtons.Right) {
                 for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
-                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
+                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) continue;
                     if (menuItem.Checked && i - 1 >= 0) {
                         this.menuStats_Click(this.ProfileMenuItems[i - 1], EventArgs.Empty);
                         break;

@@ -216,14 +216,14 @@ namespace FallGuysStats {
             bool isSelected = false;
             if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
                 for (int i = 0; i < overlayItemArray.Count; i++) {
-                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) continue;
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
                 }
             } else {
                 for (int i = overlayItemArray.Count - 1; i >= 0; i--) {
-                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) continue;
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;

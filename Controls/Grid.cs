@@ -509,7 +509,7 @@ namespace FallGuysStats {
         private List<DataGridViewColumn> GetSortedColumns() {
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
             foreach (DataGridViewColumn col in this.Columns) {
-                if (!col.Visible || (string.IsNullOrEmpty(col.HeaderText) && string.IsNullOrEmpty(col.ToolTipText))) { continue; }
+                if (!col.Visible || (string.IsNullOrEmpty(col.HeaderText) && string.IsNullOrEmpty(col.ToolTipText))) continue;
 
                 columns.Add(col);
             }

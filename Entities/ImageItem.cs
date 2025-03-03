@@ -103,7 +103,7 @@ namespace FallGuysStats {
             for (int iY = 0; iY < btTmp.Height; iY++) {
                 for (int iX = 0; iX < btTmp.Width; iX++) {
                     cTmp = btTmp.GetPixel(iX, iY);
-                    
+
                     if (cTmp.A != 255) continue;
 
                     iR = Math.Max(0, Math.Min(255, cTmp.R + iBrightness));

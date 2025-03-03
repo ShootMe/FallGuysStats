@@ -34,7 +34,7 @@ namespace FallGuysStats {
                     this.cboEditShows.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
                 this.cboEditShows.SelectedIndex = 0;
-            
+                
                 if (this.FunctionFlag == "move") {
                     this.chkUseLinkedProfiles.Visible = false;
                 } else if (this.FunctionFlag == "add" && this.StatsForm.CurrentSettings.AutoChangeProfile) {

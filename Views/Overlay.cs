@@ -1119,7 +1119,7 @@ namespace FallGuysStats {
             if ((e.Delta / 120) > 0) {
                 for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                    if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                    if (!(item is ToolStripMenuItem menuItem)) continue;
                     if (menuItem.Checked && i > 0) {
                         this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
                         break;
@@ -1131,7 +1131,7 @@ namespace FallGuysStats {
             } else {
                 for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                    if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                    if (!(item is ToolStripMenuItem menuItem)) continue;
                     if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
                         this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
                         break;
@@ -1232,7 +1232,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.ProfileMenuItems.Count > 1) {
                         for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                             ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                            if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                            if (!(item is ToolStripMenuItem menuItem)) continue;
                             if (menuItem.Checked && i > 0) {
                                 this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
                                 break;
@@ -1247,7 +1247,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.ProfileMenuItems.Count > 1) {
                         for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                             ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                            if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                            if (!(item is ToolStripMenuItem menuItem)) continue;
                             if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
                                 this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
                                 break;

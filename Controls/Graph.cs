@@ -110,7 +110,7 @@ namespace FallGuysStats {
                 if (newx > xmax) { xmax = newx; }
                 if (newx < xmin) { xmin = newx; }
                 foreach (DataColumn col in this.dataSource.Columns) {
-                    if (!yColumns[col.Ordinal]) { continue; }
+                    if (!yColumns[col.Ordinal]) continue;
                     visible = true;
                     yType = col.DataType;
                     decimal newy = GetValue(row[col.Ordinal]);
@@ -134,7 +134,7 @@ namespace FallGuysStats {
                 int x = NormalizeX(GetValue(row[XColumn]), xmin, xmax, wmin, wmax) - e.X;
                 int closeTemp = x * x;
                 foreach (DataColumn col in this.dataSource.Columns) {
-                    if (!yColumns[col.Ordinal]) { continue; }
+                    if (!yColumns[col.Ordinal]) continue;
                     int y = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax) - e.Y;
                     y = closeTemp + y * y;
                     if (close > y) {
@@ -209,7 +209,7 @@ namespace FallGuysStats {
                 if (newx > xmax) { xmax = newx; }
                 if (newx < xmin) { xmin = newx; }
                 foreach (DataColumn col in this.dataSource.Columns) {
-                    if (!yColumns[col.Ordinal]) { continue; }
+                    if (!yColumns[col.Ordinal]) continue;
                     visible = true;
                     yType = col.DataType;
                     decimal newy = GetValue(row[col.Ordinal]);
@@ -257,7 +257,7 @@ namespace FallGuysStats {
             int x = NormalizeX(GetValue(init[XColumn]), xmin, xmax, wmin, wmax);
             int[] y = new int[brushes.Length];
             foreach (DataColumn col in this.dataSource.Columns) {
-                if (!yColumns[col.Ordinal]) { continue; }
+                if (!yColumns[col.Ordinal]) continue;
                 y[col.Ordinal] = NormalizeY(GetValue(init[col.Ordinal]), ymin, ymax, hmin, hmax);
                 if (DrawPoints) { this.FillRoundedRectangle(g, pens[col.Ordinal], brushes[col.Ordinal], x - 2, y[col.Ordinal] - 2, 4, 4, 4); }
             }
@@ -267,7 +267,7 @@ namespace FallGuysStats {
                 if (start) { start = false; continue; }
                 int newx = NormalizeX(GetValue(row[XColumn]), xmin, xmax, wmin, wmax);
                 foreach (DataColumn col in this.dataSource.Columns) {
-                    if (!yColumns[col.Ordinal]) { continue; }
+                    if (!yColumns[col.Ordinal]) continue;
                     int newy = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax);
                     if (DrawPoints) { this.FillRoundedRectangle(g, pens[col.Ordinal], brushes[col.Ordinal], newx - 2, newy - 2, 4, 4, 4); }
                     g.DrawLine(pens[col.Ordinal], x, y[col.Ordinal], newx, newy);
