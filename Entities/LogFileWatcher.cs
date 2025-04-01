@@ -425,6 +425,10 @@ namespace FallGuysStats {
                         && (string.Equals(roundId, "round_fp17_gardenpardon")
                             || string.Equals(roundId, "round_fp17_castlesiege")))
 
+                    || (string.Equals(showId, "showcase_fp18")
+                        && (string.Equals(roundId, "showcase_bulletfallwoods")
+                            || string.Equals(roundId, "showcase_treeclimberswoods")))
+
                     || (string.Equals(showId, "wle_nature_ltm")
                         && (string.Equals(roundId, "logroll_nature_ltm")
                             || string.Equals(roundId, "lilypadlimbo_nature_ltm")
@@ -453,7 +457,8 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
-                   || showId.StartsWith("knockout_");
+                   || showId.StartsWith("knockout_")
+                   || showId.StartsWith("ranked_");
         }
 
         private bool IsModeFinalException(string roundId) {
@@ -491,7 +496,11 @@ namespace FallGuysStats {
                      || (!string.Equals(roundId, "knockout_fp10_final_8")
                          && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
                          && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
-                             || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1));
+                             || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
+
+                     // "Ranked" Shows
+                     || (roundId.StartsWith("ranked_", StringComparison.OrdinalIgnoreCase)
+                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
         }
 
         private bool IsTeamException(string roundId) {

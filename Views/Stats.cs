@@ -254,6 +254,7 @@ namespace FallGuysStats {
         private bool isScrollingStopped = true;
         
         public readonly string[] PublicShowIdList = {
+            "ranked_show_knockout",
             "main_show",
             "squads_2player_template",
             "squads_4player",
@@ -1620,9 +1621,41 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 115;
+            int lastVersion = 116;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 115: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp18")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (string.Equals(ri.Name, "showcase_bulletfallwoods") || string.Equals(ri.Name, "showcase_treeclimberswoods")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                    ri.ShowNameId.StartsWith("ranked_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (ri.Name.StartsWith("ranked_") && ri.Name.EndsWith("_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 114: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "wle_nature_ltm")
@@ -5066,6 +5099,7 @@ namespace FallGuysStats {
                    || string.Equals(showId, "showcase_fp13")
                    || string.Equals(showId, "showcase_fp16")
                    || string.Equals(showId, "showcase_fp17")
+                   || string.Equals(showId, "showcase_fp18")
                    || showId.StartsWith("user_creative_")
                    || showId.StartsWith("creative_")
                    || showId.StartsWith("event_wle_")
