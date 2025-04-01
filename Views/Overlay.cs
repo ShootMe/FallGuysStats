@@ -17,7 +17,7 @@ namespace FallGuysStats {
         private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
         [DllImport("user32.dll")]
         private static extern bool ReleaseCapture();
-        
+
         public Stats StatsForm { get; set; }
         public string BackgroundResourceName;
         public string TabResourceName;
@@ -72,63 +72,63 @@ namespace FallGuysStats {
 
         private static readonly PrivateFontCollection DefaultFontCollection;
         public static new Font DefaultFont;
-        
+
         static Overlay() {
-            if (!File.Exists("TitanOne-Regular.ttf")) {
+            if (!File.Exists($"{Stats.CURRENTDIR}TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.TitanOne-Regular.ttf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes("TitanOne-Regular.ttf", fontdata);
+                    File.WriteAllBytes($"{Stats.CURRENTDIR}TitanOne-Regular.ttf", fontdata);
                 }
             }
             
-            if (!File.Exists("NotoSans-Regular.ttf")) {
+            if (!File.Exists($"{Stats.CURRENTDIR}NotoSans-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSans-Regular.ttf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes("NotoSans-Regular.ttf", fontdata);
+                    File.WriteAllBytes($"{Stats.CURRENTDIR}NotoSans-Regular.ttf", fontdata);
                 }
             }
             
-            if (!File.Exists("NotoSansSC-Regular.otf")) {
+            if (!File.Exists($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSansSC-Regular.otf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes("NotoSansSC-Regular.otf", fontdata);
+                    File.WriteAllBytes($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf", fontdata);
                 }
             }
-
+            
             DefaultFontCollection = new PrivateFontCollection();
-            DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
-            DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
-            DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
+            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}TitanOne-Regular.ttf");
+            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}NotoSans-Regular.ttf");
+            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf");
             SetDefaultFont(18, Stats.CurrentLanguage);
             
-            if (!Directory.Exists("Overlay")) {
-                Directory.CreateDirectory("Overlay");
+            if (!Directory.Exists($"{Stats.CURRENTDIR}Overlay")) {
+                Directory.CreateDirectory($"{Stats.CURRENTDIR}Overlay");
                 using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
                     byte[] overlaydata = new byte[overlayStream.Length];
                     overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
-                    File.WriteAllBytes("Overlay/background.png", overlaydata);
+                    File.WriteAllBytes(Path.Combine($"{Stats.CURRENTDIR}Overlay", "background.png"), overlaydata);
                 }
                 using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
                     byte[] overlaydata = new byte[overlayStream.Length];
                     overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
-                    File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                    File.WriteAllBytes(Path.Combine($"{Stats.CURRENTDIR}Overlay", "tab.png"), overlaydata);
                 }
             } else {
-                if (!File.Exists("Overlay/background.png")) {
+                if (!File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", "background.png"))) {
                     using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
                         byte[] overlaydata = new byte[overlayStream.Length];
                         overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
-                        File.WriteAllBytes("Overlay/background.png", overlaydata);
+                        File.WriteAllBytes(Path.Combine($"{Stats.CURRENTDIR}Overlay", "background.png"), overlaydata);
                     }
                 }
-                if (!File.Exists("Overlay/tab.png")) {
+                if (!File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", "tab.png"))) {
                     using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
                         byte[] overlaydata = new byte[overlayStream.Length];
                         overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
-                        File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                        File.WriteAllBytes(Path.Combine($"{Stats.CURRENTDIR}Overlay", "tab.png"), overlaydata);
                     }
                 }
             }
@@ -1869,11 +1869,11 @@ namespace FallGuysStats {
                         background = Properties.Resources.background;
                     } else {
                         if (overlayCustomized) {
-                            if (!string.Equals(this.BackgroundResourceName, this.backgroundResourceNameCache) && File.Exists($"Overlay/{this.BackgroundResourceName}.png")) {
-                                this.customizedBackground = new Bitmap($"Overlay/{this.BackgroundResourceName}.png");
+                            if (!string.Equals(this.BackgroundResourceName, this.backgroundResourceNameCache) && File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.BackgroundResourceName}.png"))) {
+                                this.customizedBackground = new Bitmap(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.BackgroundResourceName}.png"));
                                 this.backgroundResourceNameCache = this.BackgroundResourceName;
                             }
-                            background = File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? this.customizedBackground : Properties.Resources.background;
+                            background = File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.BackgroundResourceName}.png")) ? this.customizedBackground : Properties.Resources.background;
                         } else {
                             background = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
                         }
@@ -1886,11 +1886,11 @@ namespace FallGuysStats {
                             tab = Properties.Resources.tab_unselected;
                         } else {
                             if (overlayCustomized) {
-                                if (!string.Equals(this.TabResourceName, this.tabResourceNameCache) && File.Exists($"Overlay/{this.TabResourceName}.png")) {
-                                    this.customizedTab = new Bitmap($"Overlay/{this.TabResourceName}.png");
+                                if (!string.Equals(this.TabResourceName, this.tabResourceNameCache) && File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.TabResourceName}.png"))) {
+                                    this.customizedTab = new Bitmap(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.TabResourceName}.png"));
                                     this.tabResourceNameCache = this.TabResourceName;
                                 }
-                                tab = File.Exists($"Overlay/{this.TabResourceName}.png") ? this.customizedTab : Properties.Resources.tab_unselected;
+                                tab = File.Exists(Path.Combine($"{Stats.CURRENTDIR}Overlay", $"{this.TabResourceName}.png")) ? this.customizedTab : Properties.Resources.tab_unselected;
                             } else {
                                 tab = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
                             }
