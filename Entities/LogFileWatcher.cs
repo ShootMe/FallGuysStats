@@ -498,7 +498,7 @@ namespace FallGuysStats {
                          && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
                              || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
 
-                     // "Ranked" Shows
+                     // "Ranked"
                      || (roundId.StartsWith("ranked_", StringComparison.OrdinalIgnoreCase)
                          && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
         }

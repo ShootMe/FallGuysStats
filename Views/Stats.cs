@@ -1621,9 +1621,29 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 116;
+            int lastVersion = 117;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 116: {
+                            DateTime dateCond = new DateTime(2025, 4, 1, 9, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "knockout_mode") && ri.Start >= dateCond
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if ((ri.Name.StartsWith("ranked_") && ri.Name.EndsWith("_final"))
+                                     || string.Equals(ri.Name, "round_floor_fall")
+                                     || string.Equals(ri.Name, "round_kraken_attack")
+                                     || string.Equals(ri.Name, "round_tunnel_final")
+                                     || string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 115: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "showcase_fp18")
