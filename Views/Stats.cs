@@ -30,7 +30,7 @@ namespace FallGuysStats {
             try {
                 bool isAppUpdated = false;
 #if AllowUpdate
-                if (File.Exists(Path.GetFileName(Assembly.GetEntryAssembly().Location) + ".bak")) {
+                if (File.Exists($"{CURRENTDIR}{Path.GetFileName(Assembly.GetEntryAssembly().Location)}.bak")) {
                     isAppUpdated = true;
                 }
 #endif
@@ -79,6 +79,8 @@ namespace FallGuysStats {
                 return true;
             }
         }
+        
+        public static readonly string CURRENTDIR = AppDomain.CurrentDomain.BaseDirectory;
         
         private static readonly string LOGFILENAME = "Player.log";
         public static List<DateTime> Seasons = new List<DateTime> {
@@ -165,7 +167,7 @@ namespace FallGuysStats {
         
         public static int IpGeolocationService;
         public static string IPinfoToken;
-        public static readonly string IPinfoTokenFilePath = "IPinfo.io.txt";
+        public static readonly string IPinfoTokenFileName = "IPinfo.io.txt";
         
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -349,10 +351,10 @@ namespace FallGuysStats {
         }
         
         private void DatabaseMigration() {
-            if (File.Exists("data.db")) {
-                using (var sourceDb = new LiteDatabase(@"data.db")) {
+            if (File.Exists($"{CURRENTDIR}data.db")) {
+                using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
                     if (sourceDb.UserVersion != 0) { return; }
-                    using (var targetDb = new LiteDatabase(@"Filename=data_new.db;Upgrade=true")) {
+                    using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
                         string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog", "FallalyticsCrownLog" };
                         foreach (var tableName in tableNames) {
                             if (!sourceDb.CollectionExists(tableName)) continue;
@@ -363,8 +365,8 @@ namespace FallGuysStats {
                         targetDb.UserVersion += 1;
                     }
                 }
-                File.Move("data.db", "data.db_bak");
-                File.Move("data_new.db", "data.db");
+                File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data.db_bak");
+                File.Move($"{CURRENTDIR}data_new.db", $"{CURRENTDIR}data.db");
             }
         }
 
@@ -682,9 +684,9 @@ namespace FallGuysStats {
 
         private Stats() {
             this.DatabaseMigration();
-            
+
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
-            this.StatsDB = new LiteDatabase(@"data.db");
+            this.StatsDB = new LiteDatabase($@"{CURRENTDIR}data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
             
@@ -732,9 +734,9 @@ namespace FallGuysStats {
             SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
             
             IpGeolocationService = this.CurrentSettings.IpGeolocationService;
-            if (File.Exists(IPinfoTokenFilePath)) {
+            if (File.Exists($"{CURRENTDIR}{IPinfoTokenFileName}")) {
                 try {
-                    StreamReader sr = new StreamReader(IPinfoTokenFilePath);
+                    StreamReader sr = new StreamReader($"{CURRENTDIR}{IPinfoTokenFileName}");
                     IPinfoToken = sr.ReadLine();
                     sr.Close();
                 } catch {
@@ -7542,7 +7544,7 @@ namespace FallGuysStats {
                                     this.StatsDB?.Dispose();
                                     progress.ZipWebClient = web;
                                     progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
-                                    progress.FileName = "FallGuysStats.zip";
+                                    progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
                                     progress.ShowDialog(this);
                                 }
 

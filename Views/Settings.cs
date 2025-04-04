@@ -64,9 +64,9 @@ namespace FallGuysStats {
             
             this.IpGeolocationService = this.CurrentSettings.IpGeolocationService;
             this.cboIpGeolocationService.SelectedIndex = this.IpGeolocationService;
-            if (File.Exists(Stats.IPinfoTokenFilePath)) {
+            if (File.Exists($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}")) {
                 try {
-                    StreamReader sr = new StreamReader(Stats.IPinfoTokenFilePath);
+                    StreamReader sr = new StreamReader($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}");
                     this.IPinfoToken = sr.ReadLine();
                     sr.Close();
                 } catch {
@@ -169,8 +169,8 @@ namespace FallGuysStats {
             this.IsSucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
 
             List<ImageItem> overlayItemArray = new List<ImageItem>();
-            if (Directory.Exists("Overlay")) {
-                DirectoryInfo di = new DirectoryInfo("Overlay");
+            if (Directory.Exists($"{Stats.CURRENTDIR}Overlay")) {
+                DirectoryInfo di = new DirectoryInfo($"{Stats.CURRENTDIR}Overlay");
                 foreach (FileInfo file in di.GetFiles()) {
                     if (string.Equals(file.Name, "background.png") || string.Equals(file.Name, "tab.png")) continue;
                     if (file.Name.StartsWith("background_") && file.Name.EndsWith(".png")) {
@@ -468,10 +468,10 @@ namespace FallGuysStats {
 
             this.CurrentSettings.IpGeolocationService = this.IpGeolocationService;
             if (string.IsNullOrEmpty(this.txtIPinfoToken.Text)) {
-                if (File.Exists(Stats.IPinfoTokenFilePath)) {
+                if (File.Exists($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}")) {
                     try {
-                        File.SetAttributes(Stats.IPinfoTokenFilePath, FileAttributes.Normal);
-                        File.Delete(Stats.IPinfoTokenFilePath);
+                        File.SetAttributes($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}", FileAttributes.Normal);
+                        File.Delete($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}");
                     } catch {
                         // ignored
                     }
@@ -479,7 +479,7 @@ namespace FallGuysStats {
                 Stats.IPinfoToken = string.Empty;
             } else if (!this.IPinfoToken.Equals(this.txtIPinfoToken.Text)) {
                 try {
-                    StreamWriter sw = new StreamWriter(Stats.IPinfoTokenFilePath);
+                    StreamWriter sw = new StreamWriter($"{Stats.CURRENTDIR}{Stats.IPinfoTokenFileName}");
                     sw.WriteLine(this.txtIPinfoToken.Text);
                     sw.Close();
                 } catch {
@@ -1438,7 +1438,7 @@ namespace FallGuysStats {
                                  this.StatsForm.StatsDB?.Dispose();
                                  progress.ZipWebClient = web;
                                  progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
-                                 progress.FileName = "FallGuysStats.zip";
+                                 progress.FileName = $"{Stats.CURRENTDIR}FallGuysStats.zip";
                                  progress.ShowDialog(this);
                              }
                              this.StatsForm.isUpdate = true;

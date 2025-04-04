@@ -44,14 +44,14 @@ namespace FallGuysStats {
                     if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
                         exeName = entry.Name;
                     }
-                    if (File.Exists(entry.Name)) {
-                        File.Move(entry.Name, $"{entry.Name}.bak");
+                    if (File.Exists($"{Stats.CURRENTDIR}{entry.Name}")) {
+                        File.Move($"{Stats.CURRENTDIR}{entry.Name}", $"{Stats.CURRENTDIR}{entry.Name}.bak");
                     }
-                    entry.ExtractToFile(entry.Name, true);
+                    entry.ExtractToFile($"{Stats.CURRENTDIR}{entry.Name}", true);
                 }
             }
             File.Delete(this.FileName);
-            Process.Start(new ProcessStartInfo(exeName));
+            Process.Start(new ProcessStartInfo($"{Stats.CURRENTDIR}{exeName}"));
             this.Close();
         }
         
