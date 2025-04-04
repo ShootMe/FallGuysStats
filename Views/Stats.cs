@@ -254,7 +254,7 @@ namespace FallGuysStats {
         private bool isScrollingStopped = true;
         
         public readonly string[] PublicShowIdList = {
-            "ranked_show_knockout",
+            "ranked_solo_show",
             "main_show",
             "squads_2player_template",
             "squads_4player",
@@ -293,6 +293,7 @@ namespace FallGuysStats {
         };
         
         public readonly string[] PublicShowIdList2 = {
+            "ranked_show_knockout",
             "knockout_mode",
             "no_elimination_explore",
             // "knockout_duos",
@@ -799,9 +800,11 @@ namespace FallGuysStats {
                             this.CurrentSettings.AutoChangeProfile = true;
                         } else {
                             this.StatsDB.BeginTrans();
-                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 4, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3, LinkedShowId = "squads_4player", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 5, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 6, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 4, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 5, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 4, LinkedShowId = "squads_4player", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 3, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_ranked_solo"), ProfileOrder = 2, LinkedShowId = "ranked_solo_show", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
                             this.StatsDB.Commit();
                         }
@@ -1625,6 +1628,18 @@ namespace FallGuysStats {
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
                     case 116: {
+                            List<Profiles> profileList = this.Profiles.FindAll().ToList();
+                            
+                            foreach (Profiles p in profileList) {
+                                if (string.Equals(p.LinkedShowId, "ranked_show_knockout") && !p.DoNotCombineShows) {
+                                    p.LinkedShowId = "ranked_solo_show";
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.Profiles.DeleteAll();
+                            this.Profiles.InsertBulk(profileList);
+                            this.StatsDB.Commit();
+                            
                             DateTime dateCond = new DateTime(2025, 4, 1, 9, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "knockout_mode") && ri.Start >= dateCond
@@ -5076,6 +5091,8 @@ namespace FallGuysStats {
         
         public string GetAlternateShowId(string showId) {
             switch (showId) {
+                case "ranked_show_knockout":
+                    return "ranked_solo_show";
                 // case "anniversary_fp12_ltm":
                 case "classic_solo_main_show":
                 case "ftue_uk_show":
