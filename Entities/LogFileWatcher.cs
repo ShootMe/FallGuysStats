@@ -415,7 +415,8 @@ namespace FallGuysStats {
                         && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")))
 
                     || (string.Equals(showId, "showcase_fp13")
-                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
+                        && (string.Equals(roundId, "scrapyard_derrameburbujeante")
+                            || roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase)))
 
                     || (string.Equals(showId, "showcase_fp16")
                         && (roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase)
