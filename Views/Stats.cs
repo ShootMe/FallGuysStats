@@ -1626,9 +1626,25 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 118;
+            int lastVersion = 119;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 118: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "squads_2player_template") || string.Equals(ri.ShowNameId, "squads_4player") ||
+                                                                   string.Equals(ri.ShowNameId, "classic_duos_show") || string.Equals(ri.ShowNameId, "classic_squads_show")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_1v1_volleyfall_symphony_launch_show") || string.Equals(ri.Name, "round_hoops_revenge_symphony_launch_show")) {
+                                    ri.IsTeam = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 117: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "showcase_fp13")
