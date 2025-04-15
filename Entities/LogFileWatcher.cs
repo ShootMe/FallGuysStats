@@ -505,9 +505,10 @@ namespace FallGuysStats {
         }
 
         private bool IsTeamException(string roundId) {
-            return roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
-                   && (roundId.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
-                       || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
+            return (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("round_hoops_revenge", StringComparison.OrdinalIgnoreCase) != -1)
+                       && (roundId.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
+                           || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         private void SetDefaultCreativeLevelVariables() {
