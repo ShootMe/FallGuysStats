@@ -165,6 +165,7 @@ namespace FallGuysStats {
                                     if (logLine.IsValid) {
                                         int index;
                                         if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) != -1) {
+                                            this.ResetMainLocalVariables();
                                             currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
                                             this.OnNewLogFileDate?.Invoke(currentDate);
                                         }
@@ -704,6 +705,13 @@ namespace FallGuysStats {
             this.SetDefaultCreativeLevelVariables();
         }
 
+        private void ResetMainLocalVariables() {
+            this.threadLocalVariable.Value.selectedShowId = string.Empty;
+            this.threadLocalVariable.Value.useShareCode = false;
+            this.threadLocalVariable.Value.currentSessionId = string.Empty;
+            this.threadLocalVariable.Value.sceneName = string.Empty;
+        }
+
         private void UpdateServerConnectionLog(string session, string show) {
             if (!this.StatsForm.ExistsServerConnectionLog(session)) {
                 this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
@@ -728,7 +736,7 @@ namespace FallGuysStats {
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
+            if (string.IsNullOrEmpty(info.SessionId) || info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
 
             if (info.IsCasualShow) {
                 if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) { return; }
@@ -888,7 +896,9 @@ namespace FallGuysStats {
                     round.Add(logRound.Info);
                 }
             } else if (logRound.Info != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) != -1) {
-                if (logRound.Info.IsCasualShow) {
+                if (string.IsNullOrEmpty(logRound.Info.SessionId)) {
+                    logRound.Info.Round = -1;
+                } else if (logRound.Info.IsCasualShow) {
                     if (this.threadLocalVariable.Value.currentSessionId != Stats.SavedSessionId) {
                         Stats.SavedSessionId = this.threadLocalVariable.Value.currentSessionId;
                         Stats.CasualRoundNum++;
@@ -917,7 +927,7 @@ namespace FallGuysStats {
                     logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
-                if (logRound.Info.IsCasualShow) {
+                if (string.IsNullOrEmpty(logRound.Info.SessionId) || logRound.Info.IsCasualShow) {
                     logRound.Info.IsFinal = false;
                 } else if (logRound.Info.UseShareCode || this.IsRealFinalRound(logRound.Info.Round, logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = true;
@@ -1153,11 +1163,49 @@ namespace FallGuysStats {
                         logRound.Info.End = line.Date;
                     }
                     logRound.Info.Playing = false;
-                    if (this.IsShowIsCasualShow(this.threadLocalVariable.Value.selectedShowId)) {
-                        if (!Stats.EndedShow) {
+                    if (!string.IsNullOrEmpty(logRound.Info.SessionId)) {
+                        if (this.IsShowIsCasualShow(this.threadLocalVariable.Value.selectedShowId)) {
+                            if (!Stats.EndedShow) {
+                                DateTime showEnd = logRound.Info.End;
+                                for (int i = 0; i < round.Count; i++) {
+                                    if (string.IsNullOrEmpty(round[i].Name)) {
+                                        round.RemoveAt(i);
+                                        logRound.Info = null;
+                                        Stats.InShow = false;
+                                        Stats.EndedShow = true;
+                                        return true;
+                                    }
+                                    round[i].VerifyName();
+                                    round[i].ShowStart = round[i].Start;
+                                    round[i].Playing = false;
+                                    round[i].Round = 1;
+                                    if (round[i].End == DateTime.MinValue) {
+                                        round[i].End = line.Date;
+                                    }
+                                    if (round[i].Start == DateTime.MinValue) {
+                                        round[i].Start = round[i].End;
+                                    }
+                                    if (round[i].Finish.HasValue) {
+                                        round[i].Qualified = true;
+                                    }
+                                    round[i].ShowEnd = showEnd;
+                                }
+                                this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
+                                logRound.Info = null;
+                                Stats.InShow = false;
+                                Stats.EndedShow = true;
+                                return true;
+                            } else {
+                                Stats.CasualRoundNum = 0;
+                            }
+                        } else if (logRound.Info.UseShareCode || (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame && !Stats.EndedShow)) {
+                            DateTime showStart = DateTime.MinValue;
                             DateTime showEnd = logRound.Info.End;
                             for (int i = 0; i < round.Count; i++) {
                                 if (string.IsNullOrEmpty(round[i].Name)) {
+                                    if (i != 0) {
+                                        round[i - 1].Qualified = false;
+                                    }
                                     round.RemoveAt(i);
                                     logRound.Info = null;
                                     Stats.InShow = false;
@@ -1165,74 +1213,38 @@ namespace FallGuysStats {
                                     return true;
                                 }
                                 round[i].VerifyName();
-                                round[i].ShowStart = round[i].Start;
+                                if (i == 0) {
+                                    showStart = round[i].Start;
+                                }
+                                round[i].ShowStart = showStart;
                                 round[i].Playing = false;
-                                round[i].Round = 1;
+                                round[i].Round = i + 1;
                                 if (round[i].End == DateTime.MinValue) {
                                     round[i].End = line.Date;
                                 }
                                 if (round[i].Start == DateTime.MinValue) {
                                     round[i].Start = round[i].End;
                                 }
-                                if (round[i].Finish.HasValue) {
+                                if (i < (round.Count - 1)) {
                                     round[i].Qualified = true;
+                                    round[i].IsAbandon = true;
+                                } else if (round[i].UseShareCode && round[i].Finish.HasValue) {
+                                    round[i].Qualified = true;
+                                    round[i].Crown = true;
+                                } else {
+                                    round[i].IsAbandon = true;
                                 }
                                 round[i].ShowEnd = showEnd;
+                                if (round.Count > 1 && (i + 1) != round.Count) {
+                                    round[i].IsFinal = false;
+                                }
                             }
                             this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
                             logRound.Info = null;
                             Stats.InShow = false;
                             Stats.EndedShow = true;
                             return true;
-                        } else {
-                            Stats.CasualRoundNum = 0;
                         }
-                    } else if (logRound.Info.UseShareCode || (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame && !Stats.EndedShow)) {
-                        DateTime showStart = DateTime.MinValue;
-                        DateTime showEnd = logRound.Info.End;
-                        for (int i = 0; i < round.Count; i++) {
-                            if (string.IsNullOrEmpty(round[i].Name)) {
-                                if (i != 0) {
-                                    round[i - 1].Qualified = false;
-                                }
-                                round.RemoveAt(i);
-                                logRound.Info = null;
-                                Stats.InShow = false;
-                                Stats.EndedShow = true;
-                                return true;
-                            }
-                            round[i].VerifyName();
-                            if (i == 0) {
-                                showStart = round[i].Start;
-                            }
-                            round[i].ShowStart = showStart;
-                            round[i].Playing = false;
-                            round[i].Round = i + 1;
-                            if (round[i].End == DateTime.MinValue) {
-                                round[i].End = line.Date;
-                            }
-                            if (round[i].Start == DateTime.MinValue) {
-                                round[i].Start = round[i].End;
-                            }
-                            if (i < (round.Count - 1)) {
-                                round[i].Qualified = true;
-                                round[i].IsAbandon = true;
-                            } else if (round[i].UseShareCode && round[i].Finish.HasValue) {
-                                round[i].Qualified = true;
-                                round[i].Crown = true;
-                            } else {
-                                round[i].IsAbandon = true;
-                            }
-                            round[i].ShowEnd = showEnd;
-                            if (round.Count > 1 && (i + 1) != round.Count) {
-                                round[i].IsFinal = false;
-                            }
-                        }
-                        this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
-                        logRound.Info = null;
-                        Stats.InShow = false;
-                        Stats.EndedShow = true;
-                        return true;
                     }
                 }
                 logRound.Info = null;
