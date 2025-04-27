@@ -591,8 +591,7 @@ namespace FallGuysStats {
                 this.lblRound.TextRight = Stats.QueuedPlayers.ToString();
                 this.lblRound.ForeColor = this.ForeColor;
             } else {
-                int roundNum = this.lastRound.IsCasualShow ? (Stats.CasualRoundNum != 0 ? Stats.CasualRoundNum : 1)
-                               : this.lastRound.Round;
+                int roundNum = this.lastRound.Round > 0 ? (this.lastRound.IsCasualShow ? (Stats.CasualRoundNum != 0 ? Stats.CasualRoundNum : 1) : this.lastRound.Round) : 0;
                 if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                     this.lblRound.Text = $@"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{roundNum}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                     this.lblRound.LevelColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : (this.lastRound.UseShareCode ? type.LevelBackColor(false, this.lastRound.IsTeam, 159) : type.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223));
@@ -1037,7 +1036,9 @@ namespace FallGuysStats {
                 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     bool isRoundInfoNeedRefresh = (string.Equals(this.savedSessionId, this.lastRound.SessionId) && this.savedRoundNum != this.lastRound.Round)
-                                                  || !string.Equals(this.savedSessionId, this.lastRound.SessionId) || Stats.IsOverlayRoundInfoNeedRefresh;
+                                                  || !string.Equals(this.savedSessionId, this.lastRound.SessionId)
+                                                  || this.lastRound.Round == -1
+                                                  || Stats.IsOverlayRoundInfoNeedRefresh;
                     if (isRoundInfoNeedRefresh) {
                         if (Stats.IsOverlayRoundInfoNeedRefresh) {
                             Stats.IsOverlayRoundInfoNeedRefresh = false;
