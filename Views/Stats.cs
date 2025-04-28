@@ -84,7 +84,7 @@ namespace FallGuysStats {
         
         private static readonly string LOGFILENAME = "Player.log";
         
-        public static Dictionary<string, DateTime> Seasons = new Dictionary<string, DateTime> {
+        public static readonly Dictionary<string, DateTime> Seasons = new Dictionary<string, DateTime> {
             { "S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc) },
             { "S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc) },
             { "S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc) },
@@ -316,8 +316,9 @@ namespace FallGuysStats {
             "no_elimination_explore",
             // "knockout_duos",
             "teams_show_ltm",
-            "event_day_at_races_squads_template",
             // "knockout_squads",
+            "greatestsquads_ltm",
+            "event_day_at_races_squads_template",
             "squadcelebration",
             "invisibeans_pistachio_template",
             "xtreme_explore"
@@ -1642,9 +1643,27 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 119;
+            int lastVersion = 120;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 119: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "greatestsquads_ltm")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Round == 3 || string.Equals(ri.Name, "gs_slimecycle")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 118: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "squads_2player_template") || string.Equals(ri.ShowNameId, "squads_4player") ||
@@ -5186,6 +5205,7 @@ namespace FallGuysStats {
                    || string.Equals(showId, "showcase_fp16")
                    || string.Equals(showId, "showcase_fp17")
                    || string.Equals(showId, "showcase_fp18")
+                   || string.Equals(showId, "greatestsquads_ltm")
                    || showId.StartsWith("user_creative_")
                    || showId.StartsWith("creative_")
                    || showId.StartsWith("event_wle_")

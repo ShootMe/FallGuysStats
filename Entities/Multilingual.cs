@@ -13488,6 +13488,7 @@ namespace FallGuysStats {
                     { "explore_points", "Explore - Points" },
                     { "fp16_ski_fall_high_scorers", "Ski Fall High Scorers" },
                     { "ftue_uk_show", "Knockout" },
+                    { "greatestsquads_ltm", "Squads Spectacular" },
                     { "invisibeans_0508_to_0708_2022", "SWEET THIEVES" },
                     { "invisibeans_0707_to_1107_2022", "SWEET THIEVES" },
                     { "invisibeans_0803_to_1303_2022", "SWEET THIEVES" },
@@ -13607,12 +13608,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "Explore - Xtreme" },
                     { "xtreme_party", "X-treme Party" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "Creator Round Playlist 1" },
                     { "show_wle_s10_wk3_mrs", "Creator Round Playlist 2" },
                     { "event_wle_s10_wk4_mrs", "Creator Round Playlist 3" },
                     { "show_wle_s10_wk5_mrs", "Creator Round Playlist 4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "Boom Blaster Trial" },
                     { "show_wle_s10_wk01_srs_02", "Cyber Circuit" },
                     { "show_wle_s10_wk01_srs_03", "Pixel Hearts" },
@@ -13649,7 +13650,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -13666,7 +13667,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -13684,7 +13685,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -13702,19 +13703,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -13723,7 +13724,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -13755,7 +13756,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -13785,7 +13786,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -13801,7 +13802,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -13816,7 +13817,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -13825,7 +13826,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -13840,7 +13841,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -13851,7 +13852,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -13867,7 +13868,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -13893,7 +13894,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -13901,7 +13902,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -13919,7 +13920,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -13935,7 +13936,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -14032,7 +14033,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -14060,7 +14061,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -14081,7 +14082,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -14099,7 +14100,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -14116,7 +14117,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -14132,12 +14133,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                            
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "Rainbow Rally" },
                     { "wle_mrs_shuffle_show", "Digi's Shuffle Selection" },
                     { "wle_mrs_shuffle_show_squads", "Squads Scramble" },
@@ -14151,7 +14152,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "Playful Pioneers Shuffle" },
                     { "event_april_fools", "Fool and Fall Shuffle" },
                     { "wle_nature_ltm", "Wilderness Falls" },
-                    
+
                     { "private_lobbies", "Custom Show" },
                     { "fall_guys_creative_mode", "Fall Guys Creative" },
                     { "invisibeans_mode", "Sweet Thieves" },
@@ -14406,6 +14407,7 @@ namespace FallGuysStats {
                     { "explore_points", "Exploration - Points" },
                     { "fp16_ski_fall_high_scorers", "Les hauts scores des pistes folles" },
                     { "ftue_uk_show", "Tournois" },
+                    { "greatestsquads_ltm", "Groupes spectaculaires" },
                     { "invisibeans_0508_to_0708_2022", "VOLEURS SUCRÉS" },
                     { "invisibeans_0707_to_1107_2022", "VOLEURS SUCRÉS" },
                     { "invisibeans_0803_to_1303_2022", "VOLEURS SUCRÉS" },
@@ -14525,12 +14527,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "Exploration - Xtrême" },
                     { "xtreme_party", "Fête Xtrême" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "Playlist de Manche de créateur 1" },
                     { "show_wle_s10_wk3_mrs", "Playlist de Manche de créateur 2" },
                     { "event_wle_s10_wk4_mrs", "Playlist de Manche de créateur 3" },
                     { "show_wle_s10_wk5_mrs", "Playlist de Manche de créateur 4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "Le défi des tramporythmes" },
                     { "show_wle_s10_wk01_srs_02", "Cyber-circuit" },
                     { "show_wle_s10_wk01_srs_03", "Cœurs pixélisés" },
@@ -14551,7 +14553,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_wk05_srs_long_02", "Fall Speedway" },
                     { "show_wle_s10_wk05_srs_long_03", "Zig Zag Zoomies" },
                     { "show_wle_s10_wk05_srs_long_04", "Terrabyte Trial" },
-                    
+
                     { "wle_s10_player_round_wk3_01", "Cloudy Chaos" },
                     { "wle_s10_player_round_wk3_02", "Door Game" },
                     { "wle_s10_player_round_wk3_06", "Spiral Upheaval" },
@@ -14567,7 +14569,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -14584,7 +14586,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -14602,7 +14604,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -14620,19 +14622,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -14641,7 +14643,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -14673,7 +14675,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -14703,7 +14705,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -14719,7 +14721,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -14734,7 +14736,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -14743,7 +14745,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -14758,7 +14760,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -14769,7 +14771,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -14785,7 +14787,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -14811,7 +14813,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -14819,7 +14821,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -14837,7 +14839,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -14853,7 +14855,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -14950,7 +14952,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -14978,7 +14980,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -14999,7 +15001,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -15017,7 +15019,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -15034,7 +15036,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -15050,12 +15052,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                            
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "Festival Arc-en-ciel" },
                     { "wle_mrs_shuffle_show", "Sélection Dérangée De Digi" },
                     { "wle_mrs_shuffle_show_squads", "Ruée De Groupes" },
@@ -15069,7 +15071,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "Mix Inventif" },
                     { "event_april_fools", "Fall Mix Fou Aléatoire" },
                     { "wle_nature_ltm", "Nature indomptable" },
-                    
+
                     { "private_lobbies", "Partie Personnalisée" },
                     { "fall_guys_creative_mode", "Créatif de Fall Guys" },
                     { "invisibeans_mode", "Voleurs Sucrés" },
@@ -15324,6 +15326,7 @@ namespace FallGuysStats {
                     { "explore_points", "탐험 - 포인트" },
                     { "fp16_ski_fall_high_scorers", "스키 점프 고득점" },
                     { "ftue_uk_show", "넉아웃" },
+                    { "greatestsquads_ltm", "환상의 스쿼드" },
                     { "invisibeans_0508_to_0708_2022", "달콤한 도둑들" },
                     { "invisibeans_0707_to_1107_2022", "달콤한 도둑들" },
                     { "invisibeans_0803_to_1303_2022", "달콤한 도둑들" },
@@ -15443,12 +15446,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "탐험 - X-익스트림" },
                     { "xtreme_party", "X-익스트림 파티" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "크리에이터 라운드 플레이리스트 1" },
                     { "show_wle_s10_wk3_mrs", "크리에이터 라운드 플레이리스트 2" },
                     { "event_wle_s10_wk4_mrs", "크리에이터 라운드 플레이리스트 3" },
                     { "show_wle_s10_wk5_mrs", "크리에이터 라운드 플레이리스트 4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "붐 블라스트 도전" },
                     { "show_wle_s10_wk01_srs_02", "사이버 경주장" },
                     { "show_wle_s10_wk01_srs_03", "픽셀 하트" },
@@ -15469,7 +15472,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_wk05_srs_long_02", "Fall Speedway" },
                     { "show_wle_s10_wk05_srs_long_03", "Zig Zag Zoomies" },
                     { "show_wle_s10_wk05_srs_long_04", "Terrabyte Trial" },
-                    
+
                     { "wle_s10_player_round_wk3_01", "Cloudy Chaos" },
                     { "wle_s10_player_round_wk3_02", "Door Game" },
                     { "wle_s10_player_round_wk3_06", "Spiral Upheaval" },
@@ -15485,7 +15488,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -15502,7 +15505,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -15520,7 +15523,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -15538,19 +15541,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -15559,7 +15562,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -15591,7 +15594,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -15621,7 +15624,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -15637,7 +15640,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -15652,7 +15655,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -15661,7 +15664,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -15676,7 +15679,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -15687,7 +15690,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -15703,7 +15706,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -15729,7 +15732,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -15737,7 +15740,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -15755,7 +15758,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -15771,7 +15774,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -15868,7 +15871,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -15896,7 +15899,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -15917,7 +15920,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -15935,7 +15938,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -15952,7 +15955,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -15968,12 +15971,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                            
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "레인보우 랠리" },
                     { "wle_mrs_shuffle_show", "디지의 셔플 셀렉션" },
                     { "wle_mrs_shuffle_show_squads", "스쿼드 대소동" },
@@ -15987,7 +15990,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "장난스런 개척자 셔플" },
                     { "event_april_fools", "만우절 셔플" },
                     { "wle_nature_ltm", "야생으로 뛰어들기" },
-                    
+
                     { "private_lobbies", "커스텀 쇼" },
                     { "fall_guys_creative_mode", "폴크리" },
                     { "invisibeans_mode", "달콤한 도둑들" },
@@ -16242,6 +16245,7 @@ namespace FallGuysStats {
                     { "explore_points", "自由探索 - ポイント" },
                     { "fp16_ski_fall_high_scorers", "スキーフォール・ハイスコア" },
                     { "ftue_uk_show", "ノックアウト" },
+                    { "greatestsquads_ltm", "スクワッド・スペクタキュラー" },
                     { "invisibeans_0508_to_0708_2022", "キャンディードロボー" },
                     { "invisibeans_0707_to_1107_2022", "キャンディードロボー" },
                     { "invisibeans_0803_to_1303_2022", "キャンディードロボー" },
@@ -16361,12 +16365,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "自由探索 - エクストリーム" },
                     { "xtreme_party", "エクストリームパーティー" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "クリエイターラウンドのプレイリスト1" },
                     { "show_wle_s10_wk3_mrs", "クリエイターラウンドのプレイリスト2" },
                     { "event_wle_s10_wk4_mrs", "クリエイターラウンドのプレイリスト3" },
                     { "show_wle_s10_wk5_mrs", "クリエイターラウンドのプレイリスト4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "びゅーんブラスタートライアル" },
                     { "show_wle_s10_wk01_srs_02", "サイバーサーキット" },
                     { "show_wle_s10_wk01_srs_03", "ピクセルハート" },
@@ -16387,7 +16391,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_wk05_srs_long_02", "Fall Speedway" },
                     { "show_wle_s10_wk05_srs_long_03", "Zig Zag Zoomies" },
                     { "show_wle_s10_wk05_srs_long_04", "Terrabyte Trial" },
-                    
+
                     { "wle_s10_player_round_wk3_01", "Cloudy Chaos" },
                     { "wle_s10_player_round_wk3_02", "Door Game" },
                     { "wle_s10_player_round_wk3_06", "Spiral Upheaval" },
@@ -16403,7 +16407,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -16420,7 +16424,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -16438,7 +16442,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -16456,19 +16460,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -16477,7 +16481,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -16509,7 +16513,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -16539,7 +16543,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -16555,7 +16559,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -16570,7 +16574,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -16579,7 +16583,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -16594,7 +16598,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -16605,7 +16609,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -16621,7 +16625,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -16647,7 +16651,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -16655,7 +16659,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -16673,7 +16677,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -16689,7 +16693,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -16786,7 +16790,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -16814,7 +16818,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -16835,7 +16839,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -16853,7 +16857,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -16870,7 +16874,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -16886,12 +16890,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                            
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "レインボーラリー" },
                     { "wle_mrs_shuffle_show", "デジのシャッフルセレクション" },
                     { "wle_mrs_shuffle_show_squads", "スクワッドスクランブル" },
@@ -16905,7 +16909,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "パイオニアシャッフル" },
                     { "event_april_fools", "だまされ落下シャッフル" },
                     { "wle_nature_ltm", "ウィルダネス・フォールズ" },
-                    
+
                     { "private_lobbies", "カスタムショー" },
                     { "fall_guys_creative_mode", "フォールガイズ クリエイティブ" },
                     { "invisibeans_mode", "キャンディードロボー" },
@@ -17160,6 +17164,7 @@ namespace FallGuysStats {
                     { "explore_points", "探索 - 分数" },
                     { "fp16_ski_fall_high_scorers", "雪山速降高分赛" },
                     { "ftue_uk_show", "淘汰赛" },
+                    { "greatestsquads_ltm", "神奇小队" },
                     { "invisibeans_0508_to_0708_2022", "糖果窃贼" },
                     { "invisibeans_0707_to_1107_2022", "糖果窃贼" },
                     { "invisibeans_0803_to_1303_2022", "糖果窃贼" },
@@ -17279,12 +17284,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "探索 - 极限" },
                     { "xtreme_party", "极限糖豆人派对" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "创作者回合节目列表 1" },
                     { "show_wle_s10_wk3_mrs", "创作者回合节目列表 2" },
                     { "event_wle_s10_wk4_mrs", "创作者回合节目列表 3" },
                     { "show_wle_s10_wk5_mrs", "创作者回合节目列表 4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "音爆跳垫挑战" },
                     { "show_wle_s10_wk01_srs_02", "数字环游" },
                     { "show_wle_s10_wk01_srs_03", "像素小心心" },
@@ -17305,7 +17310,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_wk05_srs_long_02", "Fall Speedway" },
                     { "show_wle_s10_wk05_srs_long_03", "Zig Zag Zoomies" },
                     { "show_wle_s10_wk05_srs_long_04", "Terrabyte Trial" },
-                    
+
                     { "wle_s10_player_round_wk3_01", "Cloudy Chaos" },
                     { "wle_s10_player_round_wk3_02", "Door Game" },
                     { "wle_s10_player_round_wk3_06", "Spiral Upheaval" },
@@ -17321,7 +17326,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -17338,7 +17343,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -17356,7 +17361,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -17374,19 +17379,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -17395,7 +17400,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -17427,7 +17432,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -17457,7 +17462,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -17473,7 +17478,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -17488,7 +17493,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -17497,7 +17502,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -17512,7 +17517,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -17523,7 +17528,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -17539,7 +17544,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -17565,7 +17570,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -17573,7 +17578,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -17591,7 +17596,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -17607,7 +17612,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -17704,7 +17709,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -17732,7 +17737,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -17753,7 +17758,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -17771,7 +17776,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -17788,7 +17793,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -17804,12 +17809,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                    
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "彩虹拉力赛" },
                     { "wle_mrs_shuffle_show", "迪奇混搭秀精选" },
                     { "wle_mrs_shuffle_show_squads", "小队乱战" },
@@ -17823,7 +17828,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "玩乐急先锋随机" },
                     { "event_april_fools", "糖豆恶作剧混搭秀" },
                     { "wle_nature_ltm", "荒野求生" },
-                    
+
                     { "private_lobbies", "自定义节目" },
                     { "fall_guys_creative_mode", "Fall Guys Creative" },
                     { "invisibeans_mode", "糖果窃贼" },
@@ -18078,6 +18083,7 @@ namespace FallGuysStats {
                     { "explore_points", "探索模式 - 奪分關卡" },
                     { "fp16_ski_fall_high_scorers", "雪山速降高分賽" },
                     { "ftue_uk_show", "淘汰賽" },
+                    { "greatestsquads_ltm", "小隊奇觀" },
                     { "invisibeans_0508_to_0708_2022", "糖果竊賊" },
                     { "invisibeans_0707_to_1107_2022", "糖果竊賊" },
                     { "invisibeans_0803_to_1303_2022", "糖果竊賊" },
@@ -18197,12 +18203,12 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "探索模式 - x極限" },
                     { "xtreme_party", "極限糖豆人派對" },
-                    
+
                     { "show_wle_s10_wk01_mrs", "創作者回合節目列表 1" },
                     { "show_wle_s10_wk3_mrs", "創作者回合節目列表 2" },
                     { "event_wle_s10_wk4_mrs", "創作者回合節目列表 3" },
                     { "show_wle_s10_wk5_mrs", "創作者回合節目列表 4" },
-                    
+
                     { "show_wle_s10_wk01_srs_01", "音爆跳墊挑戰" },
                     { "show_wle_s10_wk01_srs_02", "數字環遊" },
                     { "show_wle_s10_wk01_srs_03", "像素小心心" },
@@ -18223,7 +18229,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_wk05_srs_long_02", "Fall Speedway" },
                     { "show_wle_s10_wk05_srs_long_03", "Zig Zag Zoomies" },
                     { "show_wle_s10_wk05_srs_long_04", "Terrabyte Trial" },
-                    
+
                     { "wle_s10_player_round_wk3_01", "Cloudy Chaos" },
                     { "wle_s10_player_round_wk3_02", "Door Game" },
                     { "wle_s10_player_round_wk3_06", "Spiral Upheaval" },
@@ -18239,7 +18245,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk3_18", "Hill of Fear" },
                     { "wle_s10_player_round_wk3_19", "Sky Time" },
                     { "wle_s10_player_round_wk3_20", "EZz Map" },
-                    
+
                     { "show_wle_s10_player_round_wk4_01", "Slippery Stretch" },
                     { "show_wle_s10_player_round_wk4_02", "Ball 'N Fall" },
                     { "show_wle_s10_player_round_wk4_03", "Rowdy Cloudy" },
@@ -18256,7 +18262,7 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk4_20", "Temminal Slime-ocity" },
                     { "show_wle_s10_player_round_wk4_21", "Spin" },
                     { "show_wle_s10_player_round_wk4_22", "Lane Changers" },
-                    
+
                     { "wle_s10_player_round_wk5_01", "Block Park" },
                     { "wle_s10_player_round_wk5_02", "The Drummatical Story" },
                     { "wle_s10_player_round_wk5_03", "Digital Temple" },
@@ -18274,7 +18280,7 @@ namespace FallGuysStats {
                     { "wle_s10_player_round_wk5_16", "METROPOLIS" },
                     { "wle_s10_player_round_wk5_17", "Big Bookcase" },
                     { "wle_s10_player_round_wk5_18", "Digital Doom" },
-                    
+
                     { "show_wle_s10_player_round_wk6_01", "Hammer Heaven" },
                     { "show_wle_s10_player_round_wk6_02", "RISKY ROUTES" },
                     { "show_wle_s10_player_round_wk6_03", "Castle Rush" },
@@ -18292,19 +18298,19 @@ namespace FallGuysStats {
                     { "show_wle_s10_player_round_wk6_18", "Recess" },
                     { "show_wle_s10_player_round_wk6_19", "Parrot river" },
                     { "show_wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷" },
-                    
+
                     { "show_wle_s10_wk07_srs_01", "Tower of Fall" },
                     { "show_wle_s10_wk07_srs_02", "SOLO FULL-TILT RAGE" },
                     { "show_wle_s10_wk07_srs_03", "Piso resbaloso" },
                     { "show_wle_s10_wk07_srs_04", "Catastrophe Climb" },
                     { "show_wle_s10_wk07_srs_05", "Sky High Run" },
                     { "show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road" },
-                    
+
                     { "show_wle_s10_wk08_srs_01", "Push Ups" },
                     { "show_wle_s10_wk08_srs_02", "Heave & Haul" },
                     { "show_wle_s10_wk08_srs_03", "Stepping Stones" },
                     { "show_wle_s10_wk08_srs_04", "Double Trouble" },
-                    
+
                     { "current_wle_fp3_07_01", "Block Sledding" },
                     { "current_wle_fp3_07_02", "Layup Wallop" },
                     { "current_wle_fp3_07_03", "Minecart Mayhem" },
@@ -18313,7 +18319,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_07_0_01", "Funky Sanctuaries" },
                     { "current_wle_fp3_07_0_02", "Woo-F-O" },
                     { "current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China" },
-                    
+
                     { "current_wle_fp3_08_01", "Grabbers Territory" },
                     { "current_wle_fp3_08_02", "A Way Out" },
                     { "current_wle_fp3_08_03", "Wall Block" },
@@ -18345,7 +18351,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_09_0_05", "Clocktower Climb" },
                     { "current_wle_fp3_09_0_06", "Savour Your Happiness" },
                     { "current_wle_fp3_09_0_0_01", "Pastel Paradise" },
-                    
+
                     { "current_wle_fp3_10_01", "When Nature Falls" },
                     { "current_wle_fp3_10_02", "The Slippery Conveyor" },
                     { "current_wle_fp3_10_03", "The Slime Trials" },
@@ -18375,7 +18381,7 @@ namespace FallGuysStats {
                     { "current_wle_fp3_10_27", "Bean Voyage" },
                     { "current_wle_fp3_10_28", "SLIP-SAW" },
                     { "current_wle_fp3_10_29", "Bbq bacon burger" },
-                            
+
                     { "current_wle_fp4_05_01_01", "巅峰车站" },
                     { "current_wle_fp4_05_01_02", "Beba Park 7" },
                     { "current_wle_fp4_05_01_03", "Rainbow in the clouds" },
@@ -18391,7 +18397,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_05_2_01", "¡River Paradise!" },
                     { "current_wle_fp4_05_2_02", "arch city" },
                     { "current_wle_fp4_05_2_03", "Desert Ruins" },
-                            
+
                     { "current_wle_fp4_06_01", "PENTAGON CIRCUIT" },
                     { "current_wle_fp4_06_02", "Pachislo" },
                     { "current_wle_fp4_06_0_01", "AquArsene" },
@@ -18406,7 +18412,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_06_1_04", "Youpii Youpii" },
                     { "current_wle_fp4_06_1_05", "The climb of Trials" },
                     { "current_wle_fp4_06_1_06", "Bouncy Castle" },
-                            
+
                     { "current_wle_fp4_07_01", "Rotational Runner" },
                     { "current_wle_fp4_07_02", "SPIRAL DASH ROAD" },
                     { "current_wle_fp4_07_03", "simple stage" },
@@ -18415,7 +18421,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_07_06", "Jumpy Beans" },
                     { "current_wle_fp4_07_07", "Slimetastic Stumble" },
                     { "current_wle_fp4_07_0_01", "Camino Ninja" },
-                            
+
                     { "current_wle_fp4_08_01", "co-op guys" },
                     { "current_wle_fp4_08_0_01", "The big slide" },
                     { "current_wle_fp4_08_0_02", "Freefall Mountain" },
@@ -18430,7 +18436,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_08_1_04", "Mad lab" },
                     { "current_wle_fp4_08_2_01", "Convoluted Conveyors" },
                     { "current_wle_fp4_08_3_01", "The Oasis" },
-                    
+
                     { "current_wle_fp4_09_01", "Crate Collector" },
                     { "current_wle_fp4_09_02", "Dribble Drills" },
                     { "current_wle_fp4_09_03", "Spinning Slide Dodge" },
@@ -18441,7 +18447,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_09_1_01", "Push-Box Chaos" },
                     { "current_wle_fp4_09_1_02", "Haute voltige" },
                     { "current_wle_fp4_09_2_01", "DNA Test" },
-                    
+
                     { "current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery" },
                     { "current_wle_fp4_10_02", "Hot Blast" },
                     { "current_wle_fp4_10_03", "Box Fan Blitz" },
@@ -18457,7 +18463,7 @@ namespace FallGuysStats {
                     { "current_wle_fp4_10_23", "Construction Site" },
                     { "current_wle_fp4_10_0_01", "Cheese Canyon" },
                     { "current_wle_fp4_10_0_02", "Molehills" },
-                            
+
                     { "current_wle_fp5_2_01_01", "Plummet Summit" },
                     { "current_wle_fp5_2_01_02", "タワークライム" },
                     { "current_wle_fp5_2_01_03", "けいけいどうくつ" },
@@ -18483,7 +18489,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_2_05", "The tension Parkour" },
                     { "current_wle_fp5_2_06", "Stairing Contest" },
                     { "current_wle_fp5_2_07", "Vibrant Ascension" },
-                            
+
                     { "current_wle_fp5_3_05_01", "Beany Golf!" },
                     { "current_wle_fp5_3_05_02_01", "Speedy Bros" },
                     { "current_wle_fp5_4_01_01", "Tilted Walls" },
@@ -18491,7 +18497,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_4_01_03", "The Flowery Garden" },
                     { "current_wle_fp5_4_01_04", "Happy Bean Cube Land 2" },
                     { "current_wle_fp5_4_01_05", "Traffic Jamboree" },
-                    
+
                     { "current_wle_fp5_10_01", "Breezy Buddies" },
                     { "current_wle_fp5_10_0_01", "Salto Plancha" },
                     { "current_wle_fp5_10_0_02", "My house" },
@@ -18509,7 +18515,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_10_2_09", "タイトル決まりませんｗ" },
                     { "current_wle_fp5_10_2_10", "初心者用コース" },
                     { "current_wle_fp5_10_2_11", "Chain Reaction" },
-                    
+
                     { "current_wle_fp5_wk3_1_01", "Gobille infernal" },
                     { "current_wle_fp5_wk3_1_02", "SLIMY RACE" },
                     { "current_wle_fp5_wk3_1_03", "Bouncy Bros" },
@@ -18525,7 +18531,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_wk3_3_02", "Rainbow Racers" },
                     { "current_wle_fp5_wk3_3_03", "Bye have a great time part 24" },
                     { "current_wle_fp5_wk3_3_04", "speedrun snek" },
-                            
+
                     { "current_wle_fp5_falloween_1_01", "Falloween Dash" },
                     { "current_wle_fp5_falloween_1_02", "深秋寻路 Fall Routes" },
                     { "current_wle_fp5_falloween_1_03", "Синни Санни Сонни" },
@@ -18622,7 +18628,7 @@ namespace FallGuysStats {
                     { "current_wle_fp5_falloween_13_01", "Witch Way" },
                     { "current_wle_fp5_falloween_14_01", "Nightmare Bump" },
                     { "current_wle_fp5_falloween_15_01", "Spooktacular Fun Run" },
-                            
+
                     { "current_wle_fp6_1_01", "Boo-mblaster Betrayal" },
                     { "current_wle_fp6_1_02", "MOUNT SMOODGIE!" },
                     { "current_wle_fp6_1_03", "SKULL KING" },
@@ -18650,7 +18656,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_3_06", "Rest In Paris" },
                     { "current_wle_fp6_3_07", "Horror pumpkim" },
                     { "current_wle_fp6_3_08", "时间停止了(Time Stop)" },
-                            
+
                     { "current_wle_fp6_wk2_01", "CreatorShop TOURNAMENT x GameAthlon" },
                     { "current_wle_fp6_wk2_02", "MONUMENT FALLS!" },
                     { "current_wle_fp6_wk2_03", "Slidy Road" },
@@ -18671,7 +18677,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk2_1_07", "Frightening Fogway" },
                     { "current_wle_fp6_wk2_1_08", "Pure Presser" },
                     { "current_wle_fp6_wk2_1_09", "Spooky Sliders" },
-                            
+
                     { "current_wle_fp6_wk3_01", "BLACK AND WHITE" },
                     { "current_wle_fp6_wk3_02", "Compact 5" },
                     { "current_wle_fp6_wk3_03", "Turkey Takeoff Tryouts" },
@@ -18689,7 +18695,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk3_2_05", "Delectable Parade" },
                     { "current_wle_fp6_wk3_3_01", "おこらないで！" },
                     { "current_wle_fp6_wk3_3_02", "Track and Field Stadium - Challenge" },
-                            
+
                     { "current_wle_fp6_wk4_01_01", "Processed Beans" },
                     { "current_wle_fp6_wk4_01_02", "Xmas tower" },
                     { "current_wle_fp6_wk4_02_01", "Jingle Falls" },
@@ -18706,7 +18712,7 @@ namespace FallGuysStats {
                     { "current_wle_fp6_wk4_05_01", "Rebound" },
                     { "current_wle_fp6_wk4_05_02", "Rebound Rampway" },
                     { "current_wle_fp6_wk4_05_03", "The Winter Islands" },
-                            
+
                     { "current_wle_community_10_5_01", "Snowy Starfall" },
                     { "current_wle_community_10_5_02", "The Earthquake" },
                     { "current_wle_community_10_5_1_01", "Tree Sky Hights!" },
@@ -18722,12 +18728,12 @@ namespace FallGuysStats {
                     { "current_wle_community_10_5_1_16", "Jungle Mira tumble" },
                     { "current_wle_community_10_5_1_17", "Winter Slide" },
                     { "current_wle_community_10_5_1_18", "Digi-Crown Summit" },
-                    
+
                     { "wle_s10_cf_round_001", "Blocky Bridges" },
                     { "wle_s10_cf_round_002", "Gappy-go-Lucky" },
                     { "wle_s10_cf_round_003", "Drop n' Drag" },
                     { "wle_s10_cf_round_004", "Fun with Fans" },
-                    
+
                     { "wle_mrs_bagel", "彩虹拉力賽" },
                     { "wle_mrs_shuffle_show", "迪奇的隨機選擇" },
                     { "wle_mrs_shuffle_show_squads", "小隊大亂鬥" },
@@ -18741,7 +18747,7 @@ namespace FallGuysStats {
                     { "wle_playful_shuffle", "先驅糖豆人集錦" },
                     { "event_april_fools", "激盪鬼點子集錦" },
                     { "wle_nature_ltm", "糖豆闖荒原" },
-                    
+
                     { "private_lobbies", "自定義節目" },
                     { "fall_guys_creative_mode", "Fall Guys Creative" },
                     { "invisibeans_mode", "糖果竊賊" },
