@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -21,13 +22,11 @@ namespace FallGuysStats {
             this.lbTemplatesList.Items.Clear();
             for (int i = 0; i < Stats.Seasons.Count; i++) {
                 if (Stats.Seasons.Count - 1 == i) {
-                    //this.templatesListBox.Items.Add($"{Multilingual.GetWord("custom_range_season")} {(i < 6 ? (i + 1) + " [" + Multilingual.GetWord("custom_range_legacy") + "]" : (i - 5) + " [" + Multilingual.GetWord("custom_range_ffa") + "]")} ({Stats.Seasons[i]:d}-)");
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - )");
-                    this.periodDateTemplates.Add(new[] { Stats.Seasons[i], DateTime.MaxValue });
+                    this.lbTemplatesList.Items.Add($"{Multilingual.GetWord("custom_range_ffa_season")} 4 [{Stats.Seasons.ElementAt(i).Key}] ({Stats.Seasons.ElementAt(i).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - ???)");
+                    this.periodDateTemplates.Add(new[] { Stats.Seasons.ElementAt(i).Value, DateTime.MaxValue });
                 } else {
-                    //this.templatesListBox.Items.Add($"{Multilingual.GetWord("custom_range_season")} {(i < 6 ? (i + 1) + " [" + Multilingual.GetWord("custom_range_legacy") + "]" : (i - 5) + " [" + Multilingual.GetWord("custom_range_ffa") + "]")} ({Stats.Seasons[i]:d}-{Stats.Seasons[i + 1]:d})");
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons[i + 1].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
-                    this.periodDateTemplates.Add(new[] { Stats.Seasons[i], Stats.Seasons[i + 1] });
+                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) : (i < 10 ? (i - 5) : 4))} [{Stats.Seasons.ElementAt(i).Key}] ({Stats.Seasons.ElementAt(i).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons.ElementAt(i + 1).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
+                    this.periodDateTemplates.Add(new[] { Stats.Seasons.ElementAt(i).Value, Stats.Seasons.ElementAt(i + 1).Value });
                 }
             }
             
@@ -104,7 +103,7 @@ namespace FallGuysStats {
             }
             if (this.endDate != DateTime.MaxValue) {
                 if (this.selectedCustomTemplateSeason > -1) {
-                    this.endDate = new DateTime(this.endDate.Year, this.endDate.Month, this.endDate.Day - 1, 23, 59, 59, DateTimeKind.Utc);
+                    this.endDate = new DateTime(this.endDate.Year, this.endDate.Month, this.endDate.Day, 23, 59, 59, DateTimeKind.Utc).AddDays(-1);
                 } else {
                     this.endDate = new DateTime(this.endDate.Year, this.endDate.Month, this.endDate.Day, 23, 59, 59, DateTimeKind.Local);
                 }

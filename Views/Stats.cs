@@ -83,17 +83,33 @@ namespace FallGuysStats {
         public static readonly string CURRENTDIR = AppDomain.CurrentDomain.BaseDirectory;
         
         private static readonly string LOGFILENAME = "Player.log";
-        public static List<DateTime> Seasons = new List<DateTime> {
-            new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc)
+        
+        public static Dictionary<string, DateTime> Seasons = new Dictionary<string, DateTime> {
+            { "S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc) },
+            { "S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc) },
+            { "S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc) },
+            { "S4", new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc) },
+            { "S5", new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc) },
+            { "S6", new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc) },
+            { "SS1", new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc) },
+            { "SS2", new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc) },
+            { "SS3", new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc) },
+            { "SS4", new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.3", new DateTime(2023, 8, 16, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.4", new DateTime(2023, 9, 27, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.5", new DateTime(2023, 11, 7, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.6", new DateTime(2023, 12, 6, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.7", new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.8", new DateTime(2024, 2, 28, 0, 0, 0, DateTimeKind.Utc) },
+            { "10.9", new DateTime(2024, 5, 4, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.0", new DateTime(2024, 6, 11, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.1", new DateTime(2024, 7, 23, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.2", new DateTime(2024, 9, 3, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.3", new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.4", new DateTime(2024, 11, 7, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc) },
+            { "11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc) },
+            { "18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc) }
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -3809,8 +3825,8 @@ namespace FallGuysStats {
 
             DateTime currentUTC = DateTime.UtcNow;
             for (int i = Seasons.Count - 1; i >= 0; i--) {
-                if (currentUTC > Seasons[i]) {
-                    SeasonStart = Seasons[i];
+                if (currentUTC > Seasons.ElementAt(i).Value) {
+                    SeasonStart = Seasons.ElementAt(i).Value;
                     break;
                 }
             }
