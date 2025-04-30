@@ -84,32 +84,32 @@ namespace FallGuysStats {
         
         private static readonly string LOGFILENAME = "Player.log";
         
-        public static readonly Dictionary<string, DateTime> Seasons = new Dictionary<string, DateTime> {
-            { "S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc) },
-            { "S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc) },
-            { "S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc) },
-            { "S4", new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc) },
-            { "S5", new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc) },
-            { "S6", new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc) },
-            { "SS1", new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc) },
-            { "SS2", new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc) },
-            { "SS3", new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc) },
-            { "SS4", new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.3", new DateTime(2023, 8, 16, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.4", new DateTime(2023, 9, 27, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.5", new DateTime(2023, 11, 7, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.6", new DateTime(2023, 12, 6, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.7", new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.8", new DateTime(2024, 2, 28, 0, 0, 0, DateTimeKind.Utc) },
-            { "10.9", new DateTime(2024, 5, 4, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.0", new DateTime(2024, 6, 11, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.1", new DateTime(2024, 7, 23, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.2", new DateTime(2024, 9, 3, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.3", new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.4", new DateTime(2024, 11, 7, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc) },
-            { "11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc) },
-            { "18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc) }
+        public static readonly (string Name, DateTime StartDate)[] Seasons = new (string Name, DateTime StartDate)[] {
+           ("S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc)),     // Season 1 (Ultimate Knockout)
+           ("S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc)),    // Season 2 (Medieval Knockout)
+           ("S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc)),   // Season 3 (Winter Knockout)
+           ("S4", new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc)),    // Season 4 (Fall Guys 4041)
+           ("S5", new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc)),    // Season 5 (Jungle Adventure)
+           ("S6", new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc)),   // Season 6 (Party Spectacular)
+           ("SS1", new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc)),   // Season 1 (Free For All)
+           ("SS2", new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc)),   // Season 2 (Satellite Scramble)
+           ("SS3", new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc)),  // Season 3 (Sunken Secrets)
+           ("SS4", new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc)),   // Season 4 (Creative Construction)
+           ("10.3", new DateTime(2023, 8, 16, 0, 0, 0, DateTimeKind.Utc)),  // Summer Breeze Update
+           ("10.4", new DateTime(2023, 9, 27, 0, 0, 0, DateTimeKind.Utc)),  // Fall Force Update
+           ("10.5", new DateTime(2023, 11, 7, 0, 0, 0, DateTimeKind.Utc)),  // Tool Up Update
+           ("10.6", new DateTime(2023, 12, 6, 0, 0, 0, DateTimeKind.Utc)),  // Power Party Update
+           ("10.7", new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)),  // Shapes and Stickers Update
+           ("10.8", new DateTime(2024, 2, 28, 0, 0, 0, DateTimeKind.Utc)),  // Survival Update
+           ("10.9", new DateTime(2024, 5, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall Forever Update
+           ("11.0", new DateTime(2024, 6, 11, 0, 0, 0, DateTimeKind.Utc)),  // June '24 Update
+           ("11.1", new DateTime(2024, 7, 23, 0, 0, 0, DateTimeKind.Utc)),  // July '24 Update
+           ("11.2", new DateTime(2024, 9, 3, 0, 0, 0, DateTimeKind.Utc)),   // Scrapyard Stumble Update
+           ("11.3", new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc)),  // Falloween 2024 Update
+           ("11.4", new DateTime(2024, 11, 7, 0, 0, 0, DateTimeKind.Utc)),  // November '24 Update
+           ("11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc)), // Winter Update
+           ("11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall and Fantasy Update
+           ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),   // Ranked Knockout Update
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -202,7 +202,7 @@ namespace FallGuysStats {
         private bool updateFilterType, updateFilterRange;
         private DateTime customfilterRangeStart = DateTime.MinValue;
         private DateTime customfilterRangeEnd = DateTime.MaxValue;
-        private int selectedCustomTemplateSeason;
+        private int selectedCustomTemplateSeason = -1;
         private bool updateSelectedProfile, useLinkedProfiles;
         public LiteDatabase StatsDB;
         public ILiteCollection<RoundInfo> RoundDetails;
@@ -1643,9 +1643,15 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 120;
+            int lastVersion = 121;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 120: {
+                            if (this.CurrentSettings.SelectedCustomTemplateSeason == 9) {
+                                this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                            }
+                            break;
+                        }
                     case 119: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "greatestsquads_ltm")
@@ -3843,9 +3849,9 @@ namespace FallGuysStats {
             if (DateTime.Now.Date.ToUniversalTime() == DayStart) { return; }
 
             DateTime currentUTC = DateTime.UtcNow;
-            for (int i = Seasons.Count - 1; i >= 0; i--) {
-                if (currentUTC > Seasons.ElementAt(i).Value) {
-                    SeasonStart = Seasons.ElementAt(i).Value;
+            for (int i = Seasons.Count() - 1; i >= 0; i--) {
+                if (currentUTC > Seasons[i].StartDate) {
+                    SeasonStart = Seasons[i].StartDate;
                     break;
                 }
             }
@@ -5125,9 +5131,7 @@ namespace FallGuysStats {
         
         public string GetCurrentFilterName() {
             if (this.menuCustomRangeStats.Checked && this.selectedCustomTemplateSeason > -1) {
-                return (this.selectedCustomTemplateSeason >= 0 && this.selectedCustomTemplateSeason <= 5) ? $"S{this.selectedCustomTemplateSeason + 1}" :
-                       (this.selectedCustomTemplateSeason > 5) ? $"SS{this.selectedCustomTemplateSeason - 5}" :
-                       Multilingual.GetWord("main_custom_range");
+                return Seasons[this.selectedCustomTemplateSeason].Name;
             } else {
                 return this.menuCustomRangeStats.Checked ? Multilingual.GetWord("main_custom_range") :
                        this.menuAllStats.Checked ? Multilingual.GetWord("main_all") :
