@@ -11,7 +11,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         public DateTime startDate, endDate;
         public bool isStartNotSet, isEndNotSet;
-        public int selectedCustomTemplateSeason;
+        public int selectedCustomTemplateSeason = -1;
         private readonly List<DateTime[]> periodDateTemplates = new List<DateTime[]>();
         public FilterCustomRange() {
             InitializeComponent();
@@ -20,13 +20,13 @@ namespace FallGuysStats {
 
         private void FilterCustomRange_Load(object sender, EventArgs e) {
             this.lbTemplatesList.Items.Clear();
-            for (int i = 0; i < Stats.Seasons.Count; i++) {
-                if (Stats.Seasons.Count - 1 == i) {
-                    this.lbTemplatesList.Items.Add($"{Multilingual.GetWord("custom_range_ffa_season")} 4 [{Stats.Seasons.ElementAt(i).Key}] ({Stats.Seasons.ElementAt(i).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - ???)");
-                    this.periodDateTemplates.Add(new[] { Stats.Seasons.ElementAt(i).Value, DateTime.MaxValue });
+            for (int i = 0; i < Stats.Seasons.Count(); i++) {
+                if (Stats.Seasons.Count() - 1 == i) {
+                    this.lbTemplatesList.Items.Add($"[{Stats.Seasons[i].Name}] ({Stats.Seasons[i].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - ???)");
+                    this.periodDateTemplates.Add(new[] { Stats.Seasons[i].StartDate, DateTime.MaxValue });
                 } else {
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) : (i < 10 ? (i - 5) : 4))} [{Stats.Seasons.ElementAt(i).Key}] ({Stats.Seasons.ElementAt(i).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons.ElementAt(i + 1).Value.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
-                    this.periodDateTemplates.Add(new[] { Stats.Seasons.ElementAt(i).Value, Stats.Seasons.ElementAt(i + 1).Value });
+                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") + " " + (i + 1) + " " : (i < 10 ? Multilingual.GetWord("custom_range_ffa_season") + " " + (i - 5) + " " : ""))}[{Stats.Seasons[i].Name}] ({Stats.Seasons[i].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons[i + 1].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
+                    this.periodDateTemplates.Add(new[] { Stats.Seasons[i].StartDate, Stats.Seasons[i + 1].StartDate });
                 }
             }
             
