@@ -21,11 +21,22 @@ namespace FallGuysStats {
         private void FilterCustomRange_Load(object sender, EventArgs e) {
             this.lbTemplatesList.Items.Clear();
             for (int i = 0; i < Stats.Seasons.Count(); i++) {
-                if (Stats.Seasons.Count() - 1 == i) {
-                    this.lbTemplatesList.Items.Add($"[{Stats.Seasons[i].Name}] ({Stats.Seasons[i].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - ???)");
+                string seasonType = "";
+                if (i < 6) {
+                    seasonType = $"{Multilingual.GetWord("custom_range_legacy_season")} {(i + 1)} ";
+                } else if (i < 10) {
+                    seasonType = $"{Multilingual.GetWord("custom_range_ffa_season")} {(i - 5)} ";
+                }
+
+                string seasonName = Stats.Seasons[i].Name;
+                string startDateStr = Stats.Seasons[i].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo());
+
+                if (Stats.Seasons.Length - 1 == i) {
+                    this.lbTemplatesList.Items.Add($"[{seasonName}] ({startDateStr} - ???)");
                     this.periodDateTemplates.Add(new[] { Stats.Seasons[i].StartDate, DateTime.MaxValue });
                 } else {
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") + " " + (i + 1) + " " : (i < 10 ? Multilingual.GetWord("custom_range_ffa_season") + " " + (i - 5) + " " : ""))}[{Stats.Seasons[i].Name}] ({Stats.Seasons[i].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons[i + 1].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
+                    string endDateStr = Stats.Seasons[i + 1].StartDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo());
+                    this.lbTemplatesList.Items.Add($"{seasonType}[{seasonName}] ({startDateStr} - {endDateStr})");
                     this.periodDateTemplates.Add(new[] { Stats.Seasons[i].StartDate, Stats.Seasons[i + 1].StartDate });
                 }
             }
