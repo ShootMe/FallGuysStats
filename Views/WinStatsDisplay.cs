@@ -12,7 +12,7 @@ namespace FallGuysStats {
     public partial class WinStatsDisplay : MetroFramework.Forms.MetroForm {
         public double[] dates, shows, finals, wins;
         public Dictionary<double, SortedList<string, int>> winsInfo;
-        public int manualSpacing = 1;
+        public double manualSpacing = 1.0;
         public Stats StatsForm { get; set; }
         public WinStatsDisplay() {
             this.InitializeComponent();
@@ -24,7 +24,7 @@ namespace FallGuysStats {
         private ScatterPlot MyScatterPlot1, MyScatterPlot2, MyScatterPlot3;
         private BarPlot MyBarPlot1, MyBarPlot2, MyBarPlot3;
         private LollipopPlot MyLollipopPlot1, MyLollipopPlot2, MyLollipopPlot3;
-        private MarkerPlot HighlightedPoint;
+        private MarkerPlot HighlightedDate;
         private Tooltip tooltip;
 
         private void WinStatsDisplay_Load(object sender, EventArgs e) {
@@ -33,9 +33,10 @@ namespace FallGuysStats {
             //this.formsPlot.Plot.Title("Title");
             //this.formsPlot.Plot.XLabel("Horizontal Axis");
             //this.formsPlot.Plot.YLabel("Vertical Axis");
-
+            
             if (this.dates != null) {
                 this.yMax = this.shows.Max() < this.finals.Max() ? (this.finals.Max() < this.wins.Max() ? this.wins.Max() : this.finals.Max()) : this.shows.Max();
+                
                 this.MyBarPlot1 = this.formsPlot.Plot.AddBar(this.shows, this.dates, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255));
                 this.MyBarPlot2 = this.formsPlot.Plot.AddBar(this.finals, this.dates, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255));
                 this.MyBarPlot3 = this.formsPlot.Plot.AddBar(this.wins, this.dates, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255));
@@ -47,11 +48,14 @@ namespace FallGuysStats {
                 this.MyLollipopPlot1 = this.formsPlot.Plot.AddLollipop(this.shows, this.dates, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255));
                 this.MyLollipopPlot2 = this.formsPlot.Plot.AddLollipop(this.finals, this.dates, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255));
                 this.MyLollipopPlot3 = this.formsPlot.Plot.AddLollipop(this.wins, this.dates, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255));
-
-                this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
-                this.formsPlot.Plot.XAxis.DateTimeFormat(true);
                 
-                this.formsPlot.Plot.XAxis.ManualTickSpacing(Math.Max(1, this.manualSpacing), ScottPlot.Ticks.DateTimeUnit.Day);
+                this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
+                
+                this.formsPlot.Plot.YAxis.SetBoundary(-0.9);
+                this.formsPlot.Plot.YAxis.MinimumTickSpacing(1.0);
+                
+                this.formsPlot.Plot.XAxis.DateTimeFormat(true);
+                this.formsPlot.Plot.XAxis.ManualTickSpacing(Math.Max(1.0, this.manualSpacing), ScottPlot.Ticks.DateTimeUnit.Day);
                 this.formsPlot.Plot.XAxis.TickLabelStyle(rotation: 45);
                 //this.formsPlot.Plot.XAxis.SetSizeLimit(min: 50);
                 this.formsPlot.Plot.SetAxisLimits(
@@ -61,12 +65,11 @@ namespace FallGuysStats {
                     xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
                 );
                 
-                this.HighlightedPoint = this.formsPlot.Plot.AddPoint(0, 0);
-                // this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.SlateGray : Color.LightGray;
-                this.HighlightedPoint.Color = Color.Red;
-                this.HighlightedPoint.MarkerSize = 7;
-                this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
-                this.HighlightedPoint.IsVisible = false;
+                this.HighlightedDate = this.formsPlot.Plot.AddPoint(0, 0);
+                this.HighlightedDate.Color = this.Theme == MetroThemeStyle.Light ? Color.DarkGreen : Color.DarkRed;
+                this.HighlightedDate.MarkerSize = 9000;
+                this.HighlightedDate.MarkerShape = MarkerShape.verticalBar;
+                this.HighlightedDate.IsVisible = false;
 
                 this.formsPlot.Refresh();
                 this.MyScatterPlot1.IsVisible = false;
@@ -120,7 +123,7 @@ namespace FallGuysStats {
                     this.MyScatterPlot2.Label = null;
                     this.MyScatterPlot3.Label = null;
 
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    //this.HighlightedDate.MarkerShape = MarkerShape.none;
                 } else if (style == 2) {
                     // BarPlot
                     this.MyBarPlot1.IsVisible = this.chkShows.Checked;
@@ -144,7 +147,7 @@ namespace FallGuysStats {
                     this.MyScatterPlot2.Label = null;
                     this.MyScatterPlot3.Label = null;
 
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    //this.HighlightedDate.MarkerShape = MarkerShape.none;
                 } else {
                     // ScatterPlot
                     this.MyBarPlot1.IsVisible = false;
@@ -171,7 +174,7 @@ namespace FallGuysStats {
                     this.MyScatterPlot2.Label = Multilingual.GetWord("level_detail_finals");
                     this.MyScatterPlot3.Label = Multilingual.GetWord("level_detail_wins");
 
-                    this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
+                    //this.HighlightedDate.MarkerShape = MarkerShape.openCircle;
                 }
 
                 this.formsPlot.Plot.SetAxisLimits(
@@ -180,17 +183,13 @@ namespace FallGuysStats {
                     xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
                     xMax: DateTime.FromOADate(this.dates[this.dates.Length - 1]).AddDays(4).ToOADate()
                 );
-                this.formsPlot.Plot.AxisZoom(.9, .9);
+                //this.formsPlot.Plot.AxisZoom(0.9, 0.9);
                 this.formsPlot.Refresh();
             });
         }
 
         private Color GetColorWithAlpha(Color color, int alpha) {
             return Color.FromArgb(alpha, color.R, color.G, color.B);
-        }
-
-        private double DistanceToPoint(double x1, double y1, double x2, double y2) {
-            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
         }
 
         private void formsPlot_MouseMove(object sender, MouseEventArgs e) {
@@ -200,46 +199,38 @@ namespace FallGuysStats {
             this.BeginInvoke((MethodInvoker)delegate {
                 this.formsPlot.Plot.Remove(this.tooltip);
 
-                (double x, double y) mouseCoords = this.formsPlot.GetMouseCoordinates();
-                (double x, double y, int index) nearest = this.GetNearestVisiblePoint(mouseCoords.x, mouseCoords.y);
+                (int nearestDateIndex, double nearestDateX) = this.GetNearestDateColumn(this.formsPlot.GetMouseCoordinates().x);
 
-                if (nearest.index == -1) return;
+                if (nearestDateIndex == -1) return;
 
-                this.HighlightedPoint.X = nearest.x;
-                this.HighlightedPoint.Y = nearest.y;
-                this.HighlightedPoint.IsVisible = true;
+                this.HighlightedDate.X = nearestDateX;
+                this.HighlightedDate.Y = Math.Round(this.formsPlot.Plot.GetAxisLimits().YMax / 1.2);
+                this.HighlightedDate.IsVisible = true;
 
-                if (this.HasStatisticalData(nearest.index)) {
-                    string tooltipText = this.BuildStatTooltip(nearest.index);
-                    this.tooltip = this.formsPlot.Plot.AddTooltip(tooltipText, this.HighlightedPoint.X, this.HighlightedPoint.Y);
+                if (this.HasStatisticalData(nearestDateIndex)) {
+                    string tooltipText = this.BuildStatTooltip(nearestDateIndex);
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(tooltipText, this.HighlightedDate.X, this.HighlightedDate.Y);
                 } else {
-                    string tooltipText = $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[nearest.index]).ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}";
-                    this.tooltip = this.formsPlot.Plot.AddTooltip(tooltipText, this.HighlightedPoint.X, this.HighlightedPoint.Y);
+                    string tooltipText = $" {DateTime.FromOADate(this.HighlightedDate.X).ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}";
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(tooltipText, this.HighlightedDate.X, this.HighlightedDate.Y);
                 }
 
                 this.SetTooltipStyle();
 
-                this.HighlightedPoint.MarkerShape = (this.switchGraphStyle == 0) ? MarkerShape.openCircle : MarkerShape.none;
+                //this.HighlightedDate.MarkerShape = (this.switchGraphStyle == 0) ? MarkerShape.openCircle : MarkerShape.none;
                 this.formsPlot.Render();
             });
         }
-        
-        private (double x, double y, int index) GetNearestVisiblePoint(double mouseX, double mouseY) {
-            double xyRatio = this.formsPlot.Plot.XAxis.Dims.PxPerUnit / this.formsPlot.Plot.YAxis.Dims.PxPerUnit;
-            List<(double x, double y, int index, bool visible)> candidates = new List<(double x, double y, int index, bool visible)> {
-                (this.MyScatterPlot1.GetPointNearest(mouseX, mouseY, xyRatio).Item1, this.MyScatterPlot1.GetPointNearest(mouseX, mouseY, xyRatio).Item2, this.MyScatterPlot1.GetPointNearest(mouseX, mouseY, xyRatio).Item3, this.MyScatterPlot1.IsVisible),
-                (this.MyScatterPlot2.GetPointNearest(mouseX, mouseY, xyRatio).Item1, this.MyScatterPlot2.GetPointNearest(mouseX, mouseY, xyRatio).Item2, this.MyScatterPlot2.GetPointNearest(mouseX, mouseY, xyRatio).Item3, this.MyScatterPlot2.IsVisible),
-                (this.MyScatterPlot3.GetPointNearest(mouseX, mouseY, xyRatio).Item1, this.MyScatterPlot3.GetPointNearest(mouseX, mouseY, xyRatio).Item2, this.MyScatterPlot3.GetPointNearest(mouseX, mouseY, xyRatio).Item3, this.MyScatterPlot3.IsVisible)
-            };
 
+        private (int, double) GetNearestDateColumn(double mouseX) {
             double minDist = double.MaxValue;
-            (double x, double y, int index) nearest = (0, 0, -1);
-
-            foreach ((double x, double y, int index, bool visible) c in candidates.Where(c => c.visible)) {
-                double dist = this.DistanceToPoint(mouseX, mouseY, c.x, c.y);
+            (int, double) nearest = (-1, 0);
+            for (int i = 0; i < this.MyScatterPlot1.Xs.Length; i++) {
+                double dateX = this.MyScatterPlot1.Xs[i];
+                double dist = Math.Sqrt(Math.Pow(mouseX - dateX, 2));
                 if (dist < minDist) {
                     minDist = dist;
-                    nearest = (c.x, c.y, c.index);
+                    nearest = (i, dateX);
                 }
             }
             return nearest;
@@ -345,9 +336,9 @@ namespace FallGuysStats {
         private void formsPlot_MouseLeave(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (!(this.MyScatterPlot1.IsVisible || this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible)) { return; }
-            this.HighlightedPoint.IsVisible = false;
-            this.HighlightedPoint.X = 0;
-            this.HighlightedPoint.Y = 0;
+            this.HighlightedDate.IsVisible = false;
+            this.HighlightedDate.X = 0;
+            this.HighlightedDate.Y = 0;
             this.formsPlot.Plot.Remove(this.tooltip);
             this.formsPlot.Refresh();
         }

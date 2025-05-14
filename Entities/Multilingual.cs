@@ -698,7 +698,7 @@ namespace FallGuysStats {
                             { "level_detail_start", "Début" },
                             { "level_detail_end", "Durée" },
                             { "level_detail_finish", "Finish" },
-                            { "level_detail_position", "Position" },
+                            { "level_detail_position", "Place" },
                             { "level_detail_score", "Score" },
                             { "level_detail_kudos", "Kudos" },
                             { "level_detail_gold", "Or" },
