@@ -39,7 +39,7 @@ namespace FallGuysStats {
         private List<WeeklyCrown.Player> weeklyCrownList;
         private readonly List<WeeklyCrown.Player> weeklyCrownNodata = new List<WeeklyCrown.Player>();
         private bool isSearchCompleted;
-        private Timer spinnerTransition = new Timer { Interval = 1 };
+        private readonly Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
         private MetroProgressSpinner targetSpinner;
         private string currentUserId;

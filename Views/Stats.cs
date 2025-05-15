@@ -6454,14 +6454,14 @@ namespace FallGuysStats {
                     finals.Add(Convert.ToDouble(currentFinals));
                     wins.Add(Convert.ToDouble(currentWins));
 
-                    display.manualSpacing = (int)Math.Ceiling(dates.Count / 28d);
+                    display.manualSpacing = Math.Ceiling(dates.Count / 28d);
                 } else {
                     dates.Add(DateTime.Now.Date.ToOADate());
                     shows.Add(0d);
                     finals.Add(0d);
                     wins.Add(0d);
 
-                    display.manualSpacing = 1;
+                    display.manualSpacing = 1.0;
                 }
                 display.dates = (double[])dates.ToArray(typeof(double));
                 display.shows = (double[])shows.ToArray(typeof(double));
