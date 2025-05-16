@@ -66,7 +66,7 @@ namespace FallGuysStats {
                 );
                 
                 this.HighlightedDate = this.formsPlot.Plot.AddPoint(0, 0);
-                this.HighlightedDate.Color = this.Theme == MetroThemeStyle.Light ? Color.DarkGreen : Color.DarkRed;
+                this.HighlightedDate.Color = this.Theme == MetroThemeStyle.Light ? Color.Green : Color.Red;
                 this.HighlightedDate.MarkerSize = 9000;
                 this.HighlightedDate.MarkerShape = MarkerShape.verticalBar;
                 this.HighlightedDate.IsVisible = false;

@@ -207,6 +207,8 @@ namespace FallGuysStats {
                 this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
             }
             
+            
+            
             this.radialGauges = this.formsPlot.Plot.AddRadialGauge(values);
             this.radialGauges.OrderInsideOut = false;
             //this.radialGauges.Clockwise = false;
@@ -218,8 +220,25 @@ namespace FallGuysStats {
             this.radialGauges.FontSizeFraction = .7;
             //this.radialGauges.Font.Color = Color.Black;
             this.radialGauges.Labels = this.labelList;
+            
             this.formsPlot.Plot.AxisZoom(.9, .9);
+            this.formsPlot.Plot.YAxis.SetBoundary(0, 0);
+            this.formsPlot.Plot.XAxis.SetBoundary(0, 0);
             this.formsPlot.Refresh();
+            
+            // this.formsPlot.Configuration.Pan = false;
+            // this.formsPlot.Configuration.Zoom = false;
+            // this.formsPlot.Configuration.ScrollWheelZoom = false;
+            // this.formsPlot.Configuration.RightClickDragZoom = false;
+            // this.formsPlot.Configuration.MiddleClickAutoAxis = false;
+            // this.formsPlot.Configuration.DoubleClickBenchmark = false;
+            // this.formsPlot.Configuration.LockHorizontalAxis = true;
+            // this.formsPlot.Configuration.LockVerticalAxis = true;
+            
+            var pb = this.formsPlot.Controls.OfType<PictureBox>().FirstOrDefault();
+            if (pb != null) {
+                pb.Enabled = false;
+            }
         }
 
         private void Medal_MouseEnter(object sender, EventArgs e) {
