@@ -325,8 +325,8 @@ namespace FallGuysStats {
         
         private void SetTooltipStyle() {
             this.tooltip.BorderWidth = 1.7f;
-            this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
-            this.tooltip.FillColor = Color.FromArgb(239, 49, 51, 56);
+            this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.GreenYellow : Color.Crimson);
+            this.tooltip.FillColor = Color.Black;
             this.tooltip.Font.Color = Color.White;
             this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
             this.tooltip.Font.Size = 15f;
