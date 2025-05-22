@@ -222,9 +222,9 @@ namespace FallGuysStats {
             });
         }
 
-        private (int, double) GetNearestDateColumn(double mouseX) {
+        private (int index, double x) GetNearestDateColumn(double mouseX) {
             double minDist = double.MaxValue;
-            (int, double) nearest = (-1, 0);
+            (int index, double x) nearest = (-1, 0);
             for (int i = 0; i < this.MyScatterPlot1.Xs.Length; i++) {
                 double dateX = this.MyScatterPlot1.Xs[i];
                 double dist = Math.Sqrt(Math.Pow(mouseX - dateX, 2));
@@ -334,8 +334,9 @@ namespace FallGuysStats {
         }
 
         private void formsPlot_MouseLeave(object sender, EventArgs e) {
-            if (this.dates == null) { return; }
-            if (!(this.MyScatterPlot1.IsVisible || this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible)) { return; }
+            if (this.dates == null) return;
+            if (!(this.MyScatterPlot1.IsVisible || this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible)) return;
+
             this.HighlightedDate.IsVisible = false;
             this.HighlightedDate.X = 0;
             this.HighlightedDate.Y = 0;
@@ -379,12 +380,13 @@ namespace FallGuysStats {
                 if (this.switchGraphStyle < 0) { this.switchGraphStyle = 2; }
             }
             this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
-            if (this.dates == null) { return; }
+            if (this.dates == null) return;
+
             this.ChangeFormsPlotStyle(this.switchGraphStyle);
         }
         
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
-            if (this.dates == null) { return; }
+            if (this.dates == null) return;
             if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
                 this.MyBarPlot3.IsVisible = false;
@@ -400,7 +402,7 @@ namespace FallGuysStats {
         }
         
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
-            if (this.dates == null) { return; }
+            if (this.dates == null) return;
             if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = false;
@@ -416,7 +418,7 @@ namespace FallGuysStats {
         }
         
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
-            if (this.dates == null) { return; }
+            if (this.dates == null) return;
             if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
                 this.MyBarPlot1.IsVisible = false;

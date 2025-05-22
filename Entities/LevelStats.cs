@@ -72,7 +72,8 @@ namespace FallGuysStats {
         private bool setLocalTime;
 
         public void ToLocalTime() {
-            if (this.setLocalTime) { return; }
+            if (this.setLocalTime) return;
+
             this.setLocalTime = true;
 
             this.StartLocal = this.Start.ToLocalTime();
@@ -83,7 +84,7 @@ namespace FallGuysStats {
         }
         
         public void VerifyName() {
-            if (string.IsNullOrEmpty(this.SceneName)) { return; }
+            if (string.IsNullOrEmpty(this.SceneName)) return;
             if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string levelId)) {
                 this.Name = levelId;
             }

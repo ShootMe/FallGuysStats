@@ -359,7 +359,8 @@ namespace FallGuysStats {
         }
         
         private void cboLevelList_SelectedIndexChanged(object sender, EventArgs e) {
-            if (((ImageComboBox)sender).SelectedIndex == -1 || string.Equals(((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0], this.levelKey)) { return; }
+            if (((ImageComboBox)sender).SelectedIndex == -1 || string.Equals(((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0], this.levelKey)) return;
+
             this.levelKey = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             // this.totalHeight = 0;
             // this.currentPage = 0;
@@ -653,7 +654,8 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             ((Grid)sender).Columns["isAnonymous"].Visible = false;
             ((Grid)sender).Columns["country"].Visible = false;
@@ -680,7 +682,7 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             OverallRank.Player info = (OverallRank.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
@@ -767,6 +769,7 @@ namespace FallGuysStats {
         
         private void gridOverallRank_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.overallRankList == null) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
@@ -815,7 +818,8 @@ namespace FallGuysStats {
         }
         
         private void gridOverallSummary_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             ((Grid)sender).Columns["pink"].Visible = false;
             ((Grid)sender).Columns["players"].Visible = false;
@@ -845,7 +849,7 @@ namespace FallGuysStats {
         }
         
         private void gridOverallSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             OverallSummary summary = (OverallSummary)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
@@ -902,6 +906,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 OverallRank.Player data = (OverallRank.Player)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
+
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
@@ -916,7 +921,8 @@ namespace FallGuysStats {
         }
         
         private void gridLevelRank_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             // ((Grid)sender).Columns["round"].Visible = false;
             ((Grid)sender).Columns["isAnonymous"].Visible = false;
@@ -951,7 +957,7 @@ namespace FallGuysStats {
         }
         
         private void gridLevelRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             LevelRank.RankInfo info = (LevelRank.RankInfo)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
@@ -1040,6 +1046,7 @@ namespace FallGuysStats {
         
         private void gridLevelRank_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.levelRankList == null) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
@@ -1090,6 +1097,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 LevelRank.RankInfo data = (LevelRank.RankInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
+
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
@@ -1110,7 +1118,8 @@ namespace FallGuysStats {
         // }
 
         private void gridPlayerList_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             ((Grid)sender).Columns["isAnonymous"].Visible = false;
             ((Grid)sender).Columns["country"].Visible = false;
@@ -1129,7 +1138,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             SearchResult.Player info = (SearchResult.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
@@ -1158,6 +1167,7 @@ namespace FallGuysStats {
         
         private void gridPlayerList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.searchResult == null) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "onlineServiceNickname"; }
@@ -1353,12 +1363,14 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 PlayerStats.PbInfo data = (PlayerStats.PbInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.round)) return;
+
                 this.cboLevelList.SelectedImageItem(this.ReplaceLevelIdInShuffleShow(data.show, data.round), 1);
             }
         }
         
         private void gridPlayerDetails_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             ((Grid)sender).Columns["session"].Visible = false;
             ((Grid)sender).Columns["isAnonymous"].Visible = false;
@@ -1389,7 +1401,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             PlayerStats.PbInfo info = (PlayerStats.PbInfo)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
@@ -1457,6 +1469,7 @@ namespace FallGuysStats {
         
         private void gridPlayerDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.playerDetails == null) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "round"; }
@@ -1538,7 +1551,7 @@ namespace FallGuysStats {
         }
         
         private void mtbSearchPlayersText_KeyDown(object sender, KeyEventArgs e) {
-            if (string.IsNullOrEmpty(this.mtbSearchPlayersText.Text)) { return; }
+            if (string.IsNullOrEmpty(this.mtbSearchPlayersText.Text)) return;
             if (e.KeyCode == Keys.Enter) {
                 this.mtcTabControl.Enabled = false;
                 this.cboLevelList.Enabled = false;
@@ -1581,7 +1594,8 @@ namespace FallGuysStats {
         }
         
         private void gridWeeklyCrown_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
+
             int pos = 0;
             ((Grid)sender).Columns["isAnonymous"].Visible = false;
             ((Grid)sender).Columns["country"].Visible = false;
@@ -1622,7 +1636,7 @@ namespace FallGuysStats {
         }
         
         private void gridWeeklyCrown_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             WeeklyCrown.Player info = (WeeklyCrown.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
@@ -1721,8 +1735,10 @@ namespace FallGuysStats {
         
         private void gridWeeklyCrown_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.weeklyCrownList == null) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             if (string.Equals(columnName, "period")) return;
+
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
@@ -1732,7 +1748,7 @@ namespace FallGuysStats {
                 if (sortOrder == SortOrder.Descending) {
                     (one, two) = (two, one);
                 }
-
+                
                 switch (columnName) {
                     case "medal":
                         rankCompare = one.rank.CompareTo(two.rank);
@@ -1774,6 +1790,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 WeeklyCrown.Player data = (WeeklyCrown.Player)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
+
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;

@@ -234,7 +234,7 @@ namespace FallGuysStats {
         // }
 
         private void AddPageButton_Click(object sender, EventArgs e) {
-            if (this.txtAddProfile.Text.Length == 0) { return; }
+            if (this.txtAddProfile.Text.Length == 0) return;
             if (this.Profiles.Find(p => string.Equals(p.ProfileName, this.txtAddProfile.Text)) != null) {
                 MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -253,7 +253,7 @@ namespace FallGuysStats {
         }
 
         private void RemovePageButton_Click(object sender, EventArgs e) {
-            if (this.cboProfileRemove.SelectedIndex < 0) { return; }
+            if (this.cboProfileRemove.SelectedIndex < 0) return;
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_delete_profile_prefix")} ({this.cboProfileRemove.SelectedItem}) {Multilingual.GetWord("message_delete_profile_infix")} {Multilingual.GetWord("message_delete_profile_suffix")}",
                     Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
@@ -281,9 +281,9 @@ namespace FallGuysStats {
         }
 
         private void MovePageButton_Click(object sender, EventArgs e) {
-            if (this.cboProfileMoveTo.SelectedIndex < 0) { return; }
-            if (this.cboProfileMoveFrom.SelectedIndex < 0) { return; }
-            if (this.cboProfileMoveFrom.SelectedItem.ToString() == this.cboProfileMoveTo.SelectedItem.ToString()) { return; }
+            if (this.cboProfileMoveTo.SelectedIndex < 0) return;
+            if (this.cboProfileMoveFrom.SelectedIndex < 0) return;
+            if (this.cboProfileMoveFrom.SelectedItem.ToString() == this.cboProfileMoveTo.SelectedItem.ToString()) return;
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.cboProfileMoveFrom.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.cboProfileMoveTo.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
                     Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
@@ -301,9 +301,9 @@ namespace FallGuysStats {
         }
 
         private void RenameButton_Click(object sender, EventArgs e) {
-            if (this.cboProfileRename.SelectedIndex < 0) { return; }
-            if (this.txtRenameProfile.Text.Length == 0) { return; }
-            if (this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&") == this.txtRenameProfile.Text) { return; }
+            if (this.cboProfileRename.SelectedIndex < 0) return;
+            if (this.txtRenameProfile.Text.Length == 0) return;
+            if (this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&") == this.txtRenameProfile.Text) return;
             if (this.Profiles.Find(p => string.Equals(p.ProfileName, this.txtRenameProfile.Text)) != null) {
                 MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -321,8 +321,9 @@ namespace FallGuysStats {
         }
 
         private void ProfileListUp_Click(object sender, EventArgs e) {
-            if (this.dgvProfiles.SelectedRows.Count <= 0) { return; }
-            if (this.dgvProfiles.CurrentCell.RowIndex <= 0) { return; }
+            if (this.dgvProfiles.SelectedRows.Count <= 0) return;
+            if (this.dgvProfiles.CurrentCell.RowIndex <= 0) return;
+
             int profileListIndex = this.dgvProfiles.CurrentCell.RowIndex;
             int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex + 1].ProfileOrder) = (this.Profiles[profileIndex + 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
@@ -337,8 +338,9 @@ namespace FallGuysStats {
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
-            if (this.dgvProfiles.SelectedRows.Count <= 0) { return; }
-            if (this.dgvProfiles.CurrentCell.RowIndex >= this.dgvProfiles.RowCount - 1) { return; }
+            if (this.dgvProfiles.SelectedRows.Count <= 0) return;
+            if (this.dgvProfiles.CurrentCell.RowIndex >= this.dgvProfiles.RowCount - 1) return;
+
             int profileListIndex = this.dgvProfiles.CurrentCell.RowIndex;
             int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);

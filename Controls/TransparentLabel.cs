@@ -28,7 +28,8 @@ namespace FallGuysStats {
         public int OverlaySetting { get; set; }
         
         public void Draw(Graphics g) {
-            if (!this.DrawVisible) { return; }
+            if (!this.DrawVisible) return;
+
             using (SolidBrush brBack = new SolidBrush(this.BackColor)) {
                 using (SolidBrush brFore = new SolidBrush(this.ForeColor)) {
                     g.SmoothingMode = SmoothingMode.HighQuality;
