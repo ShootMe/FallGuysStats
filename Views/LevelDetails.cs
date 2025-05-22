@@ -490,7 +490,7 @@ namespace FallGuysStats {
         // }
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
-            if (((Grid)sender).Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) return;
 
             if (this.totalPages > 1) {
                 if (this.currentPage == 1) {
@@ -651,7 +651,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (((Grid)sender).RowCount <= 0 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (((Grid)sender).RowCount <= 0 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             RoundInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as RoundInfo;
             if (info.PrivateLobby) { // Custom
@@ -818,6 +818,7 @@ namespace FallGuysStats {
         
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.currentRoundDetails == null || this.currentRoundDetails.Count == 0) return;
+
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             // if (string.Equals(columnName, "CreativeLikes") || string.Equals(columnName, "CreativeDislikes")) return;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
@@ -1223,7 +1224,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this.statType == StatType.Shows || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (this.statType == StatType.Shows || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
             if ((bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 string shareCode = (string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);
@@ -1242,7 +1243,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
-            if (!this.isScrollingStopped || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (!this.isScrollingStopped || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
             if (this.statType == StatType.Shows
                 || (bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value
@@ -1255,6 +1256,7 @@ namespace FallGuysStats {
                 ((Grid)sender).ShowCellToolTips = false;
                 RoundInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;
+
                 StringBuilder strBuilder = new StringBuilder();
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"⟦{this.GetLevelTypeName(info.CreativeGameModeId)}⟧ {info.CreativeTitle}");

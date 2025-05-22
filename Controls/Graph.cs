@@ -80,7 +80,8 @@ namespace FallGuysStats {
             this.RefreshColors();
         }
         private void RefreshColors() {
-            if (this.dataSource == null) { return; }
+            if (this.dataSource == null) return;
+
             this.brushes = new Brush[this.dataSource.Columns.Count];
             this.pens = new Pen[this.dataSource.Columns.Count];
             foreach (DataColumn col in this.dataSource.Columns) {
@@ -97,7 +98,7 @@ namespace FallGuysStats {
         protected override void OnMouseMove(MouseEventArgs e) {
             base.OnMouseMove(e);
 
-            if (this.dataSource == null || this.dataSource.DefaultView.Count == 0) { return; }
+            if (this.dataSource == null || this.dataSource.DefaultView.Count == 0) return;
 
             // int w = Width; int h = Height;
             decimal xmax = decimal.MinValue; decimal xmin = decimal.MaxValue; decimal ymax = decimal.MinValue; decimal ymin = decimal.MaxValue;
@@ -118,7 +119,9 @@ namespace FallGuysStats {
                     if (newy < ymin) { ymin = newy; }
                 }
             }
-            if (!visible) { return; }
+
+            if (!visible) return;
+
             ymin = 0;
             //Get bounds
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;

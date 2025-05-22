@@ -212,7 +212,7 @@ namespace FallGuysStats {
         
         protected override void OnCellClick(DataGridViewCellEventArgs e) {
             base.OnCellClick(e);
-            if (!this.IsEditOnEnter) { return; }
+            if (!this.IsEditOnEnter) return;
             if (e.ColumnIndex == -1) {
                 this.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
                 this.EndEdit();
@@ -603,7 +603,8 @@ namespace FallGuysStats {
         }
         
         public void Setup(string column, int index, int width = -1, string header = null, DataGridViewContentAlignment align = DataGridViewContentAlignment.MiddleCenter) {
-            if (this.Columns == null || this.Columns[column] == null) { return; }
+            if (this.Columns == null || this.Columns[column] == null) return;
+
             this.Columns[column].Visible = true;
             this.Columns[column].DisplayIndex = index;
             this.Columns[column].SortMode = DataGridViewColumnSortMode.Automatic;

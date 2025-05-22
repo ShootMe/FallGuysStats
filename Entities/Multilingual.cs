@@ -4999,7 +4999,7 @@ namespace FallGuysStats {
                             { "round_king_of_the_hill", "Bulles qui s'accumulent" },
                             { "round_1v1_button_basher", "Massacreurs de Boutons" },
                             { "round_satellitehoppers_almond", "Autoroute Cosmique" },
-                            { "round_door_dash", "Ruée vers les Portes" },
+                            { "round_door_dash", "Percu-portes" },
                             { "round_gauntlet_02", "Hauteurs Vertigineuses" },
                             { "round_ffa_button_bashers_squads_almond", "Usine Urgente" },
                             { "round_iceclimb", "Pic Glacé" },

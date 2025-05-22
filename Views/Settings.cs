@@ -882,6 +882,7 @@ namespace FallGuysStats {
         
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
             if (this.DisplayLang == (Language)((ImageComboBox)sender).SelectedIndex) return;
+
             this.BeginInvoke((MethodInvoker)delegate {
                 this.ChangeLanguage((Language)((ImageComboBox)sender).SelectedIndex);
             });
@@ -901,7 +902,8 @@ namespace FallGuysStats {
         }
         
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
-            if (((MetroTrackBar)sender).Value == (int)(this.Overlay.Opacity * 100)) { return; }
+            if (((MetroTrackBar)sender).Value == (int)(this.Overlay.Opacity * 100)) return;
+
             this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100d;
             if (this.TrkOverlayOpacityIsEnter) {
                 Point cursorPosition = this.PointToClient(Cursor.Position);
