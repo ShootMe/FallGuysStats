@@ -260,7 +260,7 @@ namespace FallGuysStats {
 
         #region ColorComboBox_DrawItem(sender, e)
         private void ColorComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if(e.Index < 0) { return; }
+            if(e.Index < 0) return;
 
             e.DrawBackground();
 
@@ -302,7 +302,7 @@ namespace FallGuysStats {
         
         #region ImageComboBox_MeasureItem(sender, e)
         private void ImageComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
-            if (e.Index < 0) { return; }
+            if (e.Index < 0) return;
 
             ComboBox comboBox = sender as ComboBox;
             Image image = (Image)comboBox.Items[e.Index];
@@ -314,7 +314,7 @@ namespace FallGuysStats {
         
         #region ImageComboBox_DrawItem(sender, e)
         private void ImageComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if (e.Index < 0) { return; }
+            if (e.Index < 0) return;
 
             e.DrawBackground();
             ComboBox comboBox = sender as ComboBox;
@@ -341,7 +341,7 @@ namespace FallGuysStats {
         
         #region ImageItemComboBox_MeasureItem(sender, e)
         private void ImageItemComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
-            if (e.Index < 0) { return; }
+            if (e.Index < 0) return;
 
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
@@ -351,7 +351,7 @@ namespace FallGuysStats {
         
         #region ImageItemComboBox_DrawItem(sender, e)
         private void ImageItemComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if (e.Index < 0) { return; }
+            if (e.Index < 0) return;
             
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
@@ -375,7 +375,8 @@ namespace FallGuysStats {
         }
         
         private void ImageItemComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            if (this.SelectedIndex == -1) { return; }
+            if (this.SelectedIndex == -1) return;
+
             this.SelectedName = ((ImageItem)((ImageComboBox)sender).SelectedItem).Text;
             this.SelectedImage = ((ImageItem)((ImageComboBox)sender).SelectedItem).Image;
         }

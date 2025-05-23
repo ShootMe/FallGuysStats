@@ -371,7 +371,8 @@ namespace FallGuysStats {
         private void DatabaseMigration() {
             if (File.Exists($"{CURRENTDIR}data.db")) {
                 using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
-                    if (sourceDb.UserVersion != 0) { return; }
+                    if (sourceDb.UserVersion != 0) return;
+
                     using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
                         string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog", "FallalyticsCrownLog" };
                         foreach (var tableName in tableNames) {
@@ -536,7 +537,8 @@ namespace FallGuysStats {
         }
 
         private void UpdateUpcomingShow() {
-            if (!Utils.IsInternetConnected()) { return; }
+            if (!Utils.IsInternetConnected()) return;
+
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
@@ -677,7 +679,8 @@ namespace FallGuysStats {
             double initialDelay = (targetTime - now).TotalMilliseconds;
             this.upcomingShowTimer = new System.Threading.Timer(state => {
                 Task.Run(() => {
-                    if (!Utils.IsInternetConnected()) { return; }
+                    if (!Utils.IsInternetConnected()) return;
+
                     this.UpdateUpcomingShow();
                     this.GenerateLevelStats();
                     if (this.UpcomingShowCache.Any()) {
@@ -1643,9 +1646,24 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 121;
+            int lastVersion = 122;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 121: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "showcase_rollinruins")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 120: {
                             if (this.CurrentSettings.SelectedCustomTemplateSeason == 9) {
                                 this.CurrentSettings.SelectedCustomTemplateSeason = -1;
@@ -3846,7 +3864,7 @@ namespace FallGuysStats {
         }
         
         public void UpdateDates() {
-            if (DateTime.Now.Date.ToUniversalTime() == DayStart) { return; }
+            if (DateTime.Now.Date.ToUniversalTime() == DayStart) return;
 
             DateTime currentUTC = DateTime.UtcNow;
             for (int i = Seasons.Count() - 1; i >= 0; i--) {
@@ -5255,12 +5273,15 @@ namespace FallGuysStats {
         
         public void SetLinkedProfileMenu(string realShowId, bool isPrivateLobbies) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(realShowId)) return;
+
             string currentProfileLinkedShowId = this.GetCurrentProfileLinkedShowId();
             bool isCurrentProfileIsDNCS = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).DoNotCombineShows;
             if (isCurrentProfileIsDNCS && string.Equals(currentProfileLinkedShowId, realShowId)) return;
+
             string showId = this.GetAlternateShowId(realShowId);
             int linkedDNCSProfileId = this.AllProfiles.Find(p => p.DoNotCombineShows && string.Equals(p.LinkedShowId, realShowId))?.ProfileId ?? -1;
             if (linkedDNCSProfileId == -1 && string.Equals(currentProfileLinkedShowId, showId)) return;
+
             this.BeginInvoke((MethodInvoker)delegate {
                 int profileId = -1;
                 bool isLinkedProfileFound = false;
@@ -5343,9 +5364,11 @@ namespace FallGuysStats {
         
         private void SetProfileMenu(int profile) {
             if (profile == -1 || this.AllProfiles.Count == 0) return;
+
             this.Invoke((MethodInvoker)delegate {
                 ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
-                if (tsmi.Checked) { return; }
+                if (tsmi.Checked) return;
+
                 this.menuStats_Click(tsmi, EventArgs.Empty);
             });
         }
@@ -5371,7 +5394,7 @@ namespace FallGuysStats {
         
         public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement levelData) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => string.Equals(r.Name, levelId) || string.Equals(r.Name, shareCode) || string.Equals(r.CreativeShareCode, shareCode));
-            if (filteredInfo.Count <= 0) { return; }
+            if (filteredInfo.Count <= 0) return;
             
             JsonElement versionMetadata = levelData.GetProperty("version_metadata");
             JsonElement stats = levelData.GetProperty("stats");
@@ -5782,7 +5805,7 @@ namespace FallGuysStats {
 
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             try {
-                if (((Grid)sender).Columns.Count == 0) { return; }
+                if (((Grid)sender).Columns.Count == 0) return;
                 
                 int pos = 0;
                 ((Grid)sender).Columns["RoundBigIcon"].Visible = false;
@@ -5900,8 +5923,8 @@ namespace FallGuysStats {
         
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             try {
-                if (e.RowIndex < 0) { return; }
-                if (!((Grid)sender).Rows[e.RowIndex].Visible) { return; }
+                if (e.RowIndex < 0) return;
+                if (!((Grid)sender).Rows[e.RowIndex].Visible) return;
                 
                 LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
                 float fBrightness = 0.85f;
@@ -6118,6 +6141,7 @@ namespace FallGuysStats {
         
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             if (!this.isScrollingStopped) return;
+
             try {
                 ((Grid)sender).SuspendLayout();
                 if (e.RowIndex >= 0 && (((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon")) {
@@ -6153,6 +6177,7 @@ namespace FallGuysStats {
         
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
             if (this.StatDetails == null) return;
+
             string columnName = this.gridDetails.Columns[columnIndex].Name;
             SortOrder sortOrder = isInitialize ? SortOrder.None : this.gridDetails.GetSortOrder(columnName);
 
@@ -6209,7 +6234,7 @@ namespace FallGuysStats {
         
         private void gridDetails_CellClick(object sender, DataGridViewCellEventArgs e) {
             try {
-                if (e.RowIndex < 0) { return; }
+                if (e.RowIndex < 0) return;
                 if (((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
                     LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
                     using (LevelDetails levelDetails = new LevelDetails {
@@ -6491,7 +6516,7 @@ namespace FallGuysStats {
                                                                               && r.UseShareCode)
                     .OrderBy(r => r.Name).ToList();
                 
-                if (rounds.Count == 0 && useShareCodeRounds.Count == 0) { return; }
+                if (rounds.Count == 0 && useShareCodeRounds.Count == 0) return;
                 
                 var levelMedalInfo = new Dictionary<string, double[]>();
                 var levelTotalPlayTime = new Dictionary<string, TimeSpan>();

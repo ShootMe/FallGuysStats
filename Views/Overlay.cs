@@ -534,6 +534,7 @@ namespace FallGuysStats {
             } else {
                 if (this.picPositionNE.Visible && this.picPositionNW.Visible &&
                     this.picPositionSE.Visible && this.picPositionSW.Visible && this.picPositionLock.Visible) return;
+
                 this.SetVisiblePositionMenu(true);
                 this.SetVisiblePositionLockButton(true);
             }
@@ -542,7 +543,8 @@ namespace FallGuysStats {
         private void Overlay_LostFocus(object sender, EventArgs e) {
             this.isFocused = false;
             if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
-                    !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
+                !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
+
             this.SetVisiblePositionMenu(false);
             this.SetVisiblePositionLockButton(false);
         }
@@ -559,6 +561,7 @@ namespace FallGuysStats {
                 (sender.GetType() == this.picPositionSW.GetType()) ||
                 (sender.GetType() == this.picPositionLock.GetType())) return;
             if (this.IsFixed()) return;
+
             ReleaseCapture();
             SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
         }
@@ -1023,7 +1026,7 @@ namespace FallGuysStats {
         }
         
         private void UpdateInfo() {
-            if (this.StatsForm == null) { return; }
+            if (this.StatsForm == null) return;
             
             lock (this.StatsForm.CurrentRound) {
                 bool hasCurrentRound = this.StatsForm.CurrentRound != null && this.StatsForm.CurrentRound.Count > 0;
@@ -1115,8 +1118,8 @@ namespace FallGuysStats {
         }
         
         private void Overlay_MouseWheel(object sender, MouseEventArgs e) {
-            if (this.shiftKeyToggle == false) { return; }
-            if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
+            if (this.shiftKeyToggle == false) return;
+            if (this.StatsForm.ProfileMenuItems.Count <= 1) return;
             if ((e.Delta / 120) > 0) {
                 for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
@@ -1744,7 +1747,8 @@ namespace FallGuysStats {
         }
         
         public void FlipDisplay(bool flipped) {
-            if (flipped == this.flippedImage) { return; }
+            if (flipped == this.flippedImage) return;
+
             this.flippedImage = flipped;
 
             foreach (Control ctr in Controls) {
