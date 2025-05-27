@@ -431,6 +431,9 @@ namespace FallGuysStats {
                         && (string.Equals(roundId, "showcase_bulletfallwoods")
                             || string.Equals(roundId, "showcase_treeclimberswoods")))
 
+                    || (string.Equals(showId, "showcase_fp19")
+                        && (roundNum == 3 || string.Equals(roundId, "fp19_mellowcakes")))
+
                     || (string.Equals(showId, "greatestsquads_ltm")
                         && (roundNum == 3 || string.Equals(roundId, "gs_slimecycle")))
 
