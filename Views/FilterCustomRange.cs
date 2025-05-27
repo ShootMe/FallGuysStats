@@ -181,7 +181,7 @@ namespace FallGuysStats {
 
         private void lbTemplatesList_SelectedValueChanged(object sender, EventArgs e) {
             this.selectedCustomTemplateSeason = ((ListBox)sender).SelectedIndex;
-            if (((ListBox)sender).SelectedIndex < 0) { return; }
+            if (((ListBox)sender).SelectedIndex < 0) return;
             if (this.periodDateTemplates[this.lbTemplatesList.SelectedIndex][0] == DateTime.MinValue) {
                 this.isStartNotSet = true;
                 this.picStartDate.Image = Properties.Resources.calendar_off_icon;

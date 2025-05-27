@@ -96,7 +96,7 @@ namespace FallGuysStats {
         private readonly GameStateWatcher gameStateWatcher = new GameStateWatcher();
 
         public void Start(string logDirectory, string fileName) {
-            if (this.running) { return; }
+            if (this.running) return;
 
             this.filePath = Path.Combine(logDirectory, fileName);
             this.prevFilePath = Path.Combine(logDirectory, $"{Path.GetFileNameWithoutExtension(fileName)}-prev.log");
@@ -434,6 +434,9 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "greatestsquads_ltm")
                         && (roundNum == 3 || string.Equals(roundId, "gs_slimecycle")))
 
+                    || (string.Equals(showId, "wle_mrs_bouncy_bean_time")
+                        && string.Equals(roundId, "showcase_rollinruins"))
+
                     || (string.Equals(showId, "wle_nature_ltm")
                         && (string.Equals(roundId, "logroll_nature_ltm")
                             || string.Equals(roundId, "lilypadlimbo_nature_ltm")
@@ -669,7 +672,8 @@ namespace FallGuysStats {
         }
 
         private void SetCountryCodeByIp(string ip) {
-            if (this.threadLocalVariable.Value.toggleCountryInfoApi || !Utils.IsProcessRunning("FallGuys_client_game")) { return; }
+            if (this.threadLocalVariable.Value.toggleCountryInfoApi || !Utils.IsProcessRunning("FallGuys_client_game")) return;
+
             this.threadLocalVariable.Value.toggleCountryInfoApi = true;
             Stats.LastCountryAlpha2Code = string.Empty;
             Stats.LastCountryRegion = string.Empty;
@@ -739,10 +743,10 @@ namespace FallGuysStats {
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (string.IsNullOrEmpty(info.SessionId) || info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
+            if (string.IsNullOrEmpty(info.SessionId) || info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) return;
 
             if (info.IsCasualShow) {
-                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) { return; }
+                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) return;
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                     string levelName = string.IsNullOrEmpty(info.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(info.Name) : info.CreativeTitle;
@@ -758,7 +762,7 @@ namespace FallGuysStats {
                 }
             } else {
                 string levelId = info.VerifiedName();
-                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) { return; }
+                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) return;
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                     List<RoundInfo> roundInfoList;

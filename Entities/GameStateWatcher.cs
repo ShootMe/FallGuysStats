@@ -9,7 +9,7 @@ namespace FallGuysStats {
         private bool stop;
 
         public void Start() {
-            if (this.running) { return; }
+            if (this.running) return;
 
             this.stop = false;
             this.task = new Task(this.CheckGameState);
