@@ -110,6 +110,7 @@ namespace FallGuysStats {
            ("11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc)), // Winter Update
            ("11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall and Fantasy Update
            ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),   // Ranked Knockout Update
+           ("19.0", new DateTime(2025, 5, 27, 0, 0, 0, DateTimeKind.Utc)),  // Yeetropolis Update
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -318,6 +319,7 @@ namespace FallGuysStats {
             "teams_show_ltm",
             // "knockout_squads",
             "greatestsquads_ltm",
+            "showcase_fp19",
             "event_day_at_races_squads_template",
             "squadcelebration",
             "invisibeans_pistachio_template",
@@ -1661,6 +1663,22 @@ namespace FallGuysStats {
                             }
                             this.StatsDB.BeginTrans();
                             this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp19")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Round == 3 || string.Equals(ri.Name, "fp19_mellowcakes")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
                             this.StatsDB.Commit();
                             break;
                         }
@@ -5227,6 +5245,7 @@ namespace FallGuysStats {
                    || string.Equals(showId, "showcase_fp16")
                    || string.Equals(showId, "showcase_fp17")
                    || string.Equals(showId, "showcase_fp18")
+                   || string.Equals(showId, "showcase_fp19")
                    || string.Equals(showId, "greatestsquads_ltm")
                    || showId.StartsWith("user_creative_")
                    || showId.StartsWith("creative_")
