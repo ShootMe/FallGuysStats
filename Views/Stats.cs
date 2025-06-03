@@ -497,6 +497,7 @@ namespace FallGuysStats {
 
                         public struct Rewards {
                             public int? fame { get; set; }
+                            public int? kudos { get; set; }
                             public int? shards { get; set; }
                             public int? crowns { get; set; }
                         }
@@ -1648,9 +1649,24 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 122;
+            int lastVersion = 123;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 122: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_finals_v3_template")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Name.EndsWith("_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 121: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")

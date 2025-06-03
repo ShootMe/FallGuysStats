@@ -400,6 +400,9 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "event_only_hoverboard_template")
                         && string.Equals(roundId, "round_hoverboardsurvival_final"))
 
+                    || (string.Equals(showId, "event_only_finals_v3_template")
+                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
+
                     || (string.Equals(showId, "event_only_button_bashers_template")
                         && roundNum == 4)
 
