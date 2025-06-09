@@ -446,7 +446,8 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "wle_nature_ltm")
                         && (string.Equals(roundId, "logroll_nature_ltm")
                             || string.Equals(roundId, "lilypadlimbo_nature_ltm")
-                            || string.Equals(roundId, "junglewall_nature_ltm")));
+                            || string.Equals(roundId, "junglewall_nature_ltm")
+                            || string.Equals(roundId, "showcase_frogjet")));
         }
 
         private bool IsModeException(string roundId, string showId) {
