@@ -276,6 +276,7 @@ namespace FallGuysStats {
             "ranked_solo_show",
             "main_show",
             "squads_2player_template",
+            "squads_3player_template",
             "squads_4player",
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
@@ -293,6 +294,7 @@ namespace FallGuysStats {
             "event_only_blast_ball_trials_template",
             "event_only_thin_ice_template",
             "event_only_slime_climb",
+            "event_only_slime_climb_2_template",
             "event_only_jump_club_template",
             "event_only_hoverboard_template",
             "event_only_drumtop_template",
@@ -314,11 +316,12 @@ namespace FallGuysStats {
         public readonly string[] PublicShowIdList2 = {
             "ranked_show_knockout",
             "knockout_mode",
-            "no_elimination_explore",
             // "knockout_duos",
-            "teams_show_ltm",
             // "knockout_squads",
+            "no_elimination_explore",
             "greatestsquads_ltm",
+            "teams_show_ltm",
+            "sports_show",
             "showcase_fp19",
             "event_day_at_races_squads_template",
             "squadcelebration",
@@ -1649,9 +1652,35 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 124;
+            int lastVersion = 125;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 124: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_slime_climb_2_template")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round == 3) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "sports_show")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (ri.Round == 3 || string.Equals(ri.Name, "round_fall_ball_60_players")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 123: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "wle_nature_ltm")
@@ -5244,6 +5273,8 @@ namespace FallGuysStats {
                 case "knockout_duos":
                 case "teams_show_ltm":
                     return "squads_2player_template";
+                case "sports_show":
+                    return "squads_3player_template";
                 case "classic_squads_show":
                 case "event_day_at_races_squads_template":
                 case "knockout_squads":
