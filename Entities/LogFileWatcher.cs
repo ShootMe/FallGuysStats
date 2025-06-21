@@ -397,14 +397,17 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "event_animals_template")
                         && string.Equals(roundId, "round_drumtop_final_animals"))
 
-                    || (string.Equals(showId, "event_only_hoverboard_template")
-                        && string.Equals(roundId, "round_hoverboardsurvival_final"))
+                    || (string.Equals(showId, "event_only_button_bashers_template")
+                        && roundNum == 4)
 
                     || (string.Equals(showId, "event_only_finals_v3_template")
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
 
-                    || (string.Equals(showId, "event_only_button_bashers_template")
-                        && roundNum == 4)
+                    || (string.Equals(showId, "event_only_hoverboard_template")
+                        && string.Equals(roundId, "round_hoverboardsurvival_final"))
+
+                    || (string.Equals(showId, "event_only_slime_climb_2_template")
+                        && roundNum == 3)
 
                     || (string.Equals(showId, "event_snowday_stumble")
                         && (string.Equals(roundId, "round_cloudyteacups_final_sds") || string.Equals(roundId, "round_goopropegrandslam_final_sds")))
@@ -417,6 +420,9 @@ namespace FallGuysStats {
 
                     || (string.Equals(showId, "no_elimination_show")
                         && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")))
+
+                    || (string.Equals(showId, "sports_show")
+                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
 
                     || (string.Equals(showId, "showcase_fp13")
                         && (string.Equals(roundId, "scrapyard_derrameburbujeante")
