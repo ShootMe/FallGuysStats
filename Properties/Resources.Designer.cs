@@ -8078,6 +8078,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap splash_image {
+            get {
+                object obj = ResourceManager.GetObject("splash_image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap stat_gray_icon {
             get {
                 object obj = ResourceManager.GetObject("stat_gray_icon", resourceCulture);
