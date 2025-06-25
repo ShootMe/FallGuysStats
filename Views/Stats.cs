@@ -37,7 +37,19 @@ namespace FallGuysStats {
                 if (isAppUpdated || !IsAlreadyRunning()) {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Stats());
+
+                    SplashForm splashWindow = new SplashForm();
+                    Screen primaryScreen = Screen.PrimaryScreen;
+                    Rectangle workingArea = primaryScreen.WorkingArea;  
+                    int x = workingArea.Left + (workingArea.Width - splashWindow.Width) / 2;
+                    int y = workingArea.Top + (workingArea.Height - splashWindow.Height) / 2;
+                    splashWindow.Location = new Point(x, y);
+                    splashWindow.Show();
+                    splashWindow.Refresh();
+
+                    Stats statsForm = new Stats();
+                    splashWindow.Close();
+                    Application.Run(statsForm);
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
