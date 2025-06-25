@@ -532,6 +532,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["IsFinal"].Visible = false;
             ((Grid)sender).Columns["IsTeam"].Visible = false;
             ((Grid)sender).Columns["SessionId"].Visible = false;
+            ((Grid)sender).Columns["RoundId"].Visible = false;
             ((Grid)sender).Columns["IsAbandon"].Visible = false;
             ((Grid)sender).Columns["UseShareCode"].Visible = false;
             ((Grid)sender).Columns["IsCasualShow"].Visible = false;

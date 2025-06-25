@@ -935,7 +935,7 @@ namespace FallGuysStats {
                     }
                     logRound.Info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(this.threadLocalVariable.Value.creativeGameModeId);
                     logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
-                    logRound.Info.Name = this.threadLocalVariable.Value.creativeShareCode;
+                    logRound.Info.RoundId = logRound.Info.Name = this.threadLocalVariable.Value.creativeShareCode;
                     this.SetCreativeLevelInfo(logRound.Info);
                 } else {
                     logRound.Info.ShowNameId = logRound.Info.ShowNameId ?? this.threadLocalVariable.Value.selectedShowId;
@@ -944,7 +944,8 @@ namespace FallGuysStats {
                                               : this.threadLocalVariable.Value.sceneName;
                     int index2 = line.Line.IndexOf(". ", index + 62);
                     if (index2 < 0) { index2 = line.Line.Length; }
-                    logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId, line.Line.Substring(index + 62, index2 - index - 62));
+                    logRound.Info.RoundId = line.Line.Substring(index + 62, index2 - index - 62);
+                    logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId, logRound.Info.RoundId);
                 }
 
                 if (string.IsNullOrEmpty(logRound.Info.SessionId) || logRound.Info.IsCasualShow) {
