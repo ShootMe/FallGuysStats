@@ -785,8 +785,10 @@ namespace FallGuysStats {
                 Task.Run(() => {
                     if (!Utils.IsInternetConnected()) return;
 
+                    int currentVersion = this.CurrentSettings.LevelTimeLimitVersion;
                     this.UpdateLevelTimeLimit();
-                    this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
+                    bool isNewVersion = this.CurrentSettings.LevelTimeLimitVersion != currentVersion;
+                    if (isNewVersion) this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
         }
