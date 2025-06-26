@@ -14490,7 +14490,7 @@ namespace FallGuysStats {
                     { "solo_show_ss2_launch", "Solo SS2" },
                     { "solo_show_ss2_parrot", "Solo" },
                     { "spectator_show", "Sport spectateur" },
-                    { "sports_show", "JO de Fall Guys" },
+                    { "sports_show", "Jeux de Fall Guys" },
                     { "squad_duo_slimeclimbs", ""},
                     { "squad_show", "GROUPES" },
                     { "squad_show_2player", "GROUPES" },

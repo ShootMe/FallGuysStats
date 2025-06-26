@@ -33,6 +33,7 @@ namespace FallGuysStats {
         private int savedRoundNum;
         private string levelId;
         private string levelName;
+        private int levelTimeLimit;
         private LevelStats levelStats;
         private LevelType levelType;
         private BestRecordType recordType;
@@ -886,7 +887,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void SetDurationLabel(LevelStats level, DateTime currentUtc, int setting) {
+        private void SetDurationLabel(int timeLimit, DateTime currentUtc, int setting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (setting == 0 || setting == 2 || setting == 4)) {
                 this.lblDuration.OverlaySetting = setting;
                 this.lblDuration.TickProgress = 0;
@@ -899,16 +900,6 @@ namespace FallGuysStats {
                 this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
                 this.lblDuration.TickProgress = 0;
-                string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
-                int showType = (level == null) ? 0
-                               : (showId.StartsWith("event_xtreme_fall_guys_") && level.TimeLimitSecondsForLTM > 0) ? 3
-                               : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2
-                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
-                int timeLimit = this.lastRound.IsCasualShow || this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds
-                                : (showType == 3) ? level.TimeLimitSecondsForLTM
-                                : (showType == 2) ? level.TimeLimitSecondsForSquad
-                                : (showType == 1) ? level.TimeLimitSeconds : 0;
-                
                 this.lblDuration.Text = timeLimit > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(timeLimit):m\\:ss}) :" : $"{Multilingual.GetWord("overlay_duration")} :";
                 
                 DateTime start = this.lastRound.Start;
@@ -1050,7 +1041,7 @@ namespace FallGuysStats {
                         this.savedRoundNum = this.lastRound.Round;
                         
                         this.levelId = this.lastRound.VerifiedName();
-
+                        
                         if (this.StatsForm.StatLookup.TryGetValue(this.levelId, out this.levelStats)) {
                             this.levelName = this.levelStats.Name.ToUpper();
                         } else if (this.levelId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
@@ -1090,7 +1081,10 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetDurationLabel(this.levelStats, currentUtc, overlaySetting);
+                    this.levelTimeLimit = this.lastRound.IsCasualShow || this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds :
+                                          this.StatsForm.LevelTimeLimitCache.Find(l => string.Equals(l.LevelId, this.lastRound.RoundId ?? this.lastRound.Name))?.Duration ?? 0;
+                    
+                    this.SetDurationLabel(this.levelTimeLimit, currentUtc, overlaySetting);
                     this.SetFinishLabel(this.levelSummary, this.levelType, this.levelId, this.recordType, currentUtc, overlaySetting);
                 }
                 this.Invalidate();

@@ -226,6 +226,7 @@ namespace FallGuysStats {
         public ILiteCollection<ServerConnectionLog> ServerConnectionLog;
         public ILiteCollection<PersonalBestLog> PersonalBestLog;
         public ILiteCollection<UpcomingShow> UpcomingShow;
+        public ILiteCollection<LevelTimeLimit> LevelTimeLimit;
         public List<Profiles> AllProfiles = new List<Profiles>();
         public UserSettings CurrentSettings;
         public List<FallalyticsPbLog> FallalyticsPbLogCache = new List<FallalyticsPbLog>();
@@ -233,6 +234,7 @@ namespace FallGuysStats {
         public List<ServerConnectionLog> ServerConnectionLogCache = new List<ServerConnectionLog>();
         public List<PersonalBestLog> PersonalBestLogCache = new List<PersonalBestLog>();
         public List<UpcomingShow> UpcomingShowCache = new List<UpcomingShow>();
+        public List<LevelTimeLimit> LevelTimeLimitCache = new List<LevelTimeLimit>();
         public readonly Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         private readonly DateTime startupTime = DateTime.UtcNow;
@@ -279,7 +281,8 @@ namespace FallGuysStats {
         public string weeklyCrownPeriod;
         public Point screenCenter;
         private System.Threading.Timer upcomingShowTimer;
-        
+        private System.Threading.Timer levelTimeLimitTimer;
+
         public event Action OnUpdatedLevelRows;
         private readonly System.Windows.Forms.Timer scrollTimer = new System.Windows.Forms.Timer { Interval = 100 };
         private bool isScrollingStopped = true;
@@ -423,6 +426,22 @@ namespace FallGuysStats {
             Utils.DwmSetWindowAttribute(this.trayUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+        }
+
+        public struct LevelTimeLimitInfo {
+            public int version { get; set; }
+            public ShowData data { get; set; }
+            public struct ShowData {
+                public List<Roundpool> roundpools { get; set; }
+                public struct Roundpool {
+                    public string id { get; set; }
+                    public List<Level> levels { get; set; }
+                    public struct Level {
+                        public string id { get; set; }
+                        public int duration { get; set; }
+                    }
+                }
+            }
         }
 
         public struct FGDB_UpcomingShowInfo {
@@ -676,7 +695,7 @@ namespace FallGuysStats {
                     removableLevelsInUpcomingShow.Add(level.LevelId);
                 } else if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
-                        10, 0, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+                        10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                 }
             }
             if (removableLevelsInUpcomingShow.Count > 0) {
@@ -717,6 +736,57 @@ namespace FallGuysStats {
                         
                         this.ResetStats();
                     }
+                });
+            }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
+        }
+
+        private void UpdateLevelTimeLimit() {
+            if (!Utils.IsInternetConnected()) return;
+
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string json = web.DownloadString(Utils.FALLGUYSSTATS_LEVEL_TIME_LIMIT_DB_URL);
+                    LevelTimeLimitInfo levelTimeLimit = System.Text.Json.JsonSerializer.Deserialize<LevelTimeLimitInfo>(json);
+                    if (levelTimeLimit.version > this.CurrentSettings.LevelTimeLimitVersion) {
+                        var temps = new List<LevelTimeLimit>();
+                        foreach (var roundpool in levelTimeLimit.data.roundpools) {
+                            foreach (var level in roundpool.levels) {
+                                if (!temps.Exists(l => string.Equals(l.LevelId, level.id))) {
+                                    var temp = new LevelTimeLimit {
+                                        LevelId = level.id,
+                                        Duration = level.duration,
+                                    };
+                                    temps.Add(temp);
+                                }
+                            }
+                        }
+
+                        this.StatsDB.BeginTrans();
+                        this.LevelTimeLimit.DeleteAll();
+                        this.LevelTimeLimit.InsertBulk(temps);
+                        this.StatsDB.Commit();
+                        this.CurrentSettings.LevelTimeLimitVersion = levelTimeLimit.version;
+                        this.SaveUserSettings();
+                    }
+                } catch {
+                    // ignored
+                }
+            }
+        }
+
+        private void UpdateLevelTimeLimitJob() {
+            DateTime now = DateTime.UtcNow;
+            DateTime targetTime = new DateTime(now.Year, now.Month, now.Day, 9, 50, 0);
+            if (now > targetTime) {
+                targetTime = targetTime.AddDays(1);
+            }
+            double initialDelay = (targetTime - now).TotalMilliseconds;
+            this.levelTimeLimitTimer = new System.Threading.Timer(state => {
+                Task.Run(() => {
+                    if (!Utils.IsInternetConnected()) return;
+
+                    this.UpdateLevelTimeLimit();
+                    this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
         }
@@ -792,8 +862,10 @@ namespace FallGuysStats {
             this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
             this.FallalyticsCrownLog = this.StatsDB.GetCollection<FallalyticsCrownLog>("FallalyticsCrownLog");
             this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
+            this.LevelTimeLimit = this.StatsDB.GetCollection<LevelTimeLimit>("LevelTimeLimit");
             
             this.StatsDB.BeginTrans();
+            
             this.RoundDetails.EnsureIndex(r => r.Name);
             this.RoundDetails.EnsureIndex(r => r.ShowID);
             this.RoundDetails.EnsureIndex(r => r.Round);
@@ -813,12 +885,17 @@ namespace FallGuysStats {
             this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
             
             this.UpcomingShow.EnsureIndex(f => f.LevelId);
+            
+            this.LevelTimeLimit.EnsureIndex(f => f.LevelId);
+            
             this.StatsDB.Commit();
             
             this.UpdateUpcomingShow();
             this.GenerateLevelStats();
             this.UpdateUpcomingShowJob();
-            
+            this.UpdateLevelTimeLimit();
+            this.UpdateLevelTimeLimitJob();
+
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                  CultureInfo.CurrentUICulture.Name :
@@ -3916,6 +3993,7 @@ namespace FallGuysStats {
                 IpGeolocationService = 0,
                 ShowChangelog = true,
                 Visible = true,
+                LevelTimeLimitVersion = 0,
                 Version = 0
             };
         }
@@ -4361,6 +4439,7 @@ namespace FallGuysStats {
             this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
             this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
             this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
+            this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
         }
         
         private void Stats_Shown(object sender, EventArgs e) {
@@ -4883,7 +4962,7 @@ namespace FallGuysStats {
                             roundName = roundName.StartsWith("round_") ? roundName.Substring(6).Replace('_', ' ')
                                                                        : roundName.Replace('_', ' ');
 
-                            LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 10, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                            LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 10, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -5552,7 +5631,7 @@ namespace FallGuysStats {
 
             int lastShow = -1;
             if (!this.StatLookup.TryGetValue(useShareCode ? type.UserCreativeLevelTypeId() : levelId, out LevelStats currentLevel)) {
-                currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 10, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 10, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
             List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId() && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
