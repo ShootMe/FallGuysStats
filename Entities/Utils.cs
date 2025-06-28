@@ -163,27 +163,14 @@ namespace FallGuysStats {
         public static bool IsInternetConnected() {
             const string NCSI_TEST_URL = "http://www.msftncsi.com/ncsi.txt";
             const string NCSI_TEST_RESULT = "Microsoft NCSI";
-            const string NCSI_DNS = "dns.msftncsi.com";
-            const string NCSI_DNS_IP_ADDRESS = "131.107.255.255";
 
-            try {
-                // Check NCSI test link
-                var webClient = new WebClient();
-                string result = webClient.DownloadString(NCSI_TEST_URL);
-                if (result != NCSI_TEST_RESULT){
+            using (var webClient = new WebClient()) {
+                try {
+                    return string.Equals(webClient.DownloadString(NCSI_TEST_URL), NCSI_TEST_RESULT);
+                } catch {
                     return false;
                 }
-
-                // Check NCSI DNS IP
-                IPHostEntry dnsHost = Dns.GetHostEntry(NCSI_DNS);
-                if (dnsHost.AddressList.Count() < 0 || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
-                    return false;
-                }
-            } catch {
-                return false;
             }
-
-            return true;
         }
         
         public static bool IsDomainNameValid(string url) {
