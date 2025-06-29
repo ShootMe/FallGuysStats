@@ -46,6 +46,8 @@ namespace FallGuysStats {
                     splashWindow.Location = new Point(x, y);
                     splashWindow.Show();
                     splashWindow.Refresh();
+                    splashWindow.TopMost = true;
+                    splashWindow.TopMost = false;
 
                     Stats statsForm = new Stats();
                     splashWindow.Close();
