@@ -161,12 +161,12 @@ namespace FallGuysStats {
         }
         
         public static bool IsInternetConnected() {
-            const string NCSI_TEST_URL = "http://www.msftncsi.com/ncsi.txt";
-            const string NCSI_TEST_RESULT = "Microsoft NCSI";
+            const string CONNECT_TEST_URL = "http://www.msftconnecttest.com/connecttest.txt";
+            const string CONNECT_TEST_RESULT = "Microsoft Connect Test";
 
             using (var webClient = new WebClient()) {
                 try {
-                    return string.Equals(webClient.DownloadString(NCSI_TEST_URL), NCSI_TEST_RESULT);
+                    return string.Equals(webClient.DownloadString(CONNECT_TEST_URL), CONNECT_TEST_RESULT);
                 } catch {
                     return false;
                 }
