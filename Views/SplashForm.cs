@@ -9,14 +9,14 @@ namespace FallGuysStats {
         public SplashForm() {
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.Manual;
-            this.ClientSize = new Size(399, 224);
+            this.ClientSize = new Size(334, 500);
             this.ShowInTaskbar = false;
 
             pBox = new PictureBox {
                 Image = Properties.Resources.splash_image,
                 SizeMode = PictureBoxSizeMode.Zoom,
-                Location = new Point(0, -38),
-                Size = new Size(400, 300)
+                Location = new Point(-33, 0),
+                Size = new Size(400, 501)
             };
             this.Controls.Add(pBox);
         }
