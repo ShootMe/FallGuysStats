@@ -341,6 +341,7 @@ namespace FallGuysStats {
             "sports_show",
             "showcase_fp19",
             "event_day_at_races_squads_template",
+            "event_only_ss2_squads_template",
             "squadcelebration",
             "invisibeans_pistachio_template",
             "xtreme_explore"
@@ -5372,6 +5373,7 @@ namespace FallGuysStats {
                     return "squads_3player_template";
                 case "classic_squads_show":
                 case "event_day_at_races_squads_template":
+                case "event_only_ss2_squads_template":
                 case "knockout_squads":
                 case "squadcelebration":
                     return "squads_4player";
