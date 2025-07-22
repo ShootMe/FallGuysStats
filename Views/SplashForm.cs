@@ -7,17 +7,20 @@ namespace FallGuysStats {
         // private ProgressBar progressBar;
 
         public SplashForm() {
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.StartPosition = FormStartPosition.Manual;
-            this.ClientSize = new Size(334, 500);
-            this.ShowInTaskbar = false;
+            Image splashImage = Properties.Resources.splash_image;
 
             pBox = new PictureBox {
-                Image = Properties.Resources.splash_image,
+                Image = splashImage,
                 SizeMode = PictureBoxSizeMode.Zoom,
-                Location = new Point(-33, 0),
-                Size = new Size(400, 501)
+                Location = new Point(0, 0),
+                Size = new Size((int)(splashImage.Width / 2.5), (int)(splashImage.Height / 2.5))
             };
+
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.StartPosition = FormStartPosition.Manual;
+            this.ClientSize = new Size((int)(splashImage.Width / 2.5), (int)(splashImage.Height / 2.5));
+            this.ShowInTaskbar = false;
+
             this.Controls.Add(pBox);
         }
     }
