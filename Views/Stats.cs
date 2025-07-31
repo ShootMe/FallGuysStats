@@ -18,10 +18,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LiteDB;
-using Microsoft.Win32;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
+using Microsoft.Win32;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -125,6 +125,7 @@ namespace FallGuysStats {
            ("11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall and Fantasy Update
            ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),   // Ranked Knockout Update
            ("19.0", new DateTime(2025, 5, 27, 0, 0, 0, DateTimeKind.Utc)),  // Yeetropolis Update
+           ("20.0", new DateTime(2025, 7, 29, 0, 0, 0, DateTimeKind.Utc)),  // Tropical Tides Update
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -326,6 +327,7 @@ namespace FallGuysStats {
             "mrs_pegwin_winter_2teamsfinal",
             "xtreme_party",
             "invisibeans_mode",
+            "timeattack_mode",
             "fall_guys_creative_mode",
             "private_lobbies"
         };
@@ -340,6 +342,7 @@ namespace FallGuysStats {
             "teams_show_ltm",
             "sports_show",
             "showcase_fp19",
+            "showcase_fp20",
             "event_day_at_races_squads_template",
             "event_only_ss2_squads_template",
             "squadcelebration",
@@ -1746,9 +1749,59 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 125;
+            int lastVersion = 126;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 125: {
+                            DateTime dateCond = new DateTime(2025, 7, 29, 9, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                              where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                    ri.Start >= dateCond &&
+                                                                    ri.ShowNameId.StartsWith("knockout_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if ((this.StatLookup.TryGetValue(ri.Name, out LevelStats levelStats) && levelStats.IsFinal)
+                                     || string.Equals(ri.Name, "knockout_rotateandeliminate")
+                                     || string.Equals(ri.Name, "knockout_gooprope_rodeo")
+                                     || string.Equals(ri.Name, "knockout_slimeballshowdown")
+                                     || string.Equals(ri.Name, "knockout_blunderblocks")
+                                     || string.Equals(ri.Name, "knockout_pier_pressure")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "showcase_fp20")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                if (ri.Round == 3 || string.Equals(ri.Name, "showcase_boats")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "anniversary_fp12_ltm")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList3) {
+                                if (ri.Round == 10) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList3);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 124: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "event_only_slime_climb_2_template")
@@ -5355,6 +5408,25 @@ namespace FallGuysStats {
         
         public string GetAlternateShowId(string showId) {
             switch (showId) {
+                case "event_day_at_the_races_ltm":
+                    return "event_only_races_any_final_template";
+                case "event_le_anchovy_private_lobbies":
+                    return "event_le_anchovy_template";
+                case "event_only_jump_club_custom_lobby":
+                    return "event_only_jump_club_template";
+                case "event_only_roll_out_custom_lobby":
+                    return "event_only_roll_out";
+                case "knockout_mode_pl":
+                    return "knockout_mode";
+                case "live_event_timeattack_shuffle_pl":
+                    return "live_event_timeattack_shuffle";
+                default:
+                    return showId;
+            }
+        }
+        
+        public string GetMainGroupShowId(string showId) {
+            switch (showId) {
                 case "ranked_show_knockout":
                     return "ranked_solo_show";
                 // case "anniversary_fp12_ltm":
@@ -5382,6 +5454,14 @@ namespace FallGuysStats {
                 case "invisibeans_pistachio_template":
                 case "invisibeans_template":
                     return "invisibeans_mode";
+                case "live_event_timeattack_dizzyheights":
+                case "live_event_timeattack_lilyleapers":
+                case "live_event_timeattack_partyprom":
+                case "live_event_timeattack_shuffle":
+                case "live_event_timeattack_trackattack":
+                case "live_event_timeattack_treetoptumble":
+                case "live_event_timeattack_tundrarun":
+                    return "timeattack_mode";
                 case "xtreme_explore":
                     return "event_xtreme_fall_guys_template";
                 default:
@@ -5405,6 +5485,7 @@ namespace FallGuysStats {
                    || string.Equals(showId, "showcase_fp17")
                    || string.Equals(showId, "showcase_fp18")
                    || string.Equals(showId, "showcase_fp19")
+                   || string.Equals(showId, "showcase_fp20")
                    || string.Equals(showId, "greatestsquads_ltm")
                    || showId.StartsWith("user_creative_")
                    || showId.StartsWith("creative_")
@@ -5417,7 +5498,8 @@ namespace FallGuysStats {
         
         private int GetLinkedProfileId(string realShowId, bool isPrivateLobbies) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(realShowId)) return 0;
-            string showId = this.GetAlternateShowId(realShowId);
+            realShowId = this.GetAlternateShowId(realShowId);
+            string showId = this.GetMainGroupShowId(realShowId);
             foreach (Profiles profiles in this.AllProfiles.OrderBy(p => p.DoNotCombineShows ? 0 : 1)) {
                 if (profiles.DoNotCombineShows) {
                     if (!isPrivateLobbies && !string.IsNullOrEmpty(profiles.LinkedShowId) && realShowId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
@@ -5452,11 +5534,13 @@ namespace FallGuysStats {
         public void SetLinkedProfileMenu(string realShowId, bool isPrivateLobbies) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(realShowId)) return;
 
+            realShowId = this.GetAlternateShowId(realShowId);
+
             string currentProfileLinkedShowId = this.GetCurrentProfileLinkedShowId();
             bool isCurrentProfileIsDNCS = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).DoNotCombineShows;
             if (isCurrentProfileIsDNCS && string.Equals(currentProfileLinkedShowId, realShowId)) return;
 
-            string showId = this.GetAlternateShowId(realShowId);
+            string showId = this.GetMainGroupShowId(realShowId);
             int linkedDNCSProfileId = this.AllProfiles.Find(p => p.DoNotCombineShows && string.Equals(p.LinkedShowId, realShowId))?.ProfileId ?? -1;
             if (linkedDNCSProfileId == -1 && string.Equals(currentProfileLinkedShowId, showId)) return;
 

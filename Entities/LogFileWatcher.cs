@@ -354,7 +354,8 @@ namespace FallGuysStats {
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")
                  || string.Equals(showId, "wle_playful_shuffle")
-                 || (showId.StartsWith("event_") && showId.EndsWith("_fools") && roundId.StartsWith("wle_shuffle_"))) {
+                 || (showId.StartsWith("event_") && showId.EndsWith("_fools") && roundId.StartsWith("wle_shuffle_"))
+                 || (string.Equals(showId, "anniversary_fp12_ltm") && roundNum == 10)) {
                 return true;
             }
 
@@ -443,6 +444,9 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "showcase_fp19")
                         && (roundNum == 3 || string.Equals(roundId, "fp19_mellowcakes")))
 
+                    || (string.Equals(showId, "showcase_fp20")
+                        && (roundNum == 3 || string.Equals(roundId, "showcase_boats")))
+
                     || (string.Equals(showId, "greatestsquads_ltm")
                         && (roundNum == 3 || string.Equals(roundId, "gs_slimecycle")))
 
@@ -453,7 +457,21 @@ namespace FallGuysStats {
                         && (string.Equals(roundId, "logroll_nature_ltm")
                             || string.Equals(roundId, "lilypadlimbo_nature_ltm")
                             || string.Equals(roundId, "junglewall_nature_ltm")
-                            || string.Equals(roundId, "showcase_frogjet")));
+                            || string.Equals(roundId, "showcase_frogjet")))
+
+                    // "Knockout" Shows
+                    || (showId.StartsWith("knockout_")
+                        && (string.Equals(roundId, "knockout_rotateandeliminate")
+                            || string.Equals(roundId, "knockout_gooprope_rodeo")
+                            || string.Equals(roundId, "knockout_slimeballshowdown")
+                            || string.Equals(roundId, "knockout_blunderblocks")
+                            || string.Equals(roundId, "knockout_pier_pressure")
+                            || string.Equals(roundId, "round_fp17_knockout_castlesiege")
+                            || string.Equals(roundId, "round_fp17_knockout_gardenpardon")
+                            || (!string.Equals(roundId, "knockout_fp10_final_8")
+                                && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
+                                && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
+                                    || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))));
         }
 
         private bool IsModeException(string roundId, string showId) {
@@ -478,7 +496,7 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
-                   || showId.StartsWith("knockout_")
+                   // || showId.StartsWith("knockout_")
                    || showId.StartsWith("ranked_");
         }
 
@@ -511,13 +529,15 @@ namespace FallGuysStats {
 
                      || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger")
 
+                     /*
                      // "Knockout" Shows
-                     || string.Equals(roundId, "round_fp17_knockout_castlesiege")
-                     || string.Equals(roundId, "round_fp17_knockout_gardenpardon")
-                     || (!string.Equals(roundId, "knockout_fp10_final_8")
-                         && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
-                         && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
-                             || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
+                     *|| string.Equals(roundId, "round_fp17_knockout_castlesiege")
+                     *|| string.Equals(roundId, "round_fp17_knockout_gardenpardon")
+                     *|| (!string.Equals(roundId, "knockout_fp10_final_8")
+                     *    && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
+                     *    && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
+                     *        || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
+                     */
 
                      // "Ranked"
                      || (roundId.StartsWith("ranked_", StringComparison.OrdinalIgnoreCase)
