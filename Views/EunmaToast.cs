@@ -371,6 +371,10 @@ namespace FallGuysStats {
             _transitionCounter++;
             maxTransition++;
 
+            if (_transitionCounter % 5 == 0) {
+                this.Thumbnails = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{((_transitionCounter / 5) - 1) % 10 + 1}");
+            }
+
             if (_transitionCounter >= 100) {
                 _transitionCounter = 0;
                 _counter--;

@@ -439,6 +439,16 @@
     <None Include="Resources\right_button_icon.png" />
     <None Include="Resources\first_button_icon.png" />
     <None Include="Resources\last_button_icon.png" />
+    <None Include="Resources\loading_1.png" />
+    <None Include="Resources\loading_2.png" />
+    <None Include="Resources\loading_3.png" />
+    <None Include="Resources\loading_4.png" />
+    <None Include="Resources\loading_5.png" />
+    <None Include="Resources\loading_6.png" />
+    <None Include="Resources\loading_7.png" />
+    <None Include="Resources\loading_8.png" />
+    <None Include="Resources\loading_9.png" />
+    <None Include="Resources\loading_10.png" />
     <None Include="Resources\round_icon\icon_Unknown.png" />
     <None Include="Resources\round_icon\icon_Unknown_big.png" />
     <None Include="Resources\round_icon\creative\icon_Creative.png" />

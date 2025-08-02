@@ -592,9 +592,9 @@ namespace FallGuysStats {
                         foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                             foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
                                 if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
-                                                                       && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
+                                                                       && (string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown)))) {
                                     this.StatsDB.BeginTrans();
-                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
+                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown));
                                     this.UpcomingShow.DeleteAll();
                                     this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                     this.StatsDB.Commit();
@@ -652,9 +652,9 @@ namespace FallGuysStats {
                                         foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
                                             var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
                                             if (string.Equals(level.type, "wushu")) {
-                                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
+                                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown)))) {
                                                     this.StatsDB.BeginTrans();
-                                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
+                                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown));
                                                     this.UpcomingShow.DeleteAll();
                                                     this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                                     this.StatsDB.Commit();
@@ -697,7 +697,7 @@ namespace FallGuysStats {
             List<string> removableLevelsInUpcomingShow = new List<string>();
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             foreach (var level in this.UpcomingShowCache) {
-                if (string.IsNullOrEmpty(level.DisplayName) || string.Equals(level.LevelType, LevelType.Unknown)) {
+                if (string.IsNullOrEmpty(level.DisplayName) || Equals(level.LevelType, LevelType.Unknown)) {
                     removableLevelsInUpcomingShow.Add(level.LevelId);
                 } else if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
@@ -897,13 +897,17 @@ namespace FallGuysStats {
             this.LevelTimeLimit.EnsureIndex(f => f.LevelId);
             
             this.StatsDB.Commit();
-            
-            this.UpdateUpcomingShow();
-            this.GenerateLevelStats();
-            this.UpdateUpcomingShowJob();
-            this.UpdateLevelTimeLimit();
-            this.UpdateLevelTimeLimitJob();
 
+            Task.Run(() => {
+                this.UpdateUpcomingShow();
+                this.GenerateLevelStats();
+                this.UpdateUpcomingShowJob();
+            });
+            Task.Run(() => {
+                this.UpdateLevelTimeLimit();
+                this.UpdateLevelTimeLimitJob();
+            });
+            
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                  CultureInfo.CurrentUICulture.Name :
@@ -4458,8 +4462,10 @@ namespace FallGuysStats {
             this.StatsDB?.Dispose();
         }
 
-        private void Stats_Load(object sender, EventArgs e) {
+        private async void Stats_Load(object sender, EventArgs e) {
             try {
+                await Task.Yield();
+                
                 if (Utils.IsInternetConnected()) {
                     Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
                 }
