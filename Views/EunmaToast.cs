@@ -136,13 +136,13 @@ namespace FallGuysStats {
 			get => picImage.Image;
 			set {
 				picImage.Image = value;
-				Invalidate();
-				if (value != null) {
-					picImage.Visible = true;
-					HasImage = true;
-				} else {
-					picImage.Visible = false;
-				}
+				// Invalidate();
+				// if (value != null) {
+				// 	picImage.Visible = true;
+				// 	HasImage = true;
+				// } else {
+				// 	picImage.Visible = false;
+				// }
 			} 
 		}
 		
@@ -244,6 +244,7 @@ namespace FallGuysStats {
 		private void SetTheme() {
 			switch (ToastTheme) {
 				case ToastTheme.Light:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.Black;
@@ -252,6 +253,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.PrimaryLight:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -260,6 +262,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.SuccessLight:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -268,6 +271,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.WarningLight:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -276,6 +280,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.ErrorLight:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -284,6 +289,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.Dark:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -292,6 +298,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.PrimaryDark:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -300,6 +307,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.SuccessDark:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -308,6 +316,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.WarningDark:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -316,6 +325,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.ErrorDark:
+                    picImage.BackColor = ToastThemeBuilder.BuiltinScheme.ErrorDarkScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
@@ -327,6 +337,7 @@ namespace FallGuysStats {
 					if (ToastThemeBuilder.CustomScheme == null) {
 						throw new NullReferenceException($"You must create your scheme before set custom theme. Use ${nameof(ToastThemeBuilder.CreateCustomScheme)}() to create a custom scheme");
 					}
+                    picImage.BackColor = ToastThemeBuilder.CustomScheme.GetBackgroundColor();
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
                     lblCaption.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
                     btnClose.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
@@ -372,7 +383,7 @@ namespace FallGuysStats {
             maxTransition++;
 
             if (_transitionCounter % 5 == 0) {
-                this.Thumbnails = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{((_transitionCounter / 5) - 1) % 10 + 1}");
+                this.Thumbnails = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{((_transitionCounter / 5) - 1) % 10 + 1}{(ToastTheme == ToastTheme.Light ? "_dark" : "")}");
             }
 
             if (_transitionCounter >= 100) {

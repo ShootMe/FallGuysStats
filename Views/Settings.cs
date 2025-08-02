@@ -386,7 +386,7 @@ namespace FallGuysStats {
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = Enum.TryParse(this.cboNotificationSounds.SelectedIndex.ToString(), out ToastSound sound) ? sound : ToastSound.Generic01;
                 
-                this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_test_notifications_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
+                this.StatsForm.ShowToastNotification(this.StatsForm, null, Multilingual.GetWord("message_test_notifications_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
                     Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
