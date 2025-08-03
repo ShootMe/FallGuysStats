@@ -449,6 +449,16 @@
     <None Include="Resources\loading_8.png" />
     <None Include="Resources\loading_9.png" />
     <None Include="Resources\loading_10.png" />
+    <None Include="Resources\loading_1_dark.png" />
+    <None Include="Resources\loading_2_dark.png" />
+    <None Include="Resources\loading_3_dark.png" />
+    <None Include="Resources\loading_4_dark.png" />
+    <None Include="Resources\loading_5_dark.png" />
+    <None Include="Resources\loading_6_dark.png" />
+    <None Include="Resources\loading_7_dark.png" />
+    <None Include="Resources\loading_8_dark.png" />
+    <None Include="Resources\loading_9_dark.png" />
+    <None Include="Resources\loading_10_dark.png" />
     <None Include="Resources\round_icon\icon_Unknown.png" />
     <None Include="Resources\round_icon\icon_Unknown_big.png" />
     <None Include="Resources\round_icon\creative\icon_Creative.png" />
