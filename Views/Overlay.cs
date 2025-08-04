@@ -1038,18 +1038,20 @@ namespace FallGuysStats {
         }
         
         private void LoadingTimer_Tick(object sender, EventArgs e) {
-            if (!Stats.InShow && Stats.IsQueued) {
+            if (!Stats.IsQueued) {
+                this.targetLabel.Image = null;
                 this.targetLabel = null;
                 this.tmrQueued.Stop();
-            }
-            this.transitionCounter++;
+            } else {
+                this.transitionCounter++;
             
-            if (this.targetLabel != null) {
-                this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{(transitionCounter - 1) % 10 + 1}");
-            }
+                if (this.targetLabel != null) {
+                    this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{(transitionCounter - 1) % 10 + 1}");
+                }
             
-            if (this.transitionCounter >= 100) {
-                this.transitionCounter = 0;
+                if (this.transitionCounter >= 100) {
+                    this.transitionCounter = 0;
+                }
             }
         }
         
