@@ -140,8 +140,11 @@ namespace FallGuysStats {
             bool isLangGroup3 = lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese;
             
             switch (this.Name) {
+                case "lblRound":
+                    factor = isLangGroup1 ? (this.Text.Length > 21 ? 0.96f: 1f) : 1f;
+                    break;
                 case "lblWins":
-                    factor = isLangGroup1 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                    factor = isLangGroup1 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : (this.Text.Length > 21 ? 0.84f: 1f)) :
                              isLangGroup2 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                              isLangGroup3 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
@@ -161,7 +164,7 @@ namespace FallGuysStats {
                              isLangGroup3 ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFastest":
-                    factor = isLangGroup1 ? (this.TextRight.Length > 8 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                    factor = isLangGroup1 ? (this.TextRight.Length > 8 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 50 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                              isLangGroup2 ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                              isLangGroup3 ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
@@ -176,8 +179,8 @@ namespace FallGuysStats {
                              isLangGroup3 ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinish":
-                    factor = isLangGroup1 ? (this.Text.Length <= 8 ? (this.TextRight.Length > 13 ? 1f - (((this.TextRight.Length * 2.5f) - 28) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
-                             isLangGroup2 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
+                    factor = isLangGroup1 ? (this.Text.Length <= 8 ? (this.TextRight.Length > 13 ? 1f - (((this.TextRight.Length * 2.5f) - 28) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 33) / 100f))) :
+                             isLangGroup2 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : (this.Text.Length > 10 ? 0.94f : 1f)) :
                              isLangGroup3 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
                     break;
                 default:

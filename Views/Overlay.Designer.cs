@@ -1,4 +1,6 @@
-﻿namespace FallGuysStats {
+﻿using System;
+
+namespace FallGuysStats {
     sealed partial class Overlay {
         /// <summary>
         /// Required designer variable.
@@ -24,6 +26,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.tmrQueued = new System.Windows.Forms.Timer(this.components);
             this.picPositionNE = new System.Windows.Forms.PictureBox();
             this.picPositionNW = new System.Windows.Forms.PictureBox();
             this.picPositionSE = new System.Windows.Forms.PictureBox();
@@ -53,6 +57,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPositionSW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPositionLock)).BeginInit();
             this.SuspendLayout();
+            // 
+            // tmrQueued
+            // 
+            this.tmrQueued.Interval = 50;
+            this.tmrQueued.Tick += new System.EventHandler(this.LoadingTimer_Tick);
             // 
             // picPositionNE
             // 
@@ -480,6 +489,8 @@
         }
 
         #endregion
+        private System.Windows.Forms.Timer tmrQueued;
+        
         private FallGuysStats.TransparentLabel lblRound;
         private FallGuysStats.TransparentLabel lblDuration;
         private FallGuysStats.TransparentLabel lblFinish;

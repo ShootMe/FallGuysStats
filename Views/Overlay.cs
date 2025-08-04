@@ -46,6 +46,8 @@ namespace FallGuysStats {
         private new Size DefaultSize;
         private Bitmap customizedBackground, customizedTab;
         private string backgroundResourceNameCache, tabResourceNameCache;
+        private byte transitionCounter;
+        private TransparentLabel targetLabel;
 
         private bool isPositionButtonMouseEnter;
         private readonly Image positionNeOffBlur = Utils.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
@@ -589,8 +591,12 @@ namespace FallGuysStats {
                 this.lblRound.LevelColor = Color.Empty;
                 this.lblRound.LevelTrueColor = Color.Empty;
                 this.lblRound.RoundIcon = null;
-                this.lblRound.ImageWidth = 0;
-                this.lblRound.ImageHeight = 0;
+                this.targetLabel = this.lblRound;
+                this.lblRound.ImageX = 225;
+                this.lblRound.ImageWidth = 20;
+                this.lblRound.ImageHeight = 22;
+                this.tmrQueued.Start();
+                
                 this.lblRound.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                 this.lblRound.TextRight = Stats.QueuedPlayers.ToString();
                 this.lblRound.ForeColor = this.ForeColor;
@@ -627,6 +633,11 @@ namespace FallGuysStats {
                 this.lblWins.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                 this.lblWins.TextRight = $"{Stats.QueuedPlayers:N0}";
                 this.lblWins.ForeColor = this.ForeColor;
+                this.targetLabel = this.lblWins;
+                this.lblWins.ImageX = Stats.CurrentLanguage == Language.French ? 194 : 188;
+                this.lblWins.ImageWidth = 20;
+                this.lblWins.ImageHeight = 22;
+                this.tmrQueued.Start();
             } else {
                 this.lblWins.Text = $@"{Multilingual.GetWord("overlay_wins")} :";
                 float winChance = summary.TotalWins * 100f / Math.Max(1, summary.TotalShows);
@@ -721,6 +732,11 @@ namespace FallGuysStats {
                     this.lblFastest.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFastest.ForeColor = this.ForeColor;
+                    this.targetLabel = this.lblFastest;
+                    this.lblFastest.ImageX = 173;
+                    this.lblFastest.ImageWidth = 20;
+                    this.lblFastest.ImageHeight = 22;
+                    this.tmrQueued.Start();
                 } else {
                     this.lblFastest.TickProgress = 0;
                     bool useSwitching = this.StatsForm.CurrentSettings.SwitchBetweenLongest;
@@ -937,6 +953,11 @@ namespace FallGuysStats {
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
                 if (!Stats.InShow && Stats.IsQueued && (setting == 0 || setting == 2 || setting == 4)) {
+                    this.targetLabel = this.lblFinish;
+                    this.tmrQueued.Start();
+                    this.lblFinish.ImageX = Stats.CurrentLanguage == Language.French ? 180 : 174;
+                    this.lblFinish.ImageWidth = 20;
+                    this.lblFinish.ImageHeight = 22;
                     this.lblFinish.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFinish.ForeColor = this.ForeColor;
@@ -1013,6 +1034,22 @@ namespace FallGuysStats {
                         this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     }
                 }
+            }
+        }
+        
+        private void LoadingTimer_Tick(object sender, EventArgs e) {
+            if (!Stats.InShow && Stats.IsQueued) {
+                this.targetLabel = null;
+                this.tmrQueued.Stop();
+            }
+            this.transitionCounter++;
+            
+            if (this.targetLabel != null) {
+                this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{(transitionCounter - 1) % 10 + 1}");
+            }
+            
+            if (this.transitionCounter >= 100) {
+                this.transitionCounter = 0;
             }
         }
         
