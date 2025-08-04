@@ -48,6 +48,7 @@ namespace FallGuysStats {
                     splashWindow.Refresh();
                     splashWindow.TopMost = true;
                     splashWindow.TopMost = false;
+                    Application.DoEvents();
 
                     Stats statsForm = new Stats();
                     splashWindow.Close();

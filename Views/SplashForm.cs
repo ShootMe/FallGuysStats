@@ -4,23 +4,25 @@ using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class SplashForm : Form {
         private PictureBox pBox;
-        // private ProgressBar progressBar;
 
         public SplashForm() {
+            InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.StartPosition = FormStartPosition.Manual;
+            this.ShowInTaskbar = false;
+            
             Image splashImage = Properties.Resources.splash_image;
+            int factor = 5;
+            Size splashSize = new Size(splashImage.Width / factor, splashImage.Height / factor);
 
             pBox = new PictureBox {
                 Image = splashImage,
                 SizeMode = PictureBoxSizeMode.Zoom,
                 Location = new Point(0, 0),
-                Size = new Size((int)(splashImage.Width / 2.5), (int)(splashImage.Height / 2.5))
+                Size = splashSize
             };
-
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.StartPosition = FormStartPosition.Manual;
-            this.ClientSize = new Size((int)(splashImage.Width / 2.5), (int)(splashImage.Height / 2.5));
-            this.ShowInTaskbar = false;
-
+            
+            this.ClientSize = splashSize;
             this.Controls.Add(pBox);
         }
     }
