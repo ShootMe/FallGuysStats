@@ -79,14 +79,16 @@ namespace FallGuysStats {
         static Overlay() {
             string[] fontNames = { "TitanOne-Regular.ttf", "PretendardJP-Medium.ttf", "NotoSansSC-Regular.otf" };
             for (int i = 0; i < fontNames.Length; i++) {
-                string fontName = fontNames[i];
-                if (string.IsNullOrEmpty(fontName) || File.Exists($"{Stats.CURRENTDIR}{fontName}")) continue;
-                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream($"FallGuysStats.Resources.font.{fontName}")) {
+                if (string.IsNullOrEmpty(fontNames[i]) || File.Exists($"{Stats.CURRENTDIR}{fontNames[i]}")) continue;
+                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream($"FallGuysStats.Resources.font.{fontNames[i]}")) {
                     byte[] fontData = new byte[fontStream.Length];
                     fontStream.Read(fontData, 0, (int)fontStream.Length);
-                    File.WriteAllBytes($"{Stats.CURRENTDIR}{fontName}", fontData);
+                    File.WriteAllBytes($"{Stats.CURRENTDIR}{fontNames[i]}", fontData);
                 }
-                DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}{fontName}");
+            }
+
+            for (int i = 0; i < fontNames.Length; i++) {
+                DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}{fontNames[i]}");
             }
             SetDefaultFont(18, Stats.CurrentLanguage);
             
