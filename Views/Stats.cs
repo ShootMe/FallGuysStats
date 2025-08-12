@@ -320,6 +320,7 @@ namespace FallGuysStats {
             "event_only_skeefall_timetrial_s6_1",
             "event_only_roll_out",
             "event_walnut_template",
+            "event_yeetus_template",
             "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
             "event_le_anchovy_template",
@@ -1778,9 +1779,24 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 126;
+            int lastVersion = 127;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 126: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_yeetus_template")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (string.Equals(ri.Name, "round_tip_toe") && ri.Players <= 9) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 125: {
                             DateTime dateCond = new DateTime(2025, 7, 29, 9, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
