@@ -73,38 +73,21 @@ namespace FallGuysStats {
         private bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
         private bool isFocused, isMouseOver;
 
-        private static readonly PrivateFontCollection DefaultFontCollection;
+        private static readonly PrivateFontCollection DefaultFontCollection = new PrivateFontCollection();
         public static new Font DefaultFont;
 
         static Overlay() {
-            if (!File.Exists($"{Stats.CURRENTDIR}TitanOne-Regular.ttf")) {
-                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.TitanOne-Regular.ttf")) {
-                    byte[] fontdata = new byte[fontStream.Length];
-                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes($"{Stats.CURRENTDIR}TitanOne-Regular.ttf", fontdata);
+            string[] fontNames = { "TitanOne-Regular.ttf", "PretendardJP-Medium.ttf", "NotoSansSC-Regular.otf" };
+            for (int i = 0; i < fontNames.Length; i++) {
+                string fontName = fontNames[i];
+                if (string.IsNullOrEmpty(fontName) || File.Exists($"{Stats.CURRENTDIR}{fontName}")) continue;
+                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream($"FallGuysStats.Resources.font.{fontName}")) {
+                    byte[] fontData = new byte[fontStream.Length];
+                    fontStream.Read(fontData, 0, (int)fontStream.Length);
+                    File.WriteAllBytes($"{Stats.CURRENTDIR}{fontName}", fontData);
                 }
+                DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}{fontName}");
             }
-            
-            if (!File.Exists($"{Stats.CURRENTDIR}NotoSans-Regular.ttf")) {
-                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSans-Regular.ttf")) {
-                    byte[] fontdata = new byte[fontStream.Length];
-                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes($"{Stats.CURRENTDIR}NotoSans-Regular.ttf", fontdata);
-                }
-            }
-            
-            if (!File.Exists($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf")) {
-                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSansSC-Regular.otf")) {
-                    byte[] fontdata = new byte[fontStream.Length];
-                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                    File.WriteAllBytes($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf", fontdata);
-                }
-            }
-            
-            DefaultFontCollection = new PrivateFontCollection();
-            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}TitanOne-Regular.ttf");
-            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}NotoSans-Regular.ttf");
-            DefaultFontCollection.AddFontFile($"{Stats.CURRENTDIR}NotoSansSC-Regular.otf");
             SetDefaultFont(18, Stats.CurrentLanguage);
             
             if (!Directory.Exists($"{Stats.CURRENTDIR}Overlay")) {
@@ -237,13 +220,13 @@ namespace FallGuysStats {
             return new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(Language lang = Language.English) {
-            return (lang == Language.English || lang == Language.French) ? DefaultFontCollection.Families[2] : (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+            return (lang == Language.English || lang == Language.French) ? DefaultFontCollection.Families[2] : (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[0] : DefaultFontCollection.Families[1];
         }
         public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, Language lang = Language.English) {
             return new Font(GetMainFontFamilies(lang), emSize, fontStyle, GraphicsUnit.Pixel);
         }
         public static FontFamily GetMainFontFamilies(Language lang) {
-            return (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+            return (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[0] : DefaultFontCollection.Families[1];
         }
         public bool IsFocused() {
             return this.isFocused;

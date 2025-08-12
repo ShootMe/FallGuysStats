@@ -299,7 +299,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\font\NotoSans-Regular.ttf" />
+    <EmbeddedResource Include="Resources\font\PretendardJP-Medium.ttf" />
     <EmbeddedResource Include="Resources\font\TitanOne-Regular.ttf" />
     <EmbeddedResource Include="Resources\font\NotoSansSC-Regular.otf" />
     <EmbeddedResource Include="Resources\overlay\background.png" />
