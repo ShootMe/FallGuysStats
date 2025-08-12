@@ -398,6 +398,9 @@ namespace FallGuysStats {
                     || (string.Equals(showId, "event_animals_template")
                         && string.Equals(roundId, "round_drumtop_final_animals"))
 
+                    || (string.Equals(showId, "event_yeetus_template")
+                        && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+
                     || (string.Equals(showId, "event_only_button_bashers_template")
                         && roundNum == 4)
 
