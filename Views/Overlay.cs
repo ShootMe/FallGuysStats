@@ -577,7 +577,6 @@ namespace FallGuysStats {
                 this.lblRound.LevelTrueColor = Color.Empty;
                 this.lblRound.RoundIcon = null;
                 this.targetLabel = this.lblRound;
-                this.lblRound.ImageX = 225;
                 this.lblRound.ImageWidth = 20;
                 this.lblRound.ImageHeight = 22;
                 this.tmrQueued.Start();
@@ -619,7 +618,6 @@ namespace FallGuysStats {
                 this.lblWins.TextRight = $"{Stats.QueuedPlayers:N0}";
                 this.lblWins.ForeColor = this.ForeColor;
                 this.targetLabel = this.lblWins;
-                this.lblWins.ImageX = Stats.CurrentLanguage == Language.French ? 194 : 188;
                 this.lblWins.ImageWidth = 20;
                 this.lblWins.ImageHeight = 22;
                 this.tmrQueued.Start();
@@ -718,7 +716,6 @@ namespace FallGuysStats {
                     this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFastest.ForeColor = this.ForeColor;
                     this.targetLabel = this.lblFastest;
-                    this.lblFastest.ImageX = 173;
                     this.lblFastest.ImageWidth = 20;
                     this.lblFastest.ImageHeight = 22;
                     this.tmrQueued.Start();
@@ -938,11 +935,10 @@ namespace FallGuysStats {
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
                 if (!Stats.InShow && Stats.IsQueued && (setting == 0 || setting == 2 || setting == 4)) {
-                    this.targetLabel = this.lblFinish;
-                    this.tmrQueued.Start();
-                    this.lblFinish.ImageX = Stats.CurrentLanguage == Language.French ? 180 : 174;
                     this.lblFinish.ImageWidth = 20;
                     this.lblFinish.ImageHeight = 22;
+                    this.targetLabel = this.lblFinish;
+                    this.tmrQueued.Start();
                     this.lblFinish.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFinish.ForeColor = this.ForeColor;
@@ -1031,7 +1027,32 @@ namespace FallGuysStats {
                 this.transitionCounter++;
             
                 if (this.targetLabel != null) {
-                    this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{(transitionCounter - 1) % 10 + 1}");
+                    int ols = this.StatsForm.GetOverlaySetting();
+                    int labelX = 0;
+                    if (Equals(this.targetLabel.Name, "lblFinish") && (ols == 0 || ols == 2 || ols == 4)) {
+                        labelX = Stats.CurrentLanguage == Language.French ? 178 : 169;
+                    } else if (Equals(this.targetLabel.Name, "lblFastest") && ols == 6) {
+                        labelX = Stats.CurrentLanguage == Language.French ? 177 : Stats.CurrentLanguage == Language.Japanese ? 172 : 169;
+                    } else if (Equals(this.targetLabel.Name, "lblWins") && ols == 3) {
+                        labelX = Stats.CurrentLanguage == Language.French ? 192 : 186;
+                    } else if (Equals(this.targetLabel.Name, "lblRound") && (ols == 1 || ols == 5)) {
+                        labelX = 225;
+                    }
+
+                    int sequence = (transitionCounter - 1) % 10 + 1;
+                    switch (sequence) {
+                        case 1: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 3; break;
+                        case 2: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 1; break;
+                        case 3: this.targetLabel.ImageX = labelX + 3; this.targetLabel.ImageY = 0; break;
+                        case 4: this.targetLabel.ImageX = labelX + 4; this.targetLabel.ImageY = 0; break;
+                        case 5: this.targetLabel.ImageX = labelX + 5; this.targetLabel.ImageY = 1; break;
+                        case 6: this.targetLabel.ImageX = labelX + 6; this.targetLabel.ImageY = 3; break;
+                        case 7: this.targetLabel.ImageX = labelX + 5; this.targetLabel.ImageY = 1; break;
+                        case 8: this.targetLabel.ImageX = labelX + 4; this.targetLabel.ImageY = 0; break;
+                        case 9: this.targetLabel.ImageX = labelX + 3; this.targetLabel.ImageY = 0; break;
+                        case 10: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 1; break;
+                    }
+                    this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{sequence}");
                 }
             
                 if (this.transitionCounter >= 100) {

@@ -84,7 +84,7 @@
             this.picImage.Location = new System.Drawing.Point(0, 0);
             this.picImage.Name = "picImage";
             this.picImage.Size = new System.Drawing.Size(110, 102);
-            this.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.picImage.TabIndex = 0;
             this.picImage.TabStop = false;
             this.picImage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);

@@ -383,7 +383,22 @@ namespace FallGuysStats {
             maxTransition++;
 
             if (_transitionCounter % 5 == 0) {
-                this.Thumbnails = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{((_transitionCounter / 5) - 1) % 10 + 1}{(ToastTheme == ToastTheme.Light ? "_dark" : "")}");
+                int sequence = ((_transitionCounter / 5) - 1) % 10 + 1;
+                Padding paddingAdj = default;
+                switch (sequence) {
+                    case 1: paddingAdj = new Padding(5, 10, 0, 0); break;
+                    case 2: paddingAdj = new Padding(6, 5, 0, 0); break;
+                    case 3: paddingAdj = new Padding(11, 3, 0, 0); break;
+                    case 4: paddingAdj = new Padding(15, 3, 0, 0); break;
+                    case 5: paddingAdj = new Padding(19, 5, 0, 0); break;
+                    case 6: paddingAdj = new Padding(21, 10, 0, 0); break;
+                    case 7: paddingAdj = new Padding(19, 5, 0, 0); break;
+                    case 8: paddingAdj = new Padding(15, 3, 0, 0); break;
+                    case 9: paddingAdj = new Padding(11, 3, 0, 0); break;
+                    case 10: paddingAdj = new Padding(6, 5, 0, 0); break;
+                }
+                picImage.Padding = paddingAdj;
+                this.Thumbnails = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{sequence}{(ToastTheme == ToastTheme.Light ? "_dark" : "")}");
             }
 
             if (_transitionCounter >= 100) {
