@@ -60,7 +60,7 @@ namespace FallGuysStats {
             // 
             // tmrQueued
             // 
-            this.tmrQueued.Interval = 50;
+            this.tmrQueued.Interval = 70;
             this.tmrQueued.Tick += new System.EventHandler(this.LoadingTimer_Tick);
             // 
             // picPositionNE
