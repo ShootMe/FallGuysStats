@@ -1061,7 +1061,7 @@ namespace FallGuysStats {
             this.lblIpGeolocationService.Text = Multilingual.GetWord("settings_preferred_ip_geolocation_service");
             this.lblIpGeolocationService.Left = this.cboIpGeolocationService.Left - this.lblIpGeolocationService.Width - 5;
             this.linkIPinfoToken.Text = Multilingual.GetWord("settings_ipinfo_token");
-            this.linkIPinfoToken.Width = TextRenderer.MeasureText(this.linkIPinfoToken.Text, this.linkIPinfoToken.Font).Width;
+            this.linkIPinfoToken.Width = TextRenderer.MeasureText(this.linkIPinfoToken.Text, this.linkIPinfoToken.Font).Width + (lang == Language.French ? 11 : 0);
             this.linkIPinfoToken.Left = this.txtIPinfoToken.Left - this.linkIPinfoToken.Width - 5;
             this.txtIPinfoToken.WaterMark = Multilingual.GetWord("settings_enter_ipinfo_token");
             // this.linkIPinfoToken.Text = Multilingual.GetWord("settings_link_to_get_ipinfo_token");
@@ -1280,7 +1280,9 @@ namespace FallGuysStats {
             this.picProxyTextResult.Left = this.btnProxyTestConnection.Right + 10;
             
             this.fglink1.Text = Multilingual.GetWord("settings_github");
+            this.fglink1.Width = TextRenderer.MeasureText(this.fglink1.Text, this.fglink1.Font).Width;
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
+            this.fglink2.Width = TextRenderer.MeasureText(this.fglink2.Text, this.fglink2.Font).Width + (lang == Language.French ? 13 : lang == Language.Korean ? 17 : 0);
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
             this.btnCheckUpdates.Width = TextRenderer.MeasureText(this.btnCheckUpdates.Text, this.btnCheckUpdates.Font).Width + 30;
             this.lblthirdpartyLicences.Font = Overlay.GetMainFont(18);

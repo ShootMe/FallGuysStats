@@ -718,14 +718,14 @@ namespace FallGuysStats {
                 if ((this.statType == StatType.Levels || this.statType == StatType.Rounds) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(false, info.IsTeam, this.Theme);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
-                    if (level.IsCreative && string.IsNullOrEmpty(info.CreativeTitle)) {
+                    if (level.IsCreative && info.CreativeVersion == 0) {
                         e.Value = $"🔄️ {e.Value}";
                     }
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "Name") {
                 if (info.UseShareCode) {
                     if (this.StatsForm.StatLookup.TryGetValue((string.IsNullOrEmpty(info.ShowNameId) ? "user_creative_race_round" : info.ShowNameId), out LevelStats level)) {
-                        Color c1 = string.IsNullOrEmpty(info.CreativeTitle) ? (this.Theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow) : level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
+                        Color c1 = info.CreativeVersion == 0 ? (this.Theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow) : level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
                         e.Value = $"🔧 {(string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : info.CreativeTitle)}";
                     }
@@ -738,7 +738,7 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeLikes") {
                 if ((this.statType == StatType.Levels || this.statType == StatType.Rounds) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
-                    if (level.IsCreative && !string.IsNullOrEmpty(info.CreativeTitle)) {
+                    if (level.IsCreative && info.CreativeVersion > 0) {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(214, 86, 100) : Color.FromArgb(220, 155, 162);
                         e.CellStyle.Font = new Font("Tahoma", 8);
                         e.Value = $"👍 {e.Value:N0}";
@@ -750,7 +750,7 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeDislikes") {
                 if ((this.statType == StatType.Levels || this.statType == StatType.Rounds) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
-                    if (level.IsCreative && !string.IsNullOrEmpty(info.CreativeTitle)) {
+                    if (level.IsCreative && info.CreativeVersion > 0) {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(101, 82, 183) : Color.FromArgb(147, 136, 195);
                         e.CellStyle.Font = new Font("Tahoma", 8);
                         e.Value = $"👎 {e.Value:N0}";

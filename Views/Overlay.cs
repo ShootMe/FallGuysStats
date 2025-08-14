@@ -453,7 +453,7 @@ namespace FallGuysStats {
             this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
             this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
             this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 11 : -6));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 77 : 60));
         }
         
         private void SetBlurPositionMenu() {
@@ -1092,7 +1092,7 @@ namespace FallGuysStats {
                         } else if (this.levelId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                             this.levelName = this.levelId.Substring(6).Replace('_', ' ').ToUpper();
                         } else if (this.lastRound.UseShareCode && this.StatsForm.StatLookup.TryGetValue(this.lastRound.ShowNameId, out this.levelStats)) {
-                            this.levelName = string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(this.levelId) : this.lastRound.CreativeTitle;
+                            this.levelName = !string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.lastRound.CreativeTitle : this.StatsForm.GetUserCreativeLevelTitle(this.levelId);
                         } else {
                             this.levelName = this.levelId.Replace('_', ' ').ToUpper();
                         }
@@ -1800,7 +1800,7 @@ namespace FallGuysStats {
             // this.DisplayProfile(this.drawHeight > 99);
             this.DisplayTabs(this.StatsForm.CurrentSettings.ShowOverlayTabs);
             this.DisplayProfile(this.StatsForm.CurrentSettings.ShowOverlayTabs);
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? 11 : -6));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? 77 : 60));
         }
         
         private int GetCountNumeric(string s) {

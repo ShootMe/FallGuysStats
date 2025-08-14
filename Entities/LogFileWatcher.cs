@@ -785,7 +785,7 @@ namespace FallGuysStats {
                 if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) return;
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
-                    string levelName = string.IsNullOrEmpty(info.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(info.Name) : info.CreativeTitle;
+                    string levelName = !string.IsNullOrEmpty(info.CreativeTitle) ? info.CreativeTitle : this.StatsForm.GetUserCreativeLevelTitle(info.Name);
                     List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, info.Name));
 
                     TimeSpan currentRecord = info.Finish.Value - info.Start;
