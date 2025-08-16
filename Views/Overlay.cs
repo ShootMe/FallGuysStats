@@ -453,7 +453,7 @@ namespace FallGuysStats {
             this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
             this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
             this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 77 : 60));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 11 : -6));
         }
         
         private void SetBlurPositionMenu() {
@@ -1041,8 +1041,8 @@ namespace FallGuysStats {
 
                     int sequence = (transitionCounter - 1) % 10 + 1;
                     switch (sequence) {
-                        case 1: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 3; break;
-                        case 2: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 1; break;
+                        case 1: this.targetLabel.ImageX = labelX + 2; this.targetLabel.ImageY = 3; break;
+                        case 2: this.targetLabel.ImageX = labelX + 2; this.targetLabel.ImageY = 1; break;
                         case 3: this.targetLabel.ImageX = labelX + 3; this.targetLabel.ImageY = 0; break;
                         case 4: this.targetLabel.ImageX = labelX + 4; this.targetLabel.ImageY = 0; break;
                         case 5: this.targetLabel.ImageX = labelX + 5; this.targetLabel.ImageY = 1; break;
@@ -1050,7 +1050,7 @@ namespace FallGuysStats {
                         case 7: this.targetLabel.ImageX = labelX + 5; this.targetLabel.ImageY = 1; break;
                         case 8: this.targetLabel.ImageX = labelX + 4; this.targetLabel.ImageY = 0; break;
                         case 9: this.targetLabel.ImageX = labelX + 3; this.targetLabel.ImageY = 0; break;
-                        case 10: this.targetLabel.ImageX = labelX + 1; this.targetLabel.ImageY = 1; break;
+                        case 10: this.targetLabel.ImageX = labelX + 2; this.targetLabel.ImageY = 1; break;
                     }
                     this.targetLabel.Image = (Image)Properties.Resources.ResourceManager.GetObject($"loading_{sequence}");
                 }
@@ -1800,7 +1800,7 @@ namespace FallGuysStats {
             // this.DisplayProfile(this.drawHeight > 99);
             this.DisplayTabs(this.StatsForm.CurrentSettings.ShowOverlayTabs);
             this.DisplayProfile(this.StatsForm.CurrentSettings.ShowOverlayTabs);
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? 77 : 60));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? 11 : -6));
         }
         
         private int GetCountNumeric(string s) {
