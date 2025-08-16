@@ -16,6 +16,7 @@ namespace FallGuysStats {
         public Dictionary<string, TimeSpan> levelTotalPlayTime;
         public Dictionary<string, int[]> levelScoreInfo;
         public IOrderedEnumerable<KeyValuePair<string, string>> levelList;
+        private string levelShareCode;
         private RadialGaugePlot radialGauges;
         private readonly string[] labelList = {
             Multilingual.GetWord("main_played"), Multilingual.GetWord("level_detail_gold"),
@@ -88,10 +89,12 @@ namespace FallGuysStats {
             
             MatchCollection matches = Regex.Matches(levelId, @"^\d{4}-\d{4}-\d{4}$");
             if (matches.Count > 0) {
+                this.levelShareCode = levelId;
+                this.btnCopyShareCode.Visible = true;
                 List<RoundInfo> info = this.StatsForm.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, levelId));
                 this.picRoundIcon.Size = Properties.Resources.round_creative_big_icon.Size;
                 this.picRoundIcon.Image = Properties.Resources.round_creative_big_icon;
-                this.formsPlot.Plot.Title(selectedRoundPair.Value);
+                this.formsPlot.Plot.Title($@"{selectedRoundPair.Value}{Environment.NewLine}{this.levelShareCode}");
                 
                 switch (info.Last().ShowNameId) {
                     case "user_creative_race_round":
@@ -143,10 +146,12 @@ namespace FallGuysStats {
                 this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
             } else {
                 if (this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats level)) {
+                    this.levelShareCode = level.ShareCode;
+                    bool hasShareCode = !string.IsNullOrEmpty(this.levelShareCode);
+                    this.btnCopyShareCode.Visible = hasShareCode;
                     this.picRoundIcon.Size = level.RoundBigIcon.Size;
                     this.picRoundIcon.Image = level.RoundBigIcon;
-                    this.formsPlot.Plot.Title(level.Name);
-                    
+                    this.formsPlot.Plot.Title(hasShareCode ? $@"{level.Name}{Environment.NewLine}{this.levelShareCode}" : level.Name);
                     this.lblRoundType.Text = level.Type.LevelTitle(level.IsFinal);
                     this.lblRoundType.borderColor = level.Type.LevelDefaultColor(level.IsFinal);
                     this.lblRoundType.backColor = level.Type.LevelDefaultColor(level.IsFinal);
@@ -241,6 +246,13 @@ namespace FallGuysStats {
             }
         }
 
+        private void btnCopyShareCode_Click(object sender, EventArgs e) {
+            Clipboard.SetText(this.levelShareCode, TextDataFormat.Text);
+            this.StatsForm.AllocTooltip();
+            Point position = new Point(this.btnCopyShareCode.Location.X + 26, this.btnCopyShareCode.Location.Y - 6);
+            this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
+        }
+
         private void Medal_MouseEnter(object sender, EventArgs e) {
             this.Cursor = this.Theme == MetroThemeStyle.Light
                 ? new System.Windows.Forms.Cursor(Properties.Resources.transform_icon.GetHicon())
@@ -250,7 +262,7 @@ namespace FallGuysStats {
         private void Medal_MouseLeave(object sender, EventArgs e) {
             this.Cursor = Cursors.Default;
         }
-        
+
         private void Medal_MouseClick(object sender, EventArgs e) {
             this.switching = !this.switching;
             if (this.switching) {

@@ -90,7 +90,7 @@
             this.lbTemplatesList.ItemHeight = 12;
             this.lbTemplatesList.Location = new System.Drawing.Point(3, 16);
             this.lbTemplatesList.Name = "lbTemplatesList";
-            this.lbTemplatesList.Size = new System.Drawing.Size(508, 218);
+            this.lbTemplatesList.Size = new System.Drawing.Size(508, 209);
             this.lbTemplatesList.TabIndex = 3;
             this.lbTemplatesList.SelectedValueChanged += new System.EventHandler(this.lbTemplatesList_SelectedValueChanged);
             // 

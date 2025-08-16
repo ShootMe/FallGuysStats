@@ -6815,7 +6815,8 @@ namespace FallGuysStats {
                                                                   && this.IsInStatsFilter(r)
                                                                   && this.IsInPartyFilter(r)
                                                                   && !r.UseShareCode)
-                    .OrderBy(r => (this.StatLookup.TryGetValue(r.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) ? l1.ShareCode : r.Name).ToList();
+                    .OrderBy(r => (this.StatLookup.TryGetValue(r.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) ? l1.ShareCode : r.Name)
+                    .ThenBy(r => r.Name).ToList();
                 List<RoundInfo> useShareCodeRounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId()
                                                                               && this.IsInStatsFilter(r)
                                                                               && this.IsInPartyFilter(r)
@@ -6833,9 +6834,11 @@ namespace FallGuysStats {
                 int hs = 0, ls = 0;
                 TimeSpan pt = TimeSpan.Zero;
                 for (int i = 0; i < rounds.Count; i++) {
-                    if (i > 0 && (rounds[i].Name.StartsWith("round_") && !string.Equals(rounds[i].Name, rounds[i - 1].Name)
-                                  || ((!rounds[i].Name.StartsWith("round_") && rounds[i - 1].Name.StartsWith("round_"))
-                                      || (!rounds[i].Name.StartsWith("round_") && !rounds[i - 1].Name.StartsWith("round_") && this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1) && this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2) && !string.Equals(l1.ShareCode, l2.ShareCode))))) {
+                    if (i > 0 && ((rounds[i].Name.StartsWith("round_") && !string.Equals(rounds[i].Name, rounds[i - 1].Name))
+                                   || (!rounds[i].Name.StartsWith("round_") && rounds[i - 1].Name.StartsWith("round_"))
+                                   || (!rounds[i].Name.StartsWith("round_") && !rounds[i - 1].Name.StartsWith("round_") &&
+                                       this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1) && this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2) &&
+                                       !string.Equals(l1.ShareCode, l2.ShareCode)))) {
                         string levelName = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l3) ? l3.Name : rounds[i - 1].Name;
                         levelTotalPlayTime.Add(rounds[i - 1].Name, pt);
                         levelMedalInfo.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
@@ -6860,7 +6863,7 @@ namespace FallGuysStats {
                     } else {
                         ++em;
                     }
-
+                    
                     if (i == rounds.Count - 1) {
                         string levelName = this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l3) ? l3.Name : rounds[i].Name;
                         levelTotalPlayTime.Add(rounds[i].Name, pt);
@@ -6869,7 +6872,7 @@ namespace FallGuysStats {
                         levelList.Add(rounds[i].Name, levelName.Replace("&", "&&"));
                     }
                 }
-
+                
                 pt = TimeSpan.Zero;
                 hs = 0; ls = 0;
                 p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
@@ -6878,7 +6881,7 @@ namespace FallGuysStats {
                         levelTotalPlayTime.Add(useShareCodeRounds[i - 1].Name, pt);
                         levelMedalInfo.Add(useShareCodeRounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
                         levelScoreInfo.Add(useShareCodeRounds[i - 1].Name, new[] { hs, ls });
-                        levelList.Add(useShareCodeRounds[i - 1].Name, this.GetUserCreativeLevelTitle(useShareCodeRounds[i - 1].Name).Replace("&", "&&"));
+                        levelList.Add(useShareCodeRounds[i - 1].Name, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i - 1].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
                         
                         pt = TimeSpan.Zero;
                         hs = 0; ls = 0;
@@ -6899,12 +6902,12 @@ namespace FallGuysStats {
                     } else {
                         ++em;
                     }
-
+                    
                     if (i == useShareCodeRounds.Count - 1) {
                         levelTotalPlayTime.Add(useShareCodeRounds[i].Name, pt);
                         levelMedalInfo.Add(useShareCodeRounds[i].Name, new[] { p, gm, sm, bm, pm, em });
                         levelScoreInfo.Add(useShareCodeRounds[i].Name, new[] { hs, ls });
-                        levelList.Add(useShareCodeRounds[i].Name, this.GetUserCreativeLevelTitle(useShareCodeRounds[i].Name).Replace("&", "&&"));
+                        levelList.Add(useShareCodeRounds[i].Name, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
                     }
                 }
                 
