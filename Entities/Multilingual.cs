@@ -13616,6 +13616,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "Explore - Xtreme" },
                     { "xtreme_party", "X-treme Party" },
+                    { "xtreme_solos_template_ranked", "X-treme Solos Ranked" },
 
                     { "show_wle_s10_wk01_mrs", "Creator Round Playlist 1" },
                     { "show_wle_s10_wk3_mrs", "Creator Round Playlist 2" },
@@ -14543,6 +14544,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "Exploration - Xtrême" },
                     { "xtreme_party", "Fête Xtrême" },
+                    { "xtreme_solos_template_ranked", "Solo Xtrême classé" },
 
                     { "show_wle_s10_wk01_mrs", "Playlist de Manche de créateur 1" },
                     { "show_wle_s10_wk3_mrs", "Playlist de Manche de créateur 2" },
@@ -15470,6 +15472,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "탐험 - X-익스트림" },
                     { "xtreme_party", "X-익스트림 파티" },
+                    { "xtreme_solos_template_ranked", "X-익스트림 솔로 랭크" },
 
                     { "show_wle_s10_wk01_mrs", "크리에이터 라운드 플레이리스트 1" },
                     { "show_wle_s10_wk3_mrs", "크리에이터 라운드 플레이리스트 2" },
@@ -16397,6 +16400,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "自由探索 - エクストリーム" },
                     { "xtreme_party", "エクストリームパーティー" },
+                    { "xtreme_solos_template_ranked", "エクストリーム・ソロ ランク戦" },
 
                     { "show_wle_s10_wk01_mrs", "クリエイターラウンドのプレイリスト1" },
                     { "show_wle_s10_wk3_mrs", "クリエイターラウンドのプレイリスト2" },
@@ -17324,6 +17328,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "探索 - 极限" },
                     { "xtreme_party", "极限糖豆人派对" },
+                    { "xtreme_solos_template_ranked", "极限糖豆人单人排名" },
 
                     { "show_wle_s10_wk01_mrs", "创作者回合节目列表 1" },
                     { "show_wle_s10_wk3_mrs", "创作者回合节目列表 2" },
@@ -18251,6 +18256,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_opener", "placeholder" },
                     { "xtreme_explore", "探索模式 - x極限" },
                     { "xtreme_party", "極限糖豆人派對" },
+                    { "xtreme_solos_template_ranked", "X 極限單人排名戰" },
 
                     { "show_wle_s10_wk01_mrs", "創作者回合節目列表 1" },
                     { "show_wle_s10_wk3_mrs", "創作者回合節目列表 2" },

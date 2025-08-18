@@ -335,6 +335,7 @@ namespace FallGuysStats {
         };
         
         public readonly string[] PublicShowIdList2 = {
+            "xtreme_solos_template_ranked",
             "ranked_show_knockout",
             "knockout_mode",
             // "knockout_duos",
@@ -1779,9 +1780,35 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 127;
+            int lastVersion = 128;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 127: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "xtreme_solos_template_ranked")
+                                                              select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "ranked_solo_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "no_elimination_show")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (ri.Round == 3) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 126: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "event_yeetus_template")
@@ -5472,6 +5499,7 @@ namespace FallGuysStats {
         public string GetMainGroupShowId(string showId) {
             switch (showId) {
                 case "ranked_show_knockout":
+                case "xtreme_solos_template_ranked":
                     return "ranked_solo_show";
                 // case "anniversary_fp12_ltm":
                 case "classic_solo_main_show":
