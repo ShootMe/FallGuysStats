@@ -423,7 +423,7 @@ namespace FallGuysStats {
                         && string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2"))
 
                     || (string.Equals(showId, "no_elimination_show")
-                        && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")))
+                        && roundNum == 3)
 
                     || (string.Equals(showId, "sports_show")
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
@@ -500,7 +500,7 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
                    // || showId.StartsWith("knockout_")
-                   || showId.StartsWith("ranked_");
+                   || showId.StartsWith("ranked_"); // "Ranked Knockout" Show
         }
 
         private bool IsModeFinalException(string roundId) {
@@ -542,7 +542,7 @@ namespace FallGuysStats {
                      *        || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
                      */
 
-                     // "Ranked"
+                     // "Ranked Knockout" Show
                      || (roundId.StartsWith("ranked_", StringComparison.OrdinalIgnoreCase)
                          && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
         }
