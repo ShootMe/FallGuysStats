@@ -25,6 +25,7 @@ namespace FallGuysStats {
         public int OverlayBackgroundOpacity { get; set; }
         public bool IsOverlayBackgroundCustomized { get; set; }
         public int OverlayColor { get; set; }
+        public int LockButtonLocation { get; set; }
         public bool FlippedDisplay { get; set; }
         public bool FixedFlippedDisplay { get; set; }
         public bool SwitchBetweenLongest { get; set; }

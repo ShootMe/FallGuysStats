@@ -14,7 +14,8 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         public Dictionary<string, double[]> levelMedalInfo;
         public Dictionary<string, TimeSpan> levelTotalPlayTime;
-        public Dictionary<string, int[]> levelScoreInfo;
+        public Dictionary<string, string[]> levelTimeInfo;
+        public Dictionary<string, string[]> levelScoreInfo;
         public IOrderedEnumerable<KeyValuePair<string, string>> levelList;
         private string levelShareCode;
         private RadialGaugePlot radialGauges;
@@ -87,57 +88,57 @@ namespace FallGuysStats {
             KeyValuePair<string, string> selectedRoundPair = (KeyValuePair<string, string>)selectedItem;
             string levelId = selectedRoundPair.Key;
             
-            MatchCollection matches = Regex.Matches(levelId, @"^\d{4}-\d{4}-\d{4}$");
+            MatchCollection matches = Regex.Matches(levelId, @"^\d{4}-\d{4}-\d{4}\.$");
             if (matches.Count > 0) {
-                this.levelShareCode = levelId;
+                this.levelShareCode = levelId.Remove(14);
                 this.btnCopyShareCode.Visible = true;
-                List<RoundInfo> info = this.StatsForm.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, levelId));
+                List<RoundInfo> info = this.StatsForm.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, this.levelShareCode));
                 this.picRoundIcon.Size = Properties.Resources.round_creative_big_icon.Size;
                 this.picRoundIcon.Image = Properties.Resources.round_creative_big_icon;
-                this.formsPlot.Plot.Title($@"{selectedRoundPair.Value}{Environment.NewLine}{this.levelShareCode}");
+                this.formsPlot.Plot.Title($@"{selectedRoundPair.Value.Replace("&&", "&")}{Environment.NewLine}{this.levelShareCode}");
                 
                 switch (info.Last().ShowNameId) {
                     case "user_creative_race_round":
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_race");
                         this.lblRoundType.borderColor = Color.FromArgb(0, 236, 106);
                         this.lblRoundType.backColor = Color.FromArgb(0, 236, 106);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {info.Min(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {info.Max(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                         break;
                     case "user_creative_hunt_round":
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_hunt");
                         this.lblRoundType.borderColor = Color.FromArgb(45, 101, 186);
                         this.lblRoundType.backColor = Color.FromArgb(45, 101, 186);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {info.Min(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {info.Max(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                         break;
                     case "user_creative_survival_round":
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_survival");
                         this.lblRoundType.borderColor = Color.FromArgb(184, 21, 213);
                         this.lblRoundType.backColor = Color.FromArgb(184, 21, 213);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {info.Max(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {info.Min(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {this.levelTimeInfo[levelId][1]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {(!string.Equals(this.levelTimeInfo[levelId][1], this.levelTimeInfo[levelId][0]) ? this.levelTimeInfo[levelId][0] : @"-")}";
                         break;
                     case "user_creative_logic_round":
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_logic");
                         this.lblRoundType.borderColor = Color.FromArgb(91, 181, 189);
                         this.lblRoundType.backColor = Color.FromArgb(91, 181, 189);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {info.Max(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {info.Min(r => r.Finish.GetValueOrDefault(r.Start) - r.Start):m\\:ss\\.fff}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                         break;
                     case "user_creative_team_round":
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_team");
                         this.lblRoundType.borderColor = Color.FromArgb(248, 82, 0);
                         this.lblRoundType.backColor = Color.FromArgb(248, 82, 0);
                         this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[levelId][0]}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[levelId][1]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {(!string.Equals(this.levelScoreInfo[levelId][0], this.levelScoreInfo[levelId][1]) ? this.levelScoreInfo[levelId][1] : @"-")}";
                         break;
                     default:
                         this.lblRoundType.Text = "UNKNOWN";
                         this.lblRoundType.borderColor = Color.DarkGray;
                         this.lblRoundType.backColor = Color.DarkGray;
-                        this.lblBestRecord.Text = @"-";
-                        this.lblWorstRecord.Text = @"-";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                         break;
                 }
                 
@@ -159,22 +160,23 @@ namespace FallGuysStats {
                     this.lblBestRecord.Left = this.lblRoundType.Right + 12;
                     this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
                     
+                    levelId = hasShareCode ? this.levelShareCode : levelId;
                     switch (level.BestRecordType) {
                         case BestRecordType.Fastest:
-                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.fff}";
-                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.fff}";
+                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                             break;
                         case BestRecordType.Longest:
-                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.fff}";
-                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.fff}";
+                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {this.levelTimeInfo[levelId][1]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {(!string.Equals(this.levelTimeInfo[levelId][1], this.levelTimeInfo[levelId][0]) ? this.levelTimeInfo[levelId][0] : @"-")}";
                             break;
                         case BestRecordType.HighScore:
                             this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[levelId][0]}";
-                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[levelId][1]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {(!string.Equals(this.levelScoreInfo[levelId][0], this.levelScoreInfo[levelId][1]) ? this.levelScoreInfo[levelId][1] : @"-")}";
                             break;
                         default:
-                            this.lblBestRecord.Text = @"-";
-                            this.lblWorstRecord.Text = @"-";
+                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {this.levelTimeInfo[levelId][0]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_longest")} : {(!string.Equals(this.levelTimeInfo[levelId][0], this.levelTimeInfo[levelId][1]) ? this.levelTimeInfo[levelId][1] : @"-")}";
                             break;
                     }
                 }

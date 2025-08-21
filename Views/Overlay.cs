@@ -135,7 +135,9 @@ namespace FallGuysStats {
         public void ResetBackgroundImage(int width = 0, int height = 0) {
             this.ArrangeDisplay(string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.FlippedDisplay : this.StatsForm.CurrentSettings.FixedFlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
                 this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                this.StatsForm.CurrentSettings.OverlayColor, width > 0 ? width : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayWidth : this.StatsForm.CurrentSettings.OverlayFixedWidth, height > 0 ? height : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayHeight : this.StatsForm.CurrentSettings.OverlayFixedHeight,
+                this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.LockButtonLocation,
+                width > 0 ? width : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayWidth : this.StatsForm.CurrentSettings.OverlayFixedWidth,
+                height > 0 ? height : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayHeight : this.StatsForm.CurrentSettings.OverlayFixedHeight,
                 this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
         }
         
@@ -448,12 +450,12 @@ namespace FallGuysStats {
             this.isPositionButtonMouseEnter = false;
         }
         
-        private void SetLocationPositionMenu(bool visibleTab, bool flipped) {
+        private void SetLocationPositionMenu(bool visibleTab, int lockButtonLocation, bool flipped) {
             this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
             this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
             this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
             this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 11 : -6));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? (lockButtonLocation == 0 ? 11 : 77) : (lockButtonLocation == 0 ? -6 : 60)));
         }
         
         private void SetBlurPositionMenu() {
@@ -538,7 +540,7 @@ namespace FallGuysStats {
         }
         
         private void Overlay_Resize(object sender, EventArgs e) {
-            this.SetLocationPositionMenu(this.drawHeight > 99, this.StatsForm.CurrentSettings.FlippedDisplay);
+            this.SetLocationPositionMenu(this.drawHeight > 99, this.StatsForm.CurrentSettings.LockButtonLocation, this.StatsForm.CurrentSettings.FlippedDisplay);
         }
         
         private void Overlay_MouseDown(object sender, MouseEventArgs e) {
@@ -1345,7 +1347,7 @@ namespace FallGuysStats {
             }
         }
         
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int lockButtonLocation, int? width, int? height, string serializedFont, string serializedFontColor) {
             this.FlipDisplay(false);
             
             int heightOffset = showTabs ? 35 : 0;
@@ -1755,7 +1757,7 @@ namespace FallGuysStats {
             
             this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
             this.SetBlurPositionMenu();
-            this.SetLocationPositionMenu(showTabs, flipDisplay);
+            this.SetLocationPositionMenu(showTabs, lockButtonLocation, flipDisplay);
 
             if (this.IsFixed()) {
                 if (this.isFixedPositionSe || this.isFixedPositionSw) {
@@ -1800,7 +1802,7 @@ namespace FallGuysStats {
             // this.DisplayProfile(this.drawHeight > 99);
             this.DisplayTabs(this.StatsForm.CurrentSettings.ShowOverlayTabs);
             this.DisplayProfile(this.StatsForm.CurrentSettings.ShowOverlayTabs);
-            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? 11 : -6));
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.StatsForm.CurrentSettings.ShowOverlayTabs ? (this.StatsForm.CurrentSettings.LockButtonLocation == 0 ? 11 : 77) : (this.StatsForm.CurrentSettings.LockButtonLocation == 0 ? -6 : 60)));
         }
         
         private int GetCountNumeric(string s) {

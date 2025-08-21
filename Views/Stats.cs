@@ -4013,7 +4013,6 @@ namespace FallGuysStats {
                 CustomFilterRangeEnd = DateTime.MaxValue,
                 SelectedCustomTemplateSeason = -1,
                 SelectedProfile = 0,
-                FlippedDisplay = false,
                 LogPath = null,
                 OverlayBackground = 0,
                 OverlayBackgroundResourceName = string.Empty,
@@ -4034,6 +4033,8 @@ namespace FallGuysStats {
                 OverlayFixedPositionY = null,
                 OverlayFixedWidth = null,
                 OverlayFixedHeight = null,
+                LockButtonLocation = 0,
+                FlippedDisplay = false,
                 FixedFlippedDisplay = false,
                 SwitchBetweenLongest = true,
                 SwitchBetweenQualify = true,
@@ -4609,7 +4610,9 @@ namespace FallGuysStats {
 
                 this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                     this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                    this.CurrentSettings.OverlayColor, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
+                    this.CurrentSettings.OverlayColor, this.CurrentSettings.LockButtonLocation,
+                    string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth,
+                    string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
                     this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
                 
@@ -6827,29 +6830,46 @@ namespace FallGuysStats {
                 
                 var levelMedalInfo = new Dictionary<string, double[]>();
                 var levelTotalPlayTime = new Dictionary<string, TimeSpan>();
-                var levelScoreInfo = new Dictionary<string, int[]>();
+                var levelTimeInfo = new Dictionary<string, string[]>();
+                var levelScoreInfo = new Dictionary<string, string[]>();
                 var levelList = new Dictionary<string, string>();
                 
                 double p = 0, gm = 0, sm = 0, bm = 0, pm = 0, em = 0;
-                int hs = 0, ls = 0;
-                TimeSpan pt = TimeSpan.Zero;
+                int hs = -1, ls = int.MaxValue;
+                TimeSpan pt = TimeSpan.Zero, ft = TimeSpan.MaxValue, lt = TimeSpan.Zero;
                 for (int i = 0; i < rounds.Count; i++) {
-                    if (i > 0 && ((rounds[i].Name.StartsWith("round_") && !string.Equals(rounds[i].Name, rounds[i - 1].Name))
-                                   || (!rounds[i].Name.StartsWith("round_") && rounds[i - 1].Name.StartsWith("round_"))
-                                   || (!rounds[i].Name.StartsWith("round_") && !rounds[i - 1].Name.StartsWith("round_") &&
-                                       this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1) && this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2) &&
-                                       !string.Equals(l1.ShareCode, l2.ShareCode)))) {
-                        string levelName = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l3) ? l3.Name : rounds[i - 1].Name;
-                        levelTotalPlayTime.Add(rounds[i - 1].Name, pt);
-                        levelMedalInfo.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
-                        levelScoreInfo.Add(rounds[i - 1].Name, new[] { hs, ls });
-                        levelList.Add(rounds[i - 1].Name, levelName.Replace("&", "&&"));
-                        pt = TimeSpan.Zero;
-                        hs = 0; ls = 0;
-                        p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
+                    bool isCurrentRoundInfoAvailable = this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1);
+                    if (i > 0) {
+                        bool isCurrentRoundIsCreative = !isCurrentRoundInfoAvailable || l1.IsCreative;
+                        bool isPreviousRoundInfoAvailable = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2);
+                        bool isPreviousRoundIsCreative = !isPreviousRoundInfoAvailable || l2.IsCreative;
+                        if ((isCurrentRoundIsCreative && isPreviousRoundIsCreative && isCurrentRoundInfoAvailable && isPreviousRoundInfoAvailable && !string.Equals(l1.ShareCode, l2.ShareCode))
+                             || (!isCurrentRoundIsCreative && isPreviousRoundIsCreative)
+                             || (!isCurrentRoundIsCreative && !isPreviousRoundIsCreative && !string.Equals(rounds[i].Name, rounds[i - 1].Name))
+                             || (isCurrentRoundInfoAvailable && !isPreviousRoundInfoAvailable)
+                             || (!isCurrentRoundInfoAvailable && isPreviousRoundInfoAvailable)
+                             || (!isCurrentRoundInfoAvailable && !isPreviousRoundInfoAvailable && !string.Equals(rounds[i].Name, rounds[i - 1].Name))) {
+                            string levelId = isPreviousRoundInfoAvailable && l2.IsCreative ? l2.ShareCode : rounds[i - 1].Name;
+                            string levelName = isPreviousRoundInfoAvailable ? l2.Name : rounds[i - 1].Name;
+                            levelTotalPlayTime.Add(levelId, pt);
+                            levelMedalInfo.Add(levelId, new[] { p, gm, sm, bm, pm, em });
+                            levelTimeInfo.Add(levelId, new[] { ft < TimeSpan.MaxValue ? $"{ft:m\\:ss\\.fff}" : @"-", lt > TimeSpan.Zero ? $"{lt:m\\:ss\\.fff}" : @"-" });
+                            levelScoreInfo.Add(levelId, new[] { hs >= 0 ? $"{hs}" : @"-", ls < int.MaxValue ? $"{ls}" : @"-" });
+                            levelList.Add(rounds[i - 1].Name, levelName.Replace("&", "&&"));
+                            pt = TimeSpan.Zero; ft = TimeSpan.MaxValue; lt = TimeSpan.Zero;
+                            hs = -1; ls = int.MaxValue;
+                            p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
+                        }
                     }
-                    hs = (int)(rounds[i].Score > hs ? rounds[i].Score : hs);
-                    ls = (int)(rounds[i].Score < ls ? rounds[i].Score : ls);
+                    TimeSpan rft = rounds[i].Finish.GetValueOrDefault(rounds[i].Start) - rounds[i].Start;
+                    if (rounds[i].Finish.HasValue && rft.TotalSeconds > 1.1) {
+                        ft = rft < ft ? rft : ft;
+                        lt = rft > lt ? rft : lt;
+                    }
+                    if (rounds[i].Score.HasValue) {
+                        hs = (int)(rounds[i].Score > hs ? rounds[i].Score : hs);
+                        ls = (int)(rounds[i].Score < ls ? rounds[i].Score : ls);
+                    }
                     
                     pt += rounds[i].End - rounds[i].Start;
                     ++p;
@@ -6865,30 +6885,41 @@ namespace FallGuysStats {
                     }
                     
                     if (i == rounds.Count - 1) {
-                        string levelName = this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l3) ? l3.Name : rounds[i].Name;
-                        levelTotalPlayTime.Add(rounds[i].Name, pt);
-                        levelMedalInfo.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
-                        levelScoreInfo.Add(rounds[i].Name, new[] { hs, ls });
+                        string levelId = isCurrentRoundInfoAvailable && l1.IsCreative ? l1.ShareCode : rounds[i].Name;
+                        string levelName = isCurrentRoundInfoAvailable ? l1.Name : rounds[i].Name;
+                        levelTotalPlayTime.Add(levelId, pt);
+                        levelMedalInfo.Add(levelId, new[] { p, gm, sm, bm, pm, em });
+                        levelTimeInfo.Add(levelId, new[] { ft < TimeSpan.MaxValue ? $"{ft:m\\:ss\\.fff}" : @"-", lt > TimeSpan.Zero ? $"{lt:m\\:ss\\.fff}" : @"-" });
+                        levelScoreInfo.Add(levelId, new[] { hs >= 0 ? $"{hs}" : @"-", ls < int.MaxValue ? $"{ls}" : @"-" });
                         levelList.Add(rounds[i].Name, levelName.Replace("&", "&&"));
                     }
                 }
                 
-                pt = TimeSpan.Zero;
-                hs = 0; ls = 0;
+                pt = TimeSpan.Zero; ft = TimeSpan.MaxValue; lt = TimeSpan.Zero;
+                hs = -1; ls = int.MaxValue;
                 p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
                 for (int i = 0; i < useShareCodeRounds.Count; i++) {
                     if (i > 0 && !string.Equals(useShareCodeRounds[i].Name, useShareCodeRounds[i - 1].Name)) {
-                        levelTotalPlayTime.Add(useShareCodeRounds[i - 1].Name, pt);
-                        levelMedalInfo.Add(useShareCodeRounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
-                        levelScoreInfo.Add(useShareCodeRounds[i - 1].Name, new[] { hs, ls });
-                        levelList.Add(useShareCodeRounds[i - 1].Name, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i - 1].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
+                        string levelId = $"{useShareCodeRounds[i - 1].Name}.";
+                        levelTotalPlayTime.Add(levelId, pt);
+                        levelMedalInfo.Add(levelId, new[] { p, gm, sm, bm, pm, em });
+                        levelTimeInfo.Add(levelId, new[] { ft < TimeSpan.MaxValue ? $"{ft:m\\:ss\\.fff}" : @"-", lt > TimeSpan.Zero ? $"{lt:m\\:ss\\.fff}" : @"-" });
+                        levelScoreInfo.Add(levelId, new[] { hs >= 0 ? $"{hs}" : @"-", ls < int.MaxValue ? $"{ls}" : @"-" });
+                        levelList.Add(levelId, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i - 1].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
                         
-                        pt = TimeSpan.Zero;
-                        hs = 0; ls = 0;
+                        pt = TimeSpan.Zero; ft = TimeSpan.MaxValue; lt = TimeSpan.Zero;
+                        hs = -1; ls = int.MaxValue;
                         p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
                     }
-                    hs = (int)(useShareCodeRounds[i].Score > hs ? useShareCodeRounds[i].Score : hs);
-                    ls = (int)(useShareCodeRounds[i].Score < ls ? useShareCodeRounds[i].Score : ls);
+                    TimeSpan rft = useShareCodeRounds[i].Finish.GetValueOrDefault(useShareCodeRounds[i].Start) - useShareCodeRounds[i].Start;
+                    if (useShareCodeRounds[i].Finish.HasValue && rft.TotalSeconds > 1.1) {
+                        ft = rft < ft ? rft : ft;
+                        lt = rft > lt ? rft : lt;
+                    }
+                    if (useShareCodeRounds[i].Score.HasValue) {
+                        hs = (int)(useShareCodeRounds[i].Score > hs ? useShareCodeRounds[i].Score : hs);
+                        ls = (int)(useShareCodeRounds[i].Score < ls ? useShareCodeRounds[i].Score : ls);
+                    }
                     
                     pt += useShareCodeRounds[i].End - useShareCodeRounds[i].Start;
                     ++p;
@@ -6904,15 +6935,18 @@ namespace FallGuysStats {
                     }
                     
                     if (i == useShareCodeRounds.Count - 1) {
-                        levelTotalPlayTime.Add(useShareCodeRounds[i].Name, pt);
-                        levelMedalInfo.Add(useShareCodeRounds[i].Name, new[] { p, gm, sm, bm, pm, em });
-                        levelScoreInfo.Add(useShareCodeRounds[i].Name, new[] { hs, ls });
-                        levelList.Add(useShareCodeRounds[i].Name, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
+                        string levelId = $"{useShareCodeRounds[i].Name}.";
+                        levelTotalPlayTime.Add(levelId, pt);
+                        levelMedalInfo.Add(levelId, new[] { p, gm, sm, bm, pm, em });
+                        levelTimeInfo.Add(levelId, new[] { ft < TimeSpan.MaxValue ? $"{ft:m\\:ss\\.fff}" : @"-", lt > TimeSpan.Zero ? $"{lt:m\\:ss\\.fff}" : @"-" });
+                        levelScoreInfo.Add(levelId, new[] { hs >= 0 ? $"{hs}" : @"-", ls < int.MaxValue ? $"{ls}" : @"-" });
+                        levelList.Add(levelId, $@"{this.GetUserCreativeLevelTitle(useShareCodeRounds[i].Name).Replace("&", "&&")} ({Multilingual.GetWord("main_custom_and_casual_shows")})");
                     }
                 }
                 
                 levelStatsDisplay.levelList = from pair in levelList orderby pair.Value.Trim() ascending select pair;
                 levelStatsDisplay.levelTotalPlayTime = levelTotalPlayTime;
+                levelStatsDisplay.levelTimeInfo = levelTimeInfo;
                 levelStatsDisplay.levelScoreInfo = levelScoreInfo;
                 levelStatsDisplay.levelMedalInfo = levelMedalInfo;
                 

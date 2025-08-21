@@ -40,6 +40,7 @@ namespace FallGuysStats {
             this.cboFastestFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboOverlayBackground.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboOverlayColor.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboLockButtonLocation.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
         }
 
         private void Settings_Load(object sender, EventArgs e) {
@@ -239,6 +240,10 @@ namespace FallGuysStats {
                 case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
                 case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
                 case 6: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
+            }
+            switch (this.CurrentSettings.LockButtonLocation) {
+                case 0: this.cboLockButtonLocation.SelectedItem = Multilingual.GetWord("settings_lock_button_location_top"); break;
+                case 1: this.cboLockButtonLocation.SelectedItem = Multilingual.GetWord("settings_lock_button_location_bottom"); break;
             }
             switch (this.CurrentSettings.WinsFilter) {
                 case 0: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
@@ -628,6 +633,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayColor = 6;
             }
 
+            if ((string)this.cboLockButtonLocation.SelectedItem == $"{Multilingual.GetWord("settings_lock_button_location_top")}") {
+                this.CurrentSettings.LockButtonLocation = 0;
+            } else if ((string)this.cboLockButtonLocation.SelectedItem == $"{Multilingual.GetWord("settings_lock_button_location_bottom")}") {
+                this.CurrentSettings.LockButtonLocation = 1;
+            }
+
             if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.WinsFilter = 0;
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -884,6 +895,8 @@ namespace FallGuysStats {
             if (this.DisplayLang == (Language)((ImageComboBox)sender).SelectedIndex) return;
 
             this.BeginInvoke((MethodInvoker)delegate {
+                this.panelOverlay.VerticalScroll.Value = 0;
+                this.panelAbout.VerticalScroll.Value = 0;
                 this.ChangeLanguage((Language)((ImageComboBox)sender).SelectedIndex);
             });
         }
@@ -1110,9 +1123,20 @@ namespace FallGuysStats {
                 case 6: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
 
+            this.cboLockButtonLocation.Items.Clear();
+            this.cboLockButtonLocation.Items.AddRange(new object[] {
+                Multilingual.GetWord("settings_lock_button_location_top"),
+                Multilingual.GetWord("settings_lock_button_location_bottom")
+            });
+            switch (this.CurrentSettings.LockButtonLocation) {
+                case 0: this.cboLockButtonLocation.SelectedItem = Multilingual.GetWord("settings_lock_button_location_top"); break;
+                case 1: this.cboLockButtonLocation.SelectedItem = Multilingual.GetWord("settings_lock_button_location_bottom"); break;
+            }
+
             this.lblOverlayBackground.Text = Multilingual.GetWord("settings_background_image");
             this.lblOverlayColor.Text = Multilingual.GetWord("settings_background");
             this.lblOverlayOpacity.Text = Multilingual.GetWord("settings_background_opacity");
+            this.lblLockButtonLocation.Text = Multilingual.GetWord("settings_lock_button_location");
             this.chkFlipped.Text = Multilingual.GetWord("settings_flip_display_horizontally");
             this.chkShowTabs.Text = Multilingual.GetWord("settings_show_tab_for_currnet_filter__profile");
             this.chkHideTimeInfo.Text = Multilingual.GetWord("settings_hide_time_info");
@@ -1249,6 +1273,8 @@ namespace FallGuysStats {
             this.cboTheme.Width = lang == Language.English ? 90 : lang == Language.French ? 105 : lang == Language.Korean ? 100 : lang == Language.Japanese ? 100 : 85;
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 167);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
+            this.cboLockButtonLocation.Location = new Point(lang == Language.French ? 280 : 203, 450);
+            this.cboLockButtonLocation.Width = lang == Language.English ? 79 : lang == Language.French ? 81 : lang == Language.Japanese ? 47 : 63;
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
