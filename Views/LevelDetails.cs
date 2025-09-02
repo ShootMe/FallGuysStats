@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LiteDB;
 using MetroFramework;
 
 namespace FallGuysStats {
@@ -1034,9 +1033,9 @@ namespace FallGuysStats {
         private void DeleteShow() {
             int selectedCount = this.gridDetails.SelectedRows.Count;
             if (selectedCount > 0) {
-                if (MetroMessageBox.Show(this, 
-                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({selectedCount:N0}) {Multilingual.GetWord("message_delete_show_suffix")}", 
-                        Multilingual.GetWord("message_delete_show_caption"), 
+                if (MetroMessageBox.Show(this,
+                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({selectedCount:N0}) {Multilingual.GetWord("message_delete_show_suffix")}",
+                        Multilingual.GetWord("message_delete_show_caption"),
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     this.gridDetails.Enabled = false;
@@ -1048,6 +1047,21 @@ namespace FallGuysStats {
                             this.StatsForm.StatsDB.BeginTrans();
                             foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                 RoundInfo bi = row.DataBoundItem as RoundInfo;
+                                List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID);
+                                foreach (RoundInfo r in ri) {
+                                    if (r.Finish.HasValue) {
+                                        PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == r.Finish);
+                                        if (pbLog != null) {
+                                            this.StatsForm.PersonalBestLog.Delete(r.Finish);
+                                            this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                        }
+                                        FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == r.Finish);
+                                        if (fPbLog != null) {
+                                            this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                            this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                        }
+                                    }
+                                }
                                 this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
                                 this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
                             }
@@ -1137,22 +1151,21 @@ namespace FallGuysStats {
                         this.spinnerTransition.Start();
                         this.mpsSpinner01.Visible = true;
                         this.preventPaging = true;
-                        DateTime finishDate = ri.Finish.Value;
-                        ri.Finish = null;
                         Task.Run(() => {
                             lock (this.StatsForm.StatsDB) {
                                 this.StatsForm.StatsDB.BeginTrans();
-                                this.StatsForm.RoundDetails.Update(ri);
-                                PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => Equals(l.PbDate, finishDate));
+                                PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
                                 if (pbLog != null) {
-                                    this.StatsForm.PersonalBestLog.Delete(finishDate);
+                                    this.StatsForm.PersonalBestLog.Delete(ri.Finish);
                                     this.StatsForm.PersonalBestLogCache.Remove(pbLog);
                                 }
-                                FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => Equals(l.PbDate, finishDate));
+                                FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == ri.Finish);
                                 if (fPbLog != null) {
                                     this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
                                     this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
                                 }
+                                ri.Finish = null;
+                                this.StatsForm.RoundDetails.Update(ri);
                                 this.StatsForm.StatsDB.Commit();
                             }
                         }).ContinueWith(prevTask => {
