@@ -18,8 +18,8 @@ namespace FallGuysStats {
         private IContainer components;
         private SaveFileDialog _saveFile;
         private ToolStripMenuItem ExportItemCsv, ExportItemHtml, ExportItemBbcode, ExportItemMd;
-        public ToolStripMenuItem DeleteShows, MoveShows, UpdateCreativeLevel;
-        public ToolStripSeparator MenuSeparator;
+        public ToolStripMenuItem DeleteShows, MoveShows, DeleteFinishTime, UpdateCreativeLevel;
+        public ToolStripSeparator MenuSeparator1, MenuSeparator2;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         private readonly Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
@@ -114,6 +114,8 @@ namespace FallGuysStats {
                     } else if (tsi.Name.Equals("moveShows")) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
                     } else if (tsi.Name.Equals("deleteShows")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
+                    } else if (tsi.Name.Equals("deleteFinishTime")) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
                     } else if (tsi.Name.Equals("updateCreativeShows")) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.update : Properties.Resources.update_gray;
