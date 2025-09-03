@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LiteDB;
 using MetroFramework;
 
 namespace FallGuysStats {
@@ -158,12 +159,12 @@ namespace FallGuysStats {
                 this.gridDetails.DeallocContextMenu();
             } else {
                 if (this.statType == StatType.Shows) {
-                    this.gridDetails.MenuSeparator = new ToolStripSeparator {
+                    this.gridDetails.MenuSeparator1 = new ToolStripSeparator {
                         BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)
                         , ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray
                     };
-                    this.gridDetails.MenuSeparator.Paint += this.gridDetails.CustomToolStripSeparator_Paint;
-                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+                    this.gridDetails.MenuSeparator1.Paint += this.gridDetails.CustomToolStripSeparator_Paint;
+                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator1);
 
                     if (this.StatsForm.AllProfiles.Count > 1) {
                         this.gridDetails.MoveShows = new ToolStripMenuItem {
@@ -197,12 +198,34 @@ namespace FallGuysStats {
                     this.gridDetails.DeleteShows.MouseLeave += this.gridDetails.CMenu_MouseLeave;
                     // this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
                 } else {
-                    this.gridDetails.MenuSeparator = new ToolStripSeparator {
+                    this.gridDetails.MenuSeparator1 = new ToolStripSeparator {
                         BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)
                         , ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray
                     };
-                    this.gridDetails.MenuSeparator.Paint += this.gridDetails.CustomToolStripSeparator_Paint;
-                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+                    this.gridDetails.MenuSeparator1.Paint += this.gridDetails.CustomToolStripSeparator_Paint;
+                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator1);
+                    
+                    this.gridDetails.DeleteFinishTime = new ToolStripMenuItem {
+                        Name = "deleteFinishTime"
+                        , Size = new Size(134, 22)
+                        , Text = Multilingual.GetWord("main_delete_finish_time")
+                        , ShowShortcutKeys = true
+                        , Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray
+                        , ShortcutKeys = Keys.Control | Keys.D
+                        , BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)
+                        , ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray
+                    };
+                    this.gridDetails.DeleteFinishTime.Click += this.deleteFinishTime_Click;
+                    this.gridDetails.DeleteFinishTime.MouseEnter += this.gridDetails.CMenu_MouseEnter;
+                    this.gridDetails.DeleteFinishTime.MouseLeave += this.gridDetails.CMenu_MouseLeave;
+                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteFinishTime);
+                    
+                    this.gridDetails.MenuSeparator2 = new ToolStripSeparator {
+                        BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)
+                        , ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray
+                    };
+                    this.gridDetails.MenuSeparator2.Paint += this.gridDetails.CustomToolStripSeparator_Paint;
+                    // this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator2);
                     
                     this.gridDetails.UpdateCreativeLevel = new ToolStripMenuItem {
                         Name = "updateCreativeShows"
@@ -924,32 +947,46 @@ namespace FallGuysStats {
                 this.isHeaderClicked = false;
             }
             
-            if (this.statType != StatType.Shows && ((Grid)sender).SelectedCells.Count > 0) {
-                if (((Grid)sender).SelectedRows.Count == 1) {
-                    RoundInfo info = ((Grid)sender).Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
-                    if (info.UseShareCode || (this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode))) {
-                        if (((Grid)sender).MenuSeparator != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator)) {
-                            ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator);
+            if (this.statType != StatType.Shows) {
+                if (((Grid)sender).MenuSeparator1 != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator1)) {
+                    ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MenuSeparator1);
+                }
+                if (((Grid)sender).DeleteFinishTime != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).DeleteFinishTime)) {
+                    ((Grid)sender).CMenu.Items.Remove(((Grid)sender).DeleteFinishTime);
+                }
+                if (((Grid)sender).MenuSeparator2 != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator2)) {
+                    ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MenuSeparator2);
+                }
+                if (((Grid)sender).UpdateCreativeLevel != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).UpdateCreativeLevel)) {
+                    ((Grid)sender).CMenu.Items.Remove(((Grid)sender).UpdateCreativeLevel);
+                }
+                if (((Grid)sender).SelectedCells.Count > 0) {
+                    if (((Grid)sender).SelectedRows.Count == 1) {
+                        RoundInfo info = ((Grid)sender).Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
+                        if (info.Finish.HasValue) {
+                            if (((Grid)sender).MenuSeparator1 != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator1)) {
+                                ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator1);
+                            }
+                            if (((Grid)sender).DeleteFinishTime != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).DeleteFinishTime)) {
+                                ((Grid)sender).CMenu.Items.Add(((Grid)sender).DeleteFinishTime);
+                            }
                         }
-                        if (((Grid)sender).UpdateCreativeLevel != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).UpdateCreativeLevel)) {
-                            ((Grid)sender).CMenu.Items.Add(((Grid)sender).UpdateCreativeLevel);
+                        if (info.UseShareCode || (this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode))) {
+                            if (((Grid)sender).MenuSeparator2 != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator2)) {
+                                ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator2);
+                            }
+                            if (((Grid)sender).UpdateCreativeLevel != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).UpdateCreativeLevel)) {
+                                ((Grid)sender).CMenu.Items.Add(((Grid)sender).UpdateCreativeLevel);
+                            }
                         }
                     } else {
                         ((Grid)sender).ClearSelection();
-                        if (((Grid)sender).MenuSeparator != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator)) {
-                            ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MenuSeparator);
-                        }
-                        if (((Grid)sender).UpdateCreativeLevel != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).UpdateCreativeLevel)) {
-                            ((Grid)sender).CMenu.Items.Remove(((Grid)sender).UpdateCreativeLevel);
-                        }
                     }
-                } else {
-                    ((Grid)sender).ClearSelection();
                 }
             } else if (this.statType == StatType.Shows) {
                 if (((Grid)sender).SelectedCells.Count > 0) {
-                    if (((Grid)sender).MenuSeparator != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator)) {
-                        ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator);
+                    if (((Grid)sender).MenuSeparator1 != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator1)) {
+                        ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator1);
                     }
                     if (((Grid)sender).MoveShows != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MoveShows)) {
                         ((Grid)sender).CMenu.Items.Add(((Grid)sender).MoveShows);
@@ -958,8 +995,8 @@ namespace FallGuysStats {
                         ((Grid)sender).CMenu.Items.Add(((Grid)sender).DeleteShows);
                     }
                 } else {
-                    if (((Grid)sender).MenuSeparator != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator)) {
-                        ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MenuSeparator);
+                    if (((Grid)sender).MenuSeparator1 != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator1)) {
+                        ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MenuSeparator1);
                     }
                     if (((Grid)sender).MoveShows != null && ((Grid)sender).CMenu.Items.Contains(((Grid)sender).MoveShows)) {
                         ((Grid)sender).CMenu.Items.Remove(((Grid)sender).MoveShows);
@@ -1050,9 +1087,9 @@ namespace FallGuysStats {
                         this.gridDetails.Enabled = false;
                         this.spinnerTransition.Start();
                         this.mpsSpinner01.Visible = true;
+                        this.preventPaging = true;
                         int fromProfileId = this.StatsForm.GetCurrentProfileId();
                         int toProfileId = moveShows.SelectedProfileId;
-                        this.preventPaging = true;
                         Task.Run(() => {
                             lock (this.StatsForm.StatsDB) {
                                 this.StatsForm.StatsDB.BeginTrans();
@@ -1088,6 +1125,52 @@ namespace FallGuysStats {
             }
         }
         
+        private void deleteFinishTime_Click(object sender, EventArgs e) {
+            if (this.statType != StatType.Shows && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
+                RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
+                if (ri.Finish.HasValue) {
+                    if (MetroMessageBox.Show(this,
+                            Multilingual.GetWord("message_delete_finish_time"),
+                            Multilingual.GetWord("message_delete_finish_time_caption"),
+                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                        this.gridDetails.Enabled = false;
+                        this.spinnerTransition.Start();
+                        this.mpsSpinner01.Visible = true;
+                        this.preventPaging = true;
+                        DateTime finishDate = ri.Finish.Value;
+                        ri.Finish = null;
+                        Task.Run(() => {
+                            lock (this.StatsForm.StatsDB) {
+                                this.StatsForm.StatsDB.BeginTrans();
+                                this.StatsForm.RoundDetails.Update(ri);
+                                PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => Equals(l.PbDate, finishDate));
+                                if (pbLog != null) {
+                                    this.StatsForm.PersonalBestLog.Delete(finishDate);
+                                    this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                }
+                                FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => Equals(l.PbDate, finishDate));
+                                if (fPbLog != null) {
+                                    this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                    this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                }
+                                this.StatsForm.StatsDB.Commit();
+                            }
+                        }).ContinueWith(prevTask => {
+                            this.BeginInvoke((MethodInvoker)delegate {
+                                this.spinnerTransition.Stop();
+                                this.mpsSpinner01.Visible = false;
+                                this.gridDetails.Enabled = true;
+                                this.preventPaging = false;
+
+                                this.StatsForm.ResetStats();
+                                Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            });
+                        });
+                    }
+                }
+            }
+        }
+        
         private void updateLevel_Click(object sender, EventArgs e) {
             if (Utils.IsInternetConnected()) {
                 if (this.statType != StatType.Shows && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
@@ -1099,7 +1182,6 @@ namespace FallGuysStats {
                                                                        : $"{Multilingual.GetWord("message_update_creative_map_with_title_prefix")}{ri.CreativeTitle}{Multilingual.GetWord("message_update_creative_map_with_title_suffix")}",
                                 Multilingual.GetWord("message_update_creative_map_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.Enabled = false;
                             this.spinnerTransition.Start();
                             this.mpsSpinner01.Visible = true;
@@ -1246,12 +1328,8 @@ namespace FallGuysStats {
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             if (!this.isScrollingStopped || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) return;
 
-            if (this.statType == StatType.Shows
-                || (bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value
-                || this.StatsForm.StatLookup.TryGetValue((string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) {
-                ((Grid)sender).Cursor = Cursors.Hand;
-            }
-            
+            ((Grid)sender).Cursor = Cursors.Hand;
+
             if (this.statType != StatType.Shows && (((Grid)sender).Columns[e.ColumnIndex].Name == "Round" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon" || ((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeLikes" || ((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeDislikes") &&
                 ((bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value || !string.IsNullOrEmpty((string)((Grid)sender).Rows[e.RowIndex].Cells["CreativeShareCode"].Value))) {
                 ((Grid)sender).ShowCellToolTips = false;
