@@ -281,7 +281,7 @@ namespace FallGuysStats {
                             { "message_save_data_linked_profiles_info_suffix", ""},
                             { "message_delete_show_caption", "Remove Shows" },
                             { "message_delete_show_prefix", "Are you sure you want to remove the selected" },
-                            { "message_delete_show_suffix", " Shows?" },
+                            { "message_delete_show_suffix", "shows?" },
                             { "message_create_profile_caption", "Create Profile" },
                             { "message_create_profile_prefix", "Do you want to create a profile with" },
                             { "message_create_profile_suffix", ""},
