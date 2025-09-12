@@ -5551,7 +5551,7 @@ namespace FallGuysStats {
             return roundId;
         }
         
-        private bool IsCreativeShow(string showId) {
+        public bool IsCreativeShow(string showId) {
             return string.Equals(showId, "casual_show")
                    || string.Equals(showId, "spotlight_mode")
                    || string.Equals(showId, "explore_points")
