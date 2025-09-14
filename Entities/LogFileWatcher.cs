@@ -879,7 +879,8 @@ namespace FallGuysStats {
                 }
             } else if ((index = line.Line.IndexOf("[RoundLoader] Load UGC via share code: ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 39, 14);
-            } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
+            } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1
+                       || (index = line.Line.IndexOf("[RoundLoader] NOT loading game scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;
                     Stats.InShow = true;
@@ -909,7 +910,12 @@ namespace FallGuysStats {
                 }
 
                 int index2 = line.Line.IndexOf(" on frame ");
-                this.threadLocalVariable.Value.sceneName = line.Line.Substring(index + 57, index2 - (index + 57));
+                if (index2 != -1) {
+                    this.threadLocalVariable.Value.sceneName = line.Line.Substring(index + 57, index2 - (index + 57));
+                } else {
+                    index2 = line.Line.IndexOf(" as it is already loaded and active");
+                    this.threadLocalVariable.Value.sceneName = line.Line.Substring(index + 37, index2 - (index + 37));
+                }
 
                 if (logRound.InLoadingGameScreen) {
                     logRound.Info = new RoundInfo {
