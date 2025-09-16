@@ -309,7 +309,6 @@ namespace FallGuysStats {
             "event_blast_ball_banger_template",
             "event_only_button_bashers_template",
             "event_only_finals_v3_template",
-            "event_only_races_any_final_template",
             "event_only_fall_ball_template",
             "event_only_hexaring_template",
             "event_only_floor_fall_template",
@@ -345,6 +344,7 @@ namespace FallGuysStats {
             // "knockout_duos",
             // "knockout_squads",
             "no_elimination_explore",
+            "event_only_races_any_final_template",
             "event_only_fall_ball_trios_ranked",
             "greatestsquads_ranked",
             "greatestsquads_ltm",
@@ -1794,6 +1794,18 @@ namespace FallGuysStats {
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
                     case 128: {
+                            List<Profiles> profileList = this.Profiles.FindAll().ToList();
+                            
+                            foreach (Profiles p in profileList) {
+                                if (string.Equals(p.LinkedShowId, "event_only_races_any_final_template") && !p.DoNotCombineShows) {
+                                    p.DoNotCombineShows = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.Profiles.DeleteAll();
+                            this.Profiles.InsertBulk(profileList);
+                            this.StatsDB.Commit();
+                            
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                               where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("greatestsquads_")
                                                               select ri).ToList();
@@ -5551,6 +5563,7 @@ namespace FallGuysStats {
                 case "ftue_uk_show":
                 case "knockout_mode":
                 case "no_elimination_explore":
+                case "event_only_races_any_final_template":
                 case "turbo_2_show":
                 case "turbo_show":
                     return "main_show";
