@@ -127,6 +127,7 @@ namespace FallGuysStats {
            ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),   // Ranked Knockout Update
            ("19.0", new DateTime(2025, 5, 27, 0, 0, 0, DateTimeKind.Utc)),  // Yeetropolis Update
            ("20.0", new DateTime(2025, 7, 29, 0, 0, 0, DateTimeKind.Utc)),  // Tropical Tides Update
+           ("21.0", new DateTime(2025, 9, 16, 0, 0, 0, DateTimeKind.Utc)),  // Slime Factory Update
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -293,6 +294,9 @@ namespace FallGuysStats {
         
         public readonly string[] PublicShowIdList = {
             "ranked_solo_show",
+            "ranked_duos_show",
+            "ranked_trios_show",
+            "ranked_squads_show",
             "main_show",
             "squads_2player_template",
             "squads_3player_template",
@@ -341,6 +345,8 @@ namespace FallGuysStats {
             // "knockout_duos",
             // "knockout_squads",
             "no_elimination_explore",
+            "event_only_fall_ball_trios_ranked",
+            "greatestsquads_ranked",
             "greatestsquads_ltm",
             "teams_show_ltm",
             "sports_show",
@@ -944,9 +950,13 @@ namespace FallGuysStats {
                             this.CurrentSettings.AutoChangeProfile = true;
                         } else {
                             this.StatsDB.BeginTrans();
-                            this.Profiles.Insert(new Profiles { ProfileId = 5, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 6, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 4, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 5, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 4, LinkedShowId = "squads_4player", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 9, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 10, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 8, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 9, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 7, ProfileName = Multilingual.GetWord("main_profile_ranked_squad"), ProfileOrder = 8, LinkedShowId = "ranked_squads_show", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 6, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 7, LinkedShowId = "squads_4player", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 5, ProfileName = Multilingual.GetWord("main_profile_ranked_trio"), ProfileOrder = 6, LinkedShowId = "ranked_trios_show", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 4, ProfileName = Multilingual.GetWord("main_profile_trio"), ProfileOrder = 5, LinkedShowId = "squads_3player_template", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_ranked_duo"), ProfileOrder = 4, LinkedShowId = "ranked_duos_show", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 3, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_ranked_solo"), ProfileOrder = 2, LinkedShowId = "ranked_solo_show", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
@@ -1780,9 +1790,37 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 128;
+            int lastVersion = 129;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 128: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                              where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("greatestsquads_")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round == 3 || string.Equals(ri.Name, "gs_slimecycle")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_fall_ball_trios_ranked")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (ri.Round == 3 || string.Equals(ri.RoundId, "round_fall_ball_cup_only_trios_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 127: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                               where string.Equals(ri.ShowNameId, "xtreme_solos_template_ranked")
@@ -5504,6 +5542,10 @@ namespace FallGuysStats {
                 case "ranked_show_knockout":
                 case "xtreme_solos_template_ranked":
                     return "ranked_solo_show";
+                case "event_only_fall_ball_trios_ranked":
+                    return "ranked_trios_show";
+                case "greatestsquads_ranked":
+                    return "ranked_squads_show";
                 // case "anniversary_fp12_ltm":
                 case "classic_solo_main_show":
                 case "ftue_uk_show":
