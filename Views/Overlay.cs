@@ -574,7 +574,7 @@ namespace FallGuysStats {
         }
         
         private void SetRoundLabel(Image roundIcon, LevelType type, string roundName, int setting) {
-            if (!Stats.InShow && Stats.IsQueued && (setting == 1 || setting == 5)) {
+            if (!Stats.InShow && Stats.IsQueuing && (setting == 1 || setting == 5)) {
                 this.lblRound.LevelColor = Color.Empty;
                 this.lblRound.LevelTrueColor = Color.Empty;
                 this.lblRound.RoundIcon = null;
@@ -615,7 +615,7 @@ namespace FallGuysStats {
         }
         
         private void SetWinsLabel(StatSummary summary, int setting) {
-            if (!Stats.InShow && Stats.IsQueued && setting == 3) {
+            if (!Stats.InShow && Stats.IsQueuing && setting == 3) {
                 this.lblWins.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                 this.lblWins.TextRight = $"{Stats.QueuedPlayers:N0}";
                 this.lblWins.ForeColor = this.ForeColor;
@@ -713,7 +713,7 @@ namespace FallGuysStats {
                 this.lblFastest.Text = $@"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblFastest.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                if (!Stats.InShow && Stats.IsQueued && setting == 6) {
+                if (!Stats.InShow && Stats.IsQueuing && setting == 6) {
                     this.lblFastest.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFastest.ForeColor = this.ForeColor;
@@ -936,7 +936,7 @@ namespace FallGuysStats {
                 this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
-                if (!Stats.InShow && Stats.IsQueued && (setting == 0 || setting == 2 || setting == 4)) {
+                if (!Stats.InShow && Stats.IsQueuing && (setting == 0 || setting == 2 || setting == 4)) {
                     this.lblFinish.ImageWidth = 20;
                     this.lblFinish.ImageHeight = 22;
                     this.targetLabel = this.lblFinish;
@@ -1021,7 +1021,7 @@ namespace FallGuysStats {
         }
         
         private void LoadingTimer_Tick(object sender, EventArgs e) {
-            if (!Stats.IsQueued) {
+            if (!Stats.IsQueuing) {
                 this.targetLabel.Image = null;
                 this.targetLabel = null;
                 this.tmrQueued.Stop();
