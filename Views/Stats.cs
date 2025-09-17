@@ -181,7 +181,7 @@ namespace FallGuysStats {
         public static DateTime? LastPlayedRoundStart { get; set; }
         public static DateTime? LastPlayedRoundEnd { get; set; }
         
-        public static bool IsQueued = false;
+        public static bool IsQueuing = false;
         public static int QueuedPlayers = 0;
         
         private static readonly FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();

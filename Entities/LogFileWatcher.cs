@@ -45,6 +45,8 @@ namespace FallGuysStats {
     }
 
     public class ThreadLocalData {
+        public long lastQueuingInfoLinePos;
+
         public string selectedShowId;
         public bool useShareCode;
         public string currentSessionId;
@@ -155,7 +157,7 @@ namespace FallGuysStats {
                                             Stats.OnlineServiceType = OnlineServiceTypes.EpicGames;
                                             userInfo = this.StatsForm.FindEpicGamesUserInfo();
                                         }
-                                        
+
                                         Stats.OnlineServiceId = userInfo[0];
                                         Stats.OnlineServiceNickname = userInfo[1];
                                         this.StatsForm.SetSecretKey();
@@ -193,32 +195,32 @@ namespace FallGuysStats {
                                                     sb.AppendLine(line);
                                                 }
                                             }
-                                        } else if (line.IndexOf("[FNMMSClientRemoteService] Status message received: {") != -1) {
+                                        } else if (line.IndexOf("[FNMMSClientRemoteService] Status message received: {") != -1
+                                                   && logLine.Offset > this.threadLocalVariable.Value.lastQueuingInfoLinePos) {
+                                            this.threadLocalVariable.Value.lastQueuingInfoLinePos = logLine.Offset;
                                             while ((line = sr.ReadLine()) != null) {
                                                 if (line.IndexOf("\"queuedPlayers\": ") != -1) {
                                                     string content = Regex.Replace(line.Substring(21), "[\",]", "");
-                                                    if (!string.Equals(content, "null") &&
-                                                        int.TryParse(content, out int queuedPlayers)) {
-                                                        Stats.IsQueued = true;
+                                                    if (!string.Equals(content, "null")
+                                                        && int.TryParse(content, out int queuedPlayers)) {
                                                         Stats.QueuedPlayers = queuedPlayers;
-                                                        break;
+                                                        Stats.IsQueuing = true;
                                                     }
-                                                } else if (line.IndexOf("\"name\": ") != -1) {
-                                                    string content = Regex.Replace(line.Substring(10), "[\",]", "");
-                                                    if (string.Equals(content, "Play")) {
-                                                        Stats.IsQueued = false;
-                                                        Stats.QueuedPlayers = 0;
-                                                        break;
-                                                    }
+                                                    break;
                                                 }
                                             }
+                                        } else if (line.IndexOf("[FNMMSRemoteServiceBase] Disposed") != -1
+                                                   && logLine.Offset > this.threadLocalVariable.Value.lastQueuingInfoLinePos) {
+                                            this.threadLocalVariable.Value.lastQueuingInfoLinePos = logLine.Offset;
+                                            Stats.IsQueuing = false;
+                                            Stats.QueuedPlayers = 0;
                                         } else {
                                             tempLines.Add(logLine);
                                         }
                                     }
                                 }
                             } else if (offset > fs.Length) {
-                                offset = 0;
+                                offset = this.threadLocalVariable.Value.lastQueuingInfoLinePos = 0;
                             }
                         }
                     }
@@ -271,7 +273,7 @@ namespace FallGuysStats {
 
                     if (!completed) {
                         completed = true;
-                        offset = 0;
+                        offset = this.threadLocalVariable.Value.lastQueuingInfoLinePos = 0;
                         currentFilePath = this.filePath;
                     }
                 } catch (Exception ex) {
@@ -738,8 +740,8 @@ namespace FallGuysStats {
         }
 
         private void ResetVariablesUsedForOverlay() {
+            Stats.IsQueuing = false;
             Stats.QueuedPlayers = 0;
-            Stats.IsQueued = false;
             Stats.IsConnectedToServer = false;
             Stats.LastServerPing = 0;
             Stats.IsBadServerPing = false;
