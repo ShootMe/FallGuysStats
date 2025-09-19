@@ -10,6 +10,8 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public sealed class ImageComboBox : ComboBox {
+        private const int WM_PAINT = 0xF;
+
         protected override CreateParams CreateParams {
             get {
                 CreateParams cp = base.CreateParams;
@@ -142,8 +144,6 @@ namespace FallGuysStats {
                 base.WndProc(ref m);
             }
         }
-
-        private const int WM_PAINT = 0xF;
         
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT {

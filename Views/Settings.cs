@@ -750,7 +750,7 @@ namespace FallGuysStats {
         }
         
         private void btnGameExeLocationBrowse_Click(object sender, EventArgs e) {
-            this.BeginInvoke((MethodInvoker)(() => {
+            this.BeginInvoke((MethodInvoker)delegate {
                 try {
                     using (OpenFileDialog openFile = new OpenFileDialog()) {
                         if (this.LaunchPlatform == 0) { // Epic Games
@@ -814,7 +814,7 @@ namespace FallGuysStats {
                 } catch (Exception ex) {
                     ControlErrors.HandleException(this, ex, false);
                 }
-            }));
+            });
         }
         
         private void launchPlatform_Click(object sender, EventArgs e) {
@@ -857,7 +857,7 @@ namespace FallGuysStats {
         }
         
         private void btnSelectFont_Click(object sender, EventArgs e) {
-            this.BeginInvoke((MethodInvoker)(() => {
+            this.BeginInvoke((MethodInvoker)delegate {
                 this.dlgOverlayFont.Font = string.IsNullOrEmpty(this.overlayFontSerialized)
                     ? Overlay.GetDefaultFont(24, this.DisplayLang)
                     : new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, (byte)1);
@@ -881,7 +881,7 @@ namespace FallGuysStats {
                 } catch {
                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("settings_font_need_to_be_installed_message")}", $"{Multilingual.GetWord("settings_font_need_to_be_installed_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }));
+            });
         }
         
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
@@ -1465,7 +1465,6 @@ namespace FallGuysStats {
                              this.StatsForm.Hide();
                              this.StatsForm.overlay?.Hide();
                              using (DownloadProgress progress = new DownloadProgress()) {
-                                 this.StatsForm.StatsDB?.Dispose();
                                  progress.ZipWebClient = web;
                                  progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                  progress.FileName = $"{Stats.CURRENTDIR}FallGuysStats.zip";

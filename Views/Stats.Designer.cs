@@ -1667,7 +1667,6 @@
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Style = MetroFramework.MetroColorStyle.Teal;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Stats_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);

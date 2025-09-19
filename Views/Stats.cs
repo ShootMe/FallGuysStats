@@ -293,14 +293,14 @@ namespace FallGuysStats {
         private bool isScrollingStopped = true;
         
         public readonly string[] PublicShowIdList = {
-            "ranked_solo_show",
-            "ranked_duos_show",
-            "ranked_trios_show",
-            "ranked_squads_show",
             "main_show",
+            "ranked_solo_show",
             "squads_2player_template",
+            "ranked_duos_show",
             "squads_3player_template",
+            "ranked_trios_show",
             "squads_4player",
+            "ranked_squads_show",
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
             "no_elimination_show",
@@ -333,8 +333,8 @@ namespace FallGuysStats {
             "xtreme_party",
             "invisibeans_mode",
             "timeattack_mode",
-            "fall_guys_creative_mode",
-            "private_lobbies"
+            "private_lobbies",
+            "fall_guys_creative_mode"
         };
         
         public readonly string[] PublicShowIdList2 = {
@@ -589,44 +589,50 @@ namespace FallGuysStats {
         }
 
         private void UpdateUpcomingShow() {
+            DateTime currentUtcTime = DateTime.UtcNow;
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
                     string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
                     FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
                     if (upcomingShow.ok) {
-                        var temps = new List<UpcomingShow>();
-                        foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
-                            foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
-                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
-                                                                       && (string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown)))) {
+                        lock (this.UpcomingShowCache) {
+                            bool isCacheUpdated = false;
+                            foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
+                                foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
+                                    var levelType = this.GetCreativeLevelType(level.creative_game_mode_id);
+                                    if (Equals(levelType, LevelType.Unknown)) continue;
+
+                                    this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
+                                                                          && string.Equals(u.ShowId, show.id)
+                                                                          && (!string.Equals(u.DisplayName, level.display_name)
+                                                                              || (!Equals(u.LevelType, levelType))));
+                                    if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                            && string.Equals(u.ShowId, show.id))) {
+                                        var newInfo = new UpcomingShow {
+                                            ShowId = show.id,
+                                            LevelId = level.id,
+                                            DisplayName = level.display_name,
+                                            ShareCode = level.share_code,
+                                            IsFinal = level.is_final,
+                                            IsCreative = true,
+                                            LevelType = levelType,
+                                            BestRecordType = this.GetBestRecordType(level.creative_game_mode_id),
+                                            AddDate = currentUtcTime
+                                        };
+                                        this.UpcomingShowCache.Add(newInfo);
+                                        isCacheUpdated = true;
+                                    }
+                                }
+                            }
+
+                            if (isCacheUpdated) {
+                                lock (this.StatsDB) {
                                     this.StatsDB.BeginTrans();
-                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown));
                                     this.UpcomingShow.DeleteAll();
                                     this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                     this.StatsDB.Commit();
                                 }
-                                if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id))
-                                    && !LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
-                                    var temp = new UpcomingShow {
-                                        ShowId = show.id,
-                                        LevelId = level.id,
-                                        DisplayName = level.display_name,
-                                        ShareCode = level.share_code,
-                                        IsFinal = level.is_final,
-                                        IsCreative = true,
-                                        LevelType = this.GetCreativeLevelType(level.creative_game_mode_id),
-                                        BestRecordType = this.GetBestRecordType(level.creative_game_mode_id),
-                                        AddDate = this.startupTime
-                                    };
-                                    temps.Add(temp);
-                                }
                             }
-                        }
-                        
-                        if (temps.Count > 0) {
-                            this.StatsDB.BeginTrans();
-                            this.UpcomingShow.InsertBulk(temps);
-                            this.StatsDB.Commit();
                         }
                     } else {
                         throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
@@ -649,47 +655,53 @@ namespace FallGuysStats {
                                     }
                                 }
                             }
-                            var temps = new List<UpcomingShow>();
-                            foreach (var show in selectedShows) {
-                                if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
-                                    json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
-                                    FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
-                                    if (string.Equals(roundpool.xstatus, "success")) {
-                                        foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
-                                            var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
-                                            if (string.Equals(level.type, "wushu")) {
-                                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown)))) {
-                                                    this.StatsDB.BeginTrans();
-                                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || Equals(u.LevelType, LevelType.Unknown));
-                                                    this.UpcomingShow.DeleteAll();
-                                                    this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                                                    this.StatsDB.Commit();
-                                                }
-                                                if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id))
-                                                    && !LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
-                                                    var temp = new UpcomingShow {
-                                                        ShowId = show.id,
-                                                        LevelId = level.id,
-                                                        DisplayName = level.name,
-                                                        ShareCode = level.wushu_id,
-                                                        IsFinal = level.is_final,
-                                                        IsCreative = true,
-                                                        LevelType = this.GetCreativeLevelType(level.creative_gamemode),
-                                                        BestRecordType = this.GetBestRecordType(level.creative_gamemode),
-                                                        AddDate = this.startupTime
-                                                    };
-                                                    temps.Add(temp);
+                            lock (this.UpcomingShowCache) {
+                                bool isCacheUpdated = false;
+                                foreach (var show in selectedShows) {
+                                    if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
+                                        json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
+                                        FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
+                                        if (string.Equals(roundpool.xstatus, "success")) {
+                                            foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
+                                                var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
+                                                if (string.Equals(level.type, "wushu")) {
+                                                    var levelType = this.GetCreativeLevelType(level.creative_gamemode);
+                                                    if (Equals(levelType, LevelType.Unknown)) continue;
+
+                                                    this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
+                                                                                          && string.Equals(u.ShowId, show.id)
+                                                                                          && (!string.Equals(u.DisplayName, level.name)
+                                                                                              || (!Equals(u.LevelType, levelType))));
+                                                    if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                                            && string.Equals(u.ShowId, show.id))) {
+                                                        var newInfo = new UpcomingShow {
+                                                            ShowId = show.id,
+                                                            LevelId = level.id,
+                                                            DisplayName = level.name,
+                                                            ShareCode = level.wushu_id,
+                                                            IsFinal = level.is_final,
+                                                            IsCreative = true,
+                                                            LevelType = levelType,
+                                                            BestRecordType = this.GetBestRecordType(level.creative_gamemode),
+                                                            AddDate = currentUtcTime
+                                                        };
+                                                        this.UpcomingShowCache.Add(newInfo);
+                                                        isCacheUpdated = true;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            
-                            if (temps.Count > 0) {
-                                this.StatsDB.BeginTrans();
-                                this.UpcomingShow.InsertBulk(temps);
-                                this.StatsDB.Commit();
+
+                                if (isCacheUpdated) {
+                                    lock (this.StatsDB) {
+                                        this.StatsDB.BeginTrans();
+                                        this.UpcomingShow.DeleteAll();
+                                        this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                                        this.StatsDB.Commit();
+                                    }
+                                }
                             }
                         }
                     } catch {
@@ -700,22 +712,14 @@ namespace FallGuysStats {
         }
 
         private void GenerateLevelStats() {
-            List<string> removableLevelsInUpcomingShow = new List<string>();
-            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
-            foreach (var level in this.UpcomingShowCache) {
-                if (string.IsNullOrEmpty(level.DisplayName) || Equals(level.LevelType, LevelType.Unknown)) {
-                    removableLevelsInUpcomingShow.Add(level.LevelId);
-                } else if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
-                    LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
-                        10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+            lock (this.UpcomingShowCache) {
+                var sortedUpcomingShows = this.UpcomingShowCache.OrderByDescending(u => u.AddDate).ToList();
+                foreach (var level in sortedUpcomingShows) {
+                    if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
+                        LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
+                            10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+                    }
                 }
-            }
-            if (removableLevelsInUpcomingShow.Count > 0) {
-                this.StatsDB.BeginTrans();
-                this.UpcomingShowCache.RemoveAll(u => removableLevelsInUpcomingShow.Contains(u.LevelId));
-                this.UpcomingShow.DeleteAll();
-                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                this.StatsDB.Commit();
             }
         }
 
@@ -732,23 +736,25 @@ namespace FallGuysStats {
 
                     this.UpdateUpcomingShow();
                     this.GenerateLevelStats();
-                    if (this.UpcomingShowCache.Any()) {
-                        lock (this.StatLookup) {
-                            this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
-                        }
-                        lock (this.StatDetails) {
-                            this.StatDetails = LevelStats.ALL
-                                .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
-                                .GroupBy(entry => entry.Value.ShareCode)
-                                .Select(group => group.First().Value)
-                                .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
-                                .ToList();
-                        }
-                        lock (this.gridDetails) {
-                            this.gridDetails.Invoke((MethodInvoker)delegate {
-                                this.SortGridDetails(true);
-                                IsOverlayRoundInfoNeedRefresh = true;
-                            });
+                    lock (this.UpcomingShowCache) {
+                        if (this.UpcomingShowCache.Any()) {
+                            lock (this.StatLookup) {
+                                this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
+                            }
+                            lock (this.StatDetails) {
+                                this.StatDetails = LevelStats.ALL
+                                    .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
+                                    .GroupBy(entry => entry.Value.ShareCode)
+                                    .Select(group => group.First().Value)
+                                    .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
+                                    .ToList();
+                            }
+                            lock (this.gridDetails) {
+                                this.gridDetails.Invoke((MethodInvoker)delegate {
+                                    this.SortGridDetails(true);
+                                    IsOverlayRoundInfoNeedRefresh = true;
+                                });
+                            }
                         }
                     }
                 });
@@ -761,26 +767,22 @@ namespace FallGuysStats {
                     string json = web.DownloadString(Utils.FALLGUYSSTATS_LEVEL_TIME_LIMIT_DB_URL);
                     LevelTimeLimitInfo levelTimeLimit = System.Text.Json.JsonSerializer.Deserialize<LevelTimeLimitInfo>(json);
                     if (levelTimeLimit.version > this.CurrentSettings.LevelTimeLimitVersion) {
-                        var temps = new List<LevelTimeLimit>();
+                        List<LevelTimeLimit> newList = new List<LevelTimeLimit>();
                         foreach (var roundpool in levelTimeLimit.data.roundpools) {
                             foreach (var level in roundpool.levels) {
-                                if (!temps.Exists(l => string.Equals(l.LevelId, level.id))) {
-                                    var temp = new LevelTimeLimit {
-                                        LevelId = level.id,
-                                        Duration = level.duration,
-                                    };
-                                    temps.Add(temp);
-                                }
+                                newList.Add(new LevelTimeLimit { LevelId = level.id, Duration = level.duration });
                             }
                         }
+                        this.LevelTimeLimitCache = newList;
 
-                        this.StatsDB.BeginTrans();
-                        this.LevelTimeLimit.DeleteAll();
-                        this.LevelTimeLimit.InsertBulk(temps);
-                        this.StatsDB.Commit();
+                        lock (this.StatsDB) {
+                            this.StatsDB.BeginTrans();
+                            this.LevelTimeLimit.DeleteAll();
+                            this.LevelTimeLimit.InsertBulk(this.LevelTimeLimitCache);
+                            this.StatsDB.Commit();
+                        }
                         this.CurrentSettings.LevelTimeLimitVersion = levelTimeLimit.version;
                         this.SaveUserSettings();
-                        this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
                     }
                 } catch {
                     // ignored
@@ -805,10 +807,12 @@ namespace FallGuysStats {
         }
 
         private void UpdateOnlineDatabases() {
-            if (Utils.IsInternetConnected()) {
-                this.UpdateLevelTimeLimit();
-                this.UpdateUpcomingShow();
-                this.GenerateLevelStats();
+            if (!Utils.IsInternetConnected()) return;
+
+            this.UpdateLevelTimeLimit();
+            this.UpdateUpcomingShow();
+            this.GenerateLevelStats();
+            lock (this.UpcomingShowCache) {
                 if (this.UpcomingShowCache.Any()) {
                     lock (this.StatLookup) {
                         this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
@@ -850,7 +854,7 @@ namespace FallGuysStats {
                     CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
                     CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
                 } catch {
-                    this.CurrentSettings = GetDefaultSettings();
+                    this.CurrentSettings = this.GetDefaultSettings();
                     this.StatsDB.BeginTrans();
                     this.UserSettings.DeleteAll();
                     this.UserSettings.Insert(this.CurrentSettings);
@@ -940,16 +944,13 @@ namespace FallGuysStats {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
                         Overlay.SetDefaultFont(18, CurrentLanguage);
                         this.CurrentSettings.Multilingual = (int)initLanguageForm.selectedLanguage;
+                        this.StatsDB.BeginTrans();
                         if (initLanguageForm.autoGenerateProfiles) {
-                            this.StatsDB.BeginTrans();
                             for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
                                 string showId = this.PublicShowIdList[i - 1];
                                 this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId, DoNotCombineShows = false });
                             }
-                            this.StatsDB.Commit();
-                            this.CurrentSettings.AutoChangeProfile = true;
                         } else {
-                            this.StatsDB.BeginTrans();
                             this.Profiles.Insert(new Profiles { ProfileId = 9, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 10, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 8, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 9, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 7, ProfileName = Multilingual.GetWord("main_profile_ranked_squad"), ProfileOrder = 8, LinkedShowId = "ranked_squads_show", DoNotCombineShows = false });
@@ -960,14 +961,15 @@ namespace FallGuysStats {
                             this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 3, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_ranked_solo"), ProfileOrder = 2, LinkedShowId = "ranked_solo_show", DoNotCombineShows = false });
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
-                            this.StatsDB.Commit();
                         }
+                        this.StatsDB.Commit();
                     }
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
                 }
             }
 
+            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
 
             this.GenerateLevelStats();
@@ -1031,6 +1033,14 @@ namespace FallGuysStats {
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             
             this.UpdateGameExeLocation();
+        }
+        
+        protected override void WndProc(ref Message m) {
+            if (m.Msg == 0x0011) {
+                this.Stats_ExitProgram(this, null);
+            } else {
+                base.WndProc(ref m);
+            }
         }
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
@@ -1790,9 +1800,16 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 129;
+            int lastVersion = 130;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 129: {
+                            this.CurrentSettings.LevelTimeLimitVersion = 0;
+                            if (Utils.IsInternetConnected()) {
+                                this.UpdateLevelTimeLimit();
+                            }
+                            break;
+                        }
                     case 128: {
                             List<Profiles> profileList = this.Profiles.FindAll().ToList();
                             
@@ -4127,7 +4144,7 @@ namespace FallGuysStats {
                 OverlayFontColorSerialized = string.Empty,
                 PlayerByConsoleType = false,
                 ColorByRoundType = false,
-                AutoChangeProfile = false,
+                AutoChangeProfile = true,
                 ShadeTheFlagImage = false,
                 DisplayCurrentTime = false,
                 DisplayGamePlayedInfo = false,
@@ -4560,14 +4577,17 @@ namespace FallGuysStats {
             this.Close();
         }
         
-        private async void Stats_FormClosing(object sender, FormClosingEventArgs e) {
+        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
                     if (!this.isUpdate && !this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
                         this.SaveUserSettings();
                     }
-                    await this.logFile.Stop();
+                    Task.Run(async () => {
+                        await this.logFile.Stop();
+                        this.StatsDB?.Dispose();
+                    }).Wait();
                 } catch (Exception ex) {
                     MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -4576,11 +4596,7 @@ namespace FallGuysStats {
                 this.Hide();
             }
         }
-
-        private void Stats_FormClosed(object sender, FormClosedEventArgs e) {
-            this.StatsDB?.Dispose();
-        }
-
+        
         private void Stats_Load(object sender, EventArgs e) {
             try {
                 if (Utils.IsInternetConnected()) {
@@ -4737,7 +4753,7 @@ namespace FallGuysStats {
                 this.isStartingUp = false;
                 
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
-                    this.LaunchGame(true);
+                    Task.Run(() => this.LaunchGame(true));
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4883,11 +4899,11 @@ namespace FallGuysStats {
                                         IsDisplayOverlayTime = true;
                                     }
                                 }
-                                
+
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 2) {
                                     continue;
                                 }
-                                
+
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
                                     profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby);
                                     this.CurrentSettings.SelectedProfile = profile;
@@ -5029,7 +5045,7 @@ namespace FallGuysStats {
 
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);
-                                
+
                                 // Below is where reporting to fallalytics happen
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
@@ -5051,24 +5067,24 @@ namespace FallGuysStats {
                                             OnlineServiceId = userInfo[0];
                                             OnlineServiceNickname = userInfo[1];
                                         }
-                                        
+
                                         if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
                                             if (string.IsNullOrEmpty(HostCountryCode)) {
                                                 HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
                                             }
-                                            
+
                                             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) {
                                                 if (this.CurrentSettings.EnableFallalyticsReporting) {
                                                     if (stat.Finish.HasValue && (this.StatLookup.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
                                                         Task.Run(() => this.FallalyticsRegisterPb(stat));
                                                     }
                                                 }
-                                                
+
                                                 if (this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) {
                                                     if (stat.Crown) {
                                                         Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
                                                     }
-                                                    
+
                                                     bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
                                                     if (existsTransferFailedLogs) {
                                                         Task.Run(this.FallalyticsResendWeeklyCrown);
@@ -5153,7 +5169,7 @@ namespace FallGuysStats {
                         }
 
                         stat.ToLocalTime();
-                        
+
                         if (!stat.PrivateLobby && !stat.IsCasualShow) {
                             if (stat.IsFinal || stat.Crown) {
                                 this.Finals++;
@@ -5162,7 +5178,7 @@ namespace FallGuysStats {
                                 }
                             }
                         }
-                        
+
                         if (this.StatLookup.TryGetValue(stat.UseShareCode ? stat.ShowNameId : stat.Name, out LevelStats levelStats)) {
                             levelStats.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                             levelStats.Add(stat);
@@ -5173,7 +5189,7 @@ namespace FallGuysStats {
                                     l1.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                                     l1.Add(stat);
                                 }
-                            
+
                                 if (this.StatLookup.TryGetValue(this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal), out LevelStats creativeLevel)) {
                                     creativeLevel.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                                     creativeLevel.Add(stat);
@@ -5239,10 +5255,10 @@ namespace FallGuysStats {
         // }
         
         public void InsertPersonalBestLog(DateTime finish, string sessionId, string showId, string roundId, double record, bool isPb) {
+            PersonalBestLog log = new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
+                CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
+            };
             lock (this.StatsDB) {
-                PersonalBestLog log = new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
-                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
-                };
                 this.StatsDB.BeginTrans();
                 this.PersonalBestLog.Insert(log);
                 this.StatsDB.Commit();
@@ -5261,9 +5277,9 @@ namespace FallGuysStats {
         // }
 
         private void ClearPersonalBestLog(int days) {
+            DateTime daysCond = DateTime.Now.AddDays(days * -1);
+            BsonExpression condition = Query.LT("_id", daysCond);
             lock (this.StatsDB) {
-                DateTime daysCond = DateTime.Now.AddDays(days * -1);
-                BsonExpression condition = Query.LT("_id", daysCond);
                 this.StatsDB.BeginTrans();
                 this.PersonalBestLog.DeleteMany(condition);
                 this.StatsDB.Commit();
@@ -5271,9 +5287,9 @@ namespace FallGuysStats {
         }
         
         private void ClearWeeklyCrownLog(int days) {
+            DateTime daysCond = DateTime.Now.AddDays(days * -1);
+            BsonExpression condition = Query.LT("End", daysCond);
             lock (this.StatsDB) {
-                DateTime daysCond = DateTime.Now.AddDays(days * -1);
-                BsonExpression condition = Query.LT("End", daysCond);
                 this.StatsDB.BeginTrans();
                 this.FallalyticsCrownLog.DeleteMany(condition);
                 this.StatsDB.Commit();
@@ -5300,11 +5316,11 @@ namespace FallGuysStats {
         }
         
         public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+            ServerConnectionLog log = new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                IsNotify = isNotify, IsPlaying = isPlaying
+            };
             lock (this.StatsDB) {
-                ServerConnectionLog log = new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
-                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                    IsNotify = isNotify, IsPlaying = isPlaying
-                };
                 this.StatsDB.BeginTrans();
                 this.ServerConnectionLog.Insert(log);
                 this.StatsDB.Commit();
@@ -5313,10 +5329,10 @@ namespace FallGuysStats {
         }
         
         public void UpdateServerConnectionLog(string sessionId, bool isPlaying) {
-            lock (this.StatsDB) {
-                ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
-                if (log != null) {
-                    log.IsPlaying = isPlaying;
+            ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
+            if (log != null) {
+                log.IsPlaying = isPlaying;
+                lock (this.StatsDB) {
                     this.StatsDB.BeginTrans();
                     this.ServerConnectionLog.Update(log);
                     this.StatsDB.Commit();
@@ -5336,9 +5352,9 @@ namespace FallGuysStats {
         // }
 
         private void ClearServerConnectionLog(int days) {
+            DateTime daysCond = DateTime.Now.AddDays(days * -1);
+            BsonExpression condition = Query.LT("ConnectionDate", daysCond);
             lock (this.StatsDB) {
-                DateTime daysCond = DateTime.Now.AddDays(days * -1);
-                BsonExpression condition = Query.LT("ConnectionDate", daysCond);
                 this.StatsDB.BeginTrans();
                 this.ServerConnectionLog.DeleteMany(condition);
                 this.StatsDB.Commit();
@@ -5364,12 +5380,13 @@ namespace FallGuysStats {
             DateTime currentEnd = stat.End;
             bool isTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
             
+            FallalyticsCrownLog log = new FallalyticsCrownLog {
+                SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId, End = currentEnd, CountryCode = HostCountryCode,
+                OnlineServiceType = stat.OnlineServiceType.Value, OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
+                IsTransferSuccess = isTransferSuccess
+            };
+            
             lock (this.StatsDB) {
-                FallalyticsCrownLog log = new FallalyticsCrownLog {
-                    SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId, End = currentEnd, CountryCode = HostCountryCode,
-                    OnlineServiceType = stat.OnlineServiceType.Value, OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
-                    IsTransferSuccess = isTransferSuccess
-                };
                 this.StatsDB.BeginTrans();
                 this.FallalyticsCrownLog.Insert(log);
                 this.StatsDB.Commit();
@@ -5384,7 +5401,7 @@ namespace FallGuysStats {
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess;
-
+            
             bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
             if (!existsPbLog) {
                 // RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
@@ -5396,17 +5413,18 @@ namespace FallGuysStats {
                 //     currentRecord = recordInfo.Finish.Value - recordInfo.Start;
                 //     currentFinish = recordInfo.Finish.Value;
                 // }
-
+                
                 isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                 
+                FallalyticsPbLog log = new FallalyticsPbLog {
+                    SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
+                    Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
+                    CountryCode = HostCountryCode, OnlineServiceType = stat.OnlineServiceType.Value,
+                    OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
+                    IsTransferSuccess = isTransferSuccess
+                };
+                
                 lock (this.StatsDB) {
-                    FallalyticsPbLog log = new FallalyticsPbLog {
-                        SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
-                        Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
-                        CountryCode = HostCountryCode, OnlineServiceType = stat.OnlineServiceType.Value,
-                        OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
-                        IsTransferSuccess = isTransferSuccess
-                    };
                     this.StatsDB.BeginTrans();
                     this.FallalyticsPbLog.Insert(log);
                     this.StatsDB.Commit();
@@ -5434,12 +5452,13 @@ namespace FallGuysStats {
                         if (currentRecord < existingRecord) {
                             isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                             
+                            pbLog.SessionId = currentSessionId;
+                            pbLog.ShowId = currentShowNameId;
+                            pbLog.Record = currentRecord.TotalMilliseconds;
+                            pbLog.PbDate = currentFinish;
+                            pbLog.IsTransferSuccess = isTransferSuccess;
+                            
                             lock (this.StatsDB) {
-                                pbLog.SessionId = currentSessionId;
-                                pbLog.ShowId = currentShowNameId;
-                                pbLog.Record = currentRecord.TotalMilliseconds;
-                                pbLog.PbDate = currentFinish;
-                                pbLog.IsTransferSuccess = isTransferSuccess;
                                 this.StatsDB.BeginTrans();
                                 this.FallalyticsPbLog.Update(pbLog);
                                 this.StatsDB.Commit();
@@ -5452,12 +5471,13 @@ namespace FallGuysStats {
                         currentFinish = currentRecord < existingRecord ? currentFinish : pbLog.PbDate;
                         isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId, OnlineServiceType = pbLog.OnlineServiceType, OnlineServiceId = pbLog.OnlineServiceId, OnlineServiceNickname = pbLog.OnlineServiceNickname }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                         
+                        pbLog.SessionId = currentSessionId;
+                        pbLog.ShowId = currentShowNameId;
+                        pbLog.Record = currentRecord.TotalMilliseconds;
+                        pbLog.PbDate = currentFinish;
+                        pbLog.IsTransferSuccess = isTransferSuccess;
+                        
                         lock (this.StatsDB) {
-                            pbLog.SessionId = currentSessionId;
-                            pbLog.ShowId = currentShowNameId;
-                            pbLog.Record = currentRecord.TotalMilliseconds;
-                            pbLog.PbDate = currentFinish;
-                            pbLog.IsTransferSuccess = isTransferSuccess;
                             this.StatsDB.BeginTrans();
                             this.FallalyticsPbLog.Update(pbLog);
                             this.StatsDB.Commit();
@@ -5466,14 +5486,15 @@ namespace FallGuysStats {
                 } else {
                     isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                     
+                    FallalyticsPbLog log = new FallalyticsPbLog {
+                        SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
+                        Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
+                        CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
+                        OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                        IsTransferSuccess = isTransferSuccess
+                    };
+                    
                     lock (this.StatsDB) {
-                        FallalyticsPbLog log = new FallalyticsPbLog {
-                            SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
-                            Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
-                            CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
-                            OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                            IsTransferSuccess = isTransferSuccess
-                        };
                         this.StatsDB.BeginTrans();
                         this.FallalyticsPbLog.Insert(log);
                         this.StatsDB.Commit();
@@ -8080,7 +8101,6 @@ namespace FallGuysStats {
                                 this.overlay?.Hide();
                                 
                                 using (DownloadProgress progress = new DownloadProgress()) {
-                                    this.StatsDB?.Dispose();
                                     progress.ZipWebClient = web;
                                     progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                     progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
@@ -8294,8 +8314,6 @@ namespace FallGuysStats {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     editProfiles.ShowDialog(this);
-                    this.EnableInfoStrip(true);
-                    this.EnableMainMenu(true);
                     if (editProfiles.IsUpdate || editProfiles.IsDelete) {
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
@@ -8314,6 +8332,8 @@ namespace FallGuysStats {
                         this.ReloadProfileMenuItems();
                         IsOverlayRoundInfoNeedRefresh = true;
                     }
+                    this.EnableInfoStrip(true);
+                    this.EnableMainMenu(true);
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -8324,7 +8344,7 @@ namespace FallGuysStats {
         
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
             try {
-                this.LaunchGame(false);
+                Task.Run(() => this.LaunchGame(false));
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
