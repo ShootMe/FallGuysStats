@@ -241,9 +241,9 @@ namespace FallGuysStats {
                                     this.logLines.AddRange(currentLines);
                                     currentLines.Clear();
                                 }
-                            } else if (line.Line.IndexOf("[Matchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1
+                            } else if ((line.Line.IndexOf("[Matchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1 && line.Line.IndexOf("private lobby", StringComparison.OrdinalIgnoreCase) == -1)
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
-                                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
+                                       || line.Line.IndexOf("[StateMainMenu] Creating or joining private lobby minimal", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
@@ -835,9 +835,9 @@ namespace FallGuysStats {
                 this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, false);
                 Stats.InShow = false;
                 this.ResetVariablesUsedForOverlay();
-            } else if (line.Line.IndexOf("[Matchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1
+            } else if ((line.Line.IndexOf("[Matchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1 && line.Line.IndexOf("private lobby", StringComparison.OrdinalIgnoreCase) == -1)
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1) {
+                       || line.Line.IndexOf("[StateMainMenu] Creating or joining private lobby minimal", StringComparison.OrdinalIgnoreCase) != -1) {
                 if (line.Date > Stats.LastGameStart) {
                     Stats.LastGameStart = line.Date;
                     if (logRound.Info != null) {
@@ -850,7 +850,8 @@ namespace FallGuysStats {
                 }
                 Stats.EndedShow = false;
 
-                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) != -1;
+                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) != -1
+                                        || line.Line.IndexOf("private lobby", StringComparison.OrdinalIgnoreCase) != -1;
                 logRound.CurrentlyInParty = !logRound.PrivateLobby && (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) == -1);
                 logRound.InLoadingGameScreen = false;
                 logRound.CountingPlayers = false;
