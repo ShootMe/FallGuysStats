@@ -171,22 +171,29 @@ namespace FallGuysStats {
         // }
         
         protected override void WndProc(ref Message m) {
-            if (m.Msg == 0x84) {
-                Point pos = PointToClient(new Point(m.LParam.ToInt32()));
-                int hitSize = 16;
-                if (pos.X >= ClientSize.Width - hitSize && pos.Y >= ClientSize.Height - hitSize) {
-                    m.Result = (IntPtr)17;
-                    return;
-                } else if (pos.X <= hitSize && pos.Y >= ClientSize.Height - hitSize) {
-                    m.Result = (IntPtr)16;
-                    return;
-                } else if (pos.X <= hitSize && pos.Y <= hitSize) {
-                    m.Result = (IntPtr)13;
-                    return;
-                } else if (pos.X >= ClientSize.Width - hitSize && pos.Y <= hitSize) {
-                    m.Result = (IntPtr)14;
-                    return;
-                }
+            switch (m.Msg) {
+                case 0x84:
+                    Point pos = PointToClient(new Point(m.LParam.ToInt32()));
+                    int hitSize = 16;
+                    if (pos.X >= ClientSize.Width - hitSize && pos.Y >= ClientSize.Height - hitSize) {
+                        m.Result = (IntPtr)17;
+                        return;
+                    } else if (pos.X <= hitSize && pos.Y >= ClientSize.Height - hitSize) {
+                        m.Result = (IntPtr)16;
+                        return;
+                    } else if (pos.X <= hitSize && pos.Y <= hitSize) {
+                        m.Result = (IntPtr)13;
+                        return;
+                    } else if (pos.X >= ClientSize.Width - hitSize && pos.Y <= hitSize) {
+                        m.Result = (IntPtr)14;
+                        return;
+                    }
+                    break;
+                case 0x0112:
+                    if ((m.WParam.ToInt32() & 0xFFF0) == 0xF060) {
+                        StatsForm.Stats_ExitProgram(this, null);
+                    }
+                    break;
             }
             base.WndProc(ref m);
         }
