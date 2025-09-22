@@ -155,16 +155,16 @@ namespace FallGuysStats {
                                                  $"{Multilingual.GetWord("message_save_data_linked_profiles")}{Environment.NewLine}{Multilingual.GetWord("message_save_data_linked_profiles_info_prefix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("message_save_data_linked_profiles_info_suffix")}",
                                                  $"{Multilingual.GetWord("message_save_data_caption")}",
                                                  MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            DialogResult = DialogResult.OK;
-                            Close();
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
                         }
                     } else {
                         if (MetroMessageBox.Show(this,
                                                  $"{Multilingual.GetWord("message_save_profile_prefix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("message_save_profile_suffix")}",
                                                  $"{Multilingual.GetWord("message_save_profile_caption")}",
                                                  MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            DialogResult = DialogResult.OK;
-                            Close();
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
                         }
                     }
                     break;
@@ -173,8 +173,8 @@ namespace FallGuysStats {
                                              $"{Multilingual.GetWord("profile_move_select_question_prefix")} ({this.SelectedCount:N0}) {Multilingual.GetWord("profile_move_select_question_infix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("profile_move_select_question_suffix")}",
                                              $"{Multilingual.GetWord("profile_move_select_title")}",
                                              MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                     }
                     break;
             }

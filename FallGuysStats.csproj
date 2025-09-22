@@ -178,7 +178,9 @@
     <Compile Include="Views\EunmaToast.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\EunmaToast.Designer.cs" />
+    <Compile Include="Views\EunmaToast.Designer.cs">
+      <DependentUpon>EunmaToast.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LeaderboardDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,7 +253,9 @@
     <EmbeddedResource Include="Views\DownloadProgress.resx">
       <DependentUpon>DownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EunmaToast.resx" />
+    <EmbeddedResource Include="Views\EunmaToast.resx">
+      <DependentUpon>EunmaToast.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LeaderboardDisplay.resx">
       <DependentUpon>LeaderboardDisplay.cs</DependentUpon>
     </EmbeddedResource>
