@@ -805,7 +805,7 @@ namespace FallGuysStats {
                 if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) return;
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
-                    List<RoundInfo> roundInfoList;
+                    List<RoundInfo> roundInfoList = new List<RoundInfo>();
                     if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
                         string[] ids = this.StatsForm.StatDetails.Where(l => string.Equals(l.ShareCode, currentLevel.ShareCode)).Select(l => l.Id).ToArray();
                         roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && ids.Contains(r.Name));

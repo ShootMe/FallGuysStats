@@ -287,11 +287,14 @@ namespace FallGuysStats {
         public Point screenCenter;
         private System.Threading.Timer upcomingShowTimer;
         private System.Threading.Timer levelTimeLimitTimer;
+        private System.Threading.Timer databaseBackupTimer;
 
         public event Action OnUpdatedLevelRows;
         private readonly System.Windows.Forms.Timer scrollTimer = new System.Windows.Forms.Timer { Interval = 100 };
         private bool isScrollingStopped = true;
-        
+
+        private const int currentDbVersion = 2;
+
         public readonly string[] PublicShowIdList = {
             "main_show",
             "ranked_solo_show",
@@ -404,43 +407,80 @@ namespace FallGuysStats {
         }
         
         private void DatabaseMigration() {
+            if (File.Exists($"{CURRENTDIR}data_new.db")) {
+                File.SetAttributes($"{CURRENTDIR}data_new.db", FileAttributes.Normal);
+                File.Delete($"{CURRENTDIR}data_new.db");
+            }
+
             if (File.Exists($"{CURRENTDIR}data.db")) {
+                int sourceDbVersion = 0;
                 using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
-                    if (sourceDb.UserVersion != 0) return;
+                    sourceDbVersion = sourceDb.UserVersion;
+                    if (sourceDbVersion >= currentDbVersion) return;
 
                     using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
-                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog", "FallalyticsCrownLog" };
+                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog",
+                                                "FallalyticsPbLog", "FallalyticsCrownLog", "UpcomingShow", "LevelTimeLimit" };
                         foreach (var tableName in tableNames) {
                             if (!sourceDb.CollectionExists(tableName)) continue;
                             var sourceData = sourceDb.GetCollection(tableName).FindAll();
                             var targetCollection = targetDb.GetCollection(tableName);
                             targetCollection.InsertBulk(sourceData);
                         }
-                        targetDb.UserVersion += 1;
+                        targetDb.UserVersion = currentDbVersion;
                     }
                 }
-                File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data.db_bak");
+                if (!File.Exists($"{CURRENTDIR}data_bak_v{sourceDbVersion}.db")) {
+                    File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_v{sourceDbVersion}.db");
+                } else {
+                    File.SetAttributes($"{CURRENTDIR}data.db", FileAttributes.Normal);
+                    File.Delete($"{CURRENTDIR}data.db");
+                }
                 File.Move($"{CURRENTDIR}data_new.db", $"{CURRENTDIR}data.db");
             }
         }
 
-        private void SetWindowCorner() {
-            Utils.DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.menuFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+
+        private void DatabaseBackup() {
+            lock (this.StatsDB) {
+                // Create a new backup file for today if it doesn't exist
+                string todayBackupDbDate = DateTime.Today.ToString("yyyyMMdd");
+                if (File.Exists($"{CURRENTDIR}data_bak_({todayBackupDbDate}).db")) return;
+
+                this.StatsDB.Checkpoint();
+                File.Copy($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_({todayBackupDbDate}).db");
+
+                // If there are more than 3 backup files, delete the oldest one
+                string[] backupDbFiles = Directory.GetFiles(CURRENTDIR, "data_bak_(*).db");
+                if (backupDbFiles.Length > 3) {
+                    DateTime oldestBackupDbDate = DateTime.MaxValue;
+                    foreach (var backupDbFile in backupDbFiles) {
+                        if (DateTime.TryParseExact(backupDbFile.Substring(backupDbFile.Length - 12, 8), "yyyyMMdd",
+                                                   CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime backupDbDate)) {
+                            if (backupDbDate < oldestBackupDbDate) {
+                                oldestBackupDbDate = backupDbDate;
+                            }
+                        }
+                    }
+                    if (oldestBackupDbDate != DateTime.MaxValue) {
+                        File.SetAttributes($"{CURRENTDIR}data_bak_({oldestBackupDbDate:yyyyMMdd}).db", FileAttributes.Normal);
+                        File.Delete($"{CURRENTDIR}data_bak_({oldestBackupDbDate:yyyyMMdd}).db");
+                    }
+                }
+            }
+        }
+
+
+        private void DatabaseBackupJob() {
+            DateTime now = DateTime.UtcNow;
+            DateTime targetTime = new DateTime(now.Year, now.Month, now.Day, 0, 1, 0);
+            if (now > targetTime) {
+                targetTime = targetTime.AddDays(1);
+            }
+            double initialDelay = (targetTime - now).TotalMilliseconds;
+            this.databaseBackupTimer = new System.Threading.Timer(state => {
+                Task.Run(() => this.DatabaseBackup());
+            }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
         }
 
         public struct LevelTimeLimitInfo {
@@ -589,13 +629,13 @@ namespace FallGuysStats {
         }
 
         private void UpdateUpcomingShow() {
-            DateTime currentUtcTime = DateTime.UtcNow;
-            using (ApiWebClient web = new ApiWebClient()) {
-                try {
-                    string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
-                    FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
-                    if (upcomingShow.ok) {
-                        lock (this.UpcomingShowCache) {
+            lock (this.UpcomingShowCache) {
+                DateTime currentUtcTime = DateTime.UtcNow;
+                using (ApiWebClient web = new ApiWebClient()) {
+                    try {
+                        string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
+                        FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
+                        if (upcomingShow.ok) {
                             bool isCacheUpdated = false;
                             foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                                 foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
@@ -633,29 +673,27 @@ namespace FallGuysStats {
                                     this.StatsDB.Commit();
                                 }
                             }
+                        } else {
+                            throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
                         }
-                    } else {
-                        throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
-                    }
-                } catch {
-                    try {
-                        string json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-selector/");
-                        FGA_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGA_UpcomingShowInfo>(json);
-                        if (string.Equals(upcomingShow.xstatus, "success")) {
-                            var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                            foreach (var liveShow in upcomingShow.shows.live_shows) {
-                                foreach (var showInfo in liveShow.showInfo.Values) {
-                                    var show = showInfo.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                                    if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) {
-                                        if (this.IsCreativeShow(show.id) || string.Equals(show.id, "event_snowday_stumble")) {
+                    } catch {
+                        try {
+                            string json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-selector/");
+                            FGA_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGA_UpcomingShowInfo>(json);
+                            if (string.Equals(upcomingShow.xstatus, "success")) {
+                                var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                                foreach (var liveShow in upcomingShow.shows.live_shows) {
+                                    foreach (var showInfo in liveShow.showInfo.Values) {
+                                        var show = showInfo.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                                        if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) {
+                                            if (this.IsCreativeShow(show.id) || string.Equals(show.id, "event_snowday_stumble")) {
+                                                selectedShows.Add(show);
+                                            }
+                                        } else if (!string.Equals(show.id, "ftue_uk_show") && show.victory_rewards.Count != 0) {
                                             selectedShows.Add(show);
                                         }
-                                    } else if (!string.Equals(show.id, "ftue_uk_show") && show.victory_rewards.Count != 0) {
-                                        selectedShows.Add(show);
                                     }
                                 }
-                            }
-                            lock (this.UpcomingShowCache) {
                                 bool isCacheUpdated = false;
                                 foreach (var show in selectedShows) {
                                     if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
@@ -703,21 +741,9 @@ namespace FallGuysStats {
                                     }
                                 }
                             }
+                        } catch {
+                            // ignored
                         }
-                    } catch {
-                        // ignored
-                    }
-                }
-            }
-        }
-
-        private void GenerateLevelStats() {
-            lock (this.UpcomingShowCache) {
-                var sortedUpcomingShows = this.UpcomingShowCache.OrderByDescending(u => u.AddDate).ToList();
-                foreach (var level in sortedUpcomingShows) {
-                    if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
-                        LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
-                            10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                     }
                 }
             }
@@ -762,30 +788,32 @@ namespace FallGuysStats {
         }
 
         private void UpdateLevelTimeLimit() {
-            using (ApiWebClient web = new ApiWebClient()) {
-                try {
-                    string json = web.DownloadString(Utils.FALLGUYSSTATS_LEVEL_TIME_LIMIT_DB_URL);
-                    LevelTimeLimitInfo levelTimeLimit = System.Text.Json.JsonSerializer.Deserialize<LevelTimeLimitInfo>(json);
-                    if (levelTimeLimit.version > this.CurrentSettings.LevelTimeLimitVersion) {
-                        List<LevelTimeLimit> newList = new List<LevelTimeLimit>();
-                        foreach (var roundpool in levelTimeLimit.data.roundpools) {
-                            foreach (var level in roundpool.levels) {
-                                newList.Add(new LevelTimeLimit { LevelId = level.id, Duration = level.duration });
+            lock (this.LevelTimeLimitCache) {
+                using (ApiWebClient web = new ApiWebClient()) {
+                    try {
+                        string json = web.DownloadString(Utils.FALLGUYSSTATS_LEVEL_TIME_LIMIT_DB_URL);
+                        LevelTimeLimitInfo levelTimeLimit = System.Text.Json.JsonSerializer.Deserialize<LevelTimeLimitInfo>(json);
+                        if (levelTimeLimit.version > this.CurrentSettings.LevelTimeLimitVersion) {
+                            List<LevelTimeLimit> newList = new List<LevelTimeLimit>();
+                            foreach (var roundpool in levelTimeLimit.data.roundpools) {
+                                foreach (var level in roundpool.levels) {
+                                    newList.Add(new LevelTimeLimit { LevelId = level.id, Duration = level.duration });
+                                }
                             }
-                        }
-                        this.LevelTimeLimitCache = newList;
+                            this.LevelTimeLimitCache = newList;
 
-                        lock (this.StatsDB) {
-                            this.StatsDB.BeginTrans();
-                            this.LevelTimeLimit.DeleteAll();
-                            this.LevelTimeLimit.InsertBulk(this.LevelTimeLimitCache);
-                            this.StatsDB.Commit();
+                            lock (this.StatsDB) {
+                                this.StatsDB.BeginTrans();
+                                this.LevelTimeLimit.DeleteAll();
+                                this.LevelTimeLimit.InsertBulk(this.LevelTimeLimitCache);
+                                this.StatsDB.Commit();
+                            }
+                            this.CurrentSettings.LevelTimeLimitVersion = levelTimeLimit.version;
+                            this.SaveUserSettings();
                         }
-                        this.CurrentSettings.LevelTimeLimitVersion = levelTimeLimit.version;
-                        this.SaveUserSettings();
+                    } catch {
+                        // ignored
                     }
-                } catch {
-                    // ignored
                 }
             }
         }
@@ -804,6 +832,18 @@ namespace FallGuysStats {
                     this.UpdateLevelTimeLimit();
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
+        }
+
+        private void GenerateLevelStats() {
+            lock (this.UpcomingShowCache) {
+                var sortedUpcomingShows = this.UpcomingShowCache.OrderByDescending(u => u.AddDate).ToList();
+                foreach (var level in sortedUpcomingShows) {
+                    if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
+                        LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
+                            10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+                    }
+                }
+            }
         }
 
         private void UpdateOnlineDatabases() {
@@ -833,6 +873,25 @@ namespace FallGuysStats {
                     }
                 }
             }
+        }
+
+        private void SetWindowCorner() {
+            Utils.DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.menuFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
 
         private Stats() {
@@ -963,6 +1022,7 @@ namespace FallGuysStats {
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
                         }
                         this.StatsDB.Commit();
+                        this.StatsDB.UserVersion = currentDbVersion;
                     }
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
@@ -996,9 +1056,11 @@ namespace FallGuysStats {
             this.UpdateHoopsieLegends();
             
             Task.Run(() => {
+                this.DatabaseBackup();
                 this.UpdateOnlineDatabases();
                 this.UpdateLevelTimeLimitJob();
                 this.UpdateUpcomingShowJob();
+                this.DatabaseBackupJob();
             });
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
@@ -5255,6 +5317,9 @@ namespace FallGuysStats {
         // }
         
         public void InsertPersonalBestLog(DateTime finish, string sessionId, string showId, string roundId, double record, bool isPb) {
+            if (string.IsNullOrEmpty(HostCountryCode)) {
+                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+            }
             PersonalBestLog log = new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
                 CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
             };
@@ -5316,6 +5381,9 @@ namespace FallGuysStats {
         }
         
         public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+            if (string.IsNullOrEmpty(HostCountryCode)) {
+                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+            }
             ServerConnectionLog log = new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
                 CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                 IsNotify = isNotify, IsPlaying = isPlaying
@@ -7313,6 +7381,7 @@ namespace FallGuysStats {
                 this.traySettings.Enabled = enable;
                 this.trayFilters.Enabled = enable;
                 this.trayProfile.Enabled = enable;
+                this.trayExitProgram.Enabled = enable;
                 if (enable) {
                     this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;

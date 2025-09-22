@@ -369,8 +369,8 @@ namespace FallGuysStats {
 				case ToastCloseStyle.ClickEntire:
 				case ToastCloseStyle.ButtonAndClickEntire:
                     if (e.Button == MouseButtons.Left) {
-                        tmrClose.Stop();
-					    Close();
+                        tmrClose?.Stop();
+					    this?.Close();
                     }
 					break;
 				case ToastCloseStyle.Button:
@@ -407,8 +407,8 @@ namespace FallGuysStats {
             }
 
             if (_counter == 0) {
-                tmrClose.Stop();
-                Close();
+                tmrClose?.Stop();
+                this?.Close();
             }
         }
 
@@ -430,11 +430,11 @@ namespace FallGuysStats {
 		}
         
         private void FrmToast_FormEnter(object sender, EventArgs e) {
-            tmrClose.Stop();
+            tmrClose?.Stop();
         }
         
         private void FrmToast_FormLeave(object sender, EventArgs e) {
-            tmrClose.Start();
+            tmrClose?.Start();
         }
 
 		private void FrmToast_FormClosed(object sender, FormClosedEventArgs e) {
@@ -442,8 +442,8 @@ namespace FallGuysStats {
 		}
 
 		private void BtnClose_Click(object sender, EventArgs e) {
-            tmrClose.Stop();
-			Close();
+            tmrClose?.Stop();
+			this?.Close();
 		}
 	}
 }
