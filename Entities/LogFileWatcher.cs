@@ -640,7 +640,7 @@ namespace FallGuysStats {
                     this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                     this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                     this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                    // Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, snapshot); });
+                    // Task.Run(() => { this.StatsForm.UpdateCreativeLevel(string.Empty, shareCode, snapshot); });
                     isSucceed = true;
                 } catch {
                     try {
@@ -676,7 +676,7 @@ namespace FallGuysStats {
                         this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                         this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                         this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                        // Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, levelData); });
+                        // Task.Run(() => { this.StatsForm.UpdateCreativeLevel(string.Empty, shareCode, levelData); });
                         isSucceed = true;
                     } catch {
                         isSucceed = false;

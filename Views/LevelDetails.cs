@@ -1036,14 +1036,13 @@ namespace FallGuysStats {
                 if (MetroMessageBox.Show(this,
                         $@"{Multilingual.GetWord("message_delete_show_prefix")} ({selectedCount:N0}) {Multilingual.GetWord("message_delete_show_suffix")}",
                         Multilingual.GetWord("message_delete_show_caption"),
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                {
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                     this.gridDetails.Enabled = false;
                     this.spinnerTransition.Start();
                     this.mpsSpinner01.Visible = true;
                     this.preventPaging = true;
-                    Task.Run(() => {
-                        lock (this.StatsForm.StatsDB) {
+                    lock (this.StatsForm.StatsDB) {
+                        Task dbTaskDeleteShow = Task.Run(() => {
                             this.StatsForm.StatsDB.BeginTrans();
                             foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                 RoundInfo bi = row.DataBoundItem as RoundInfo;
@@ -1066,24 +1065,25 @@ namespace FallGuysStats {
                                 this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
                             }
                             this.StatsForm.StatsDB.Commit();
-                        }
-                    }).ContinueWith(prevTask => {
-                        this.BeginInvoke((MethodInvoker)delegate {
-                            this.RoundDetails = this.StatsForm.GetShowsForDisplay();
-                            this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
-                            if (this.currentPage > this.totalPages) {
-                                this.currentPage = this.totalPages;
-                            }
-                            this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
-                            
-                            this.gridDetails.Enabled = true;
-                            this.spinnerTransition.Stop();
-                            this.mpsSpinner01.Visible = false;
-
-                            this.StatsForm.ResetStats();
-                            Stats.IsOverlayRoundInfoNeedRefresh = true;
+                        }).ContinueWith(prevTask => {
+                            this.BeginInvoke((MethodInvoker)delegate {
+                                this.RoundDetails = this.StatsForm.GetShowsForDisplay();
+                                this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                                if (this.currentPage > this.totalPages) {
+                                    this.currentPage = this.totalPages;
+                                }
+                                this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
+                                
+                                this.gridDetails.Enabled = true;
+                                this.spinnerTransition.Stop();
+                                this.mpsSpinner01.Visible = false;
+                                
+                                this.StatsForm.ResetStats();
+                                Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            });
                         });
-                    });
+                        this.StatsForm.dbTasks.Add(dbTaskDeleteShow.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
+                    }
                 }
             }
         }
@@ -1104,8 +1104,8 @@ namespace FallGuysStats {
                         this.preventPaging = true;
                         int fromProfileId = this.StatsForm.GetCurrentProfileId();
                         int toProfileId = moveShows.SelectedProfileId;
-                        Task.Run(() => {
-                            lock (this.StatsForm.StatsDB) {
+                        lock (this.StatsForm.StatsDB) {
+                            Task dbTaskMoveShows = Task.Run(() => {
                                 this.StatsForm.StatsDB.BeginTrans();
                                 foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                     RoundInfo bi = row.DataBoundItem as RoundInfo;
@@ -1116,24 +1116,25 @@ namespace FallGuysStats {
                                     this.StatsForm.RoundDetails.Update(ri);
                                 }
                                 this.StatsForm.StatsDB.Commit();
-                            }
-                        }).ContinueWith(prevTask => {
-                            this.BeginInvoke((MethodInvoker)delegate {
-                                this.RoundDetails = this.StatsForm.GetShowsForDisplay();
-                                this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
-                                if (this.currentPage > this.totalPages) {
-                                    this.currentPage = this.totalPages;
-                                }
-                                this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
-                                
-                                this.gridDetails.Enabled = true;
-                                this.spinnerTransition.Stop();
-                                this.mpsSpinner01.Visible = false;
-
-                                this.StatsForm.ResetStats();
-                                Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            }).ContinueWith(prevTask => {
+                                this.BeginInvoke((MethodInvoker)delegate {
+                                    this.RoundDetails = this.StatsForm.GetShowsForDisplay();
+                                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                                    if (this.currentPage > this.totalPages) {
+                                        this.currentPage = this.totalPages;
+                                    }
+                                    this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
+                                    
+                                    this.gridDetails.Enabled = true;
+                                    this.spinnerTransition.Stop();
+                                    this.mpsSpinner01.Visible = false;
+                                    
+                                    this.StatsForm.ResetStats();
+                                    Stats.IsOverlayRoundInfoNeedRefresh = true;
+                                });
                             });
-                        });
+                            this.StatsForm.dbTasks.Add(dbTaskMoveShows.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
+                        }
                     }
                 }
             }
@@ -1151,8 +1152,8 @@ namespace FallGuysStats {
                         this.spinnerTransition.Start();
                         this.mpsSpinner01.Visible = true;
                         this.preventPaging = true;
-                        Task.Run(() => {
-                            lock (this.StatsForm.StatsDB) {
+                        lock (this.StatsForm.StatsDB) {
+                            Task dbTaskDeleteFinishTime = Task.Run(() => {
                                 this.StatsForm.StatsDB.BeginTrans();
                                 PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
                                 if (pbLog != null) {
@@ -1167,18 +1168,19 @@ namespace FallGuysStats {
                                 ri.Finish = null;
                                 this.StatsForm.RoundDetails.Update(ri);
                                 this.StatsForm.StatsDB.Commit();
-                            }
-                        }).ContinueWith(prevTask => {
-                            this.BeginInvoke((MethodInvoker)delegate {
-                                this.spinnerTransition.Stop();
-                                this.mpsSpinner01.Visible = false;
-                                this.gridDetails.Enabled = true;
-                                this.preventPaging = false;
-
-                                this.StatsForm.ResetStats();
-                                Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            }).ContinueWith(prevTask => {
+                                this.BeginInvoke((MethodInvoker)delegate {
+                                    this.spinnerTransition.Stop();
+                                    this.mpsSpinner01.Visible = false;
+                                    this.gridDetails.Enabled = true;
+                                    this.preventPaging = false;
+                                    
+                                    this.StatsForm.ResetStats();
+                                    Stats.IsOverlayRoundInfoNeedRefresh = true;
+                                });
                             });
-                        });
+                            this.StatsForm.dbTasks.Add(dbTaskDeleteFinishTime.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
+                        }
                     }
                 }
             }
@@ -1199,7 +1201,7 @@ namespace FallGuysStats {
                             this.spinnerTransition.Start();
                             this.mpsSpinner01.Visible = true;
                             this.preventPaging = true;
-                            Task.Run(() => {
+                            Task dbTaskUpdateCreativeLevel = Task.Run(() => {
                                 try {
                                     JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
                                     JsonElement je = resData.GetProperty("data");
@@ -1247,7 +1249,7 @@ namespace FallGuysStats {
                                         this.StatsForm.StatsDB.Commit();
                                     }
                                     
-                                    this.StatsForm.UpdateCreativeLevels(ri.Name, shareCode, snapshot);
+                                    this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, snapshot);
                                 } catch {
                                     try {
                                         JsonElement resData = Utils.GetApiData(Utils.FGANALYST_API_URL, $"creative/?share_code={shareCode}");
@@ -1296,7 +1298,7 @@ namespace FallGuysStats {
                                             this.StatsForm.StatsDB.Commit();
                                         }
                                         
-                                        this.StatsForm.UpdateCreativeLevels(ri.Name, shareCode, levelData);
+                                        this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, levelData);
                                     } catch {
                                         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_map_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1310,6 +1312,7 @@ namespace FallGuysStats {
                                     this.preventPaging = false;
                                 });
                             });
+                            this.StatsForm.dbTasks.Add(dbTaskUpdateCreativeLevel.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
                         }
                     }
                 }
