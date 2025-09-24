@@ -1465,6 +1465,7 @@ namespace FallGuysStats {
                              this.StatsForm.Hide();
                              this.StatsForm.overlay?.Hide();
                              using (DownloadProgress progress = new DownloadProgress()) {
+                                 this.StatsForm.StatsDB?.Dispose();
                                  progress.ZipWebClient = web;
                                  progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                  progress.FileName = $"{Stats.CURRENTDIR}FallGuysStats.zip";

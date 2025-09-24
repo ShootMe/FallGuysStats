@@ -121,6 +121,9 @@
     <Compile Include="Controls\RoundLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\TimerAbsolute.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
