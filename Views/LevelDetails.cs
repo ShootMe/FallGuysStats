@@ -1042,29 +1042,33 @@ namespace FallGuysStats {
                     this.mpsSpinner01.Visible = true;
                     this.preventPaging = true;
                     lock (this.StatsForm.StatsDB) {
-                        Task dbTaskDeleteShow = Task.Run(() => {
-                            this.StatsForm.StatsDB.BeginTrans();
-                            foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
-                                RoundInfo bi = row.DataBoundItem as RoundInfo;
-                                List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID);
-                                foreach (RoundInfo r in ri) {
-                                    if (r.Finish.HasValue) {
-                                        PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == r.Finish);
-                                        if (pbLog != null) {
-                                            this.StatsForm.PersonalBestLog.Delete(r.Finish);
-                                            this.StatsForm.PersonalBestLogCache.Remove(pbLog);
-                                        }
-                                        FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == r.Finish);
-                                        if (fPbLog != null) {
-                                            this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
-                                            this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                        Task.Run(() => {
+                            Task dbTaskDeleteShow = new Task(() => {
+                                this.StatsForm.StatsDB.BeginTrans();
+                                foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                                    RoundInfo bi = row.DataBoundItem as RoundInfo;
+                                    List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID);
+                                    foreach (RoundInfo r in ri) {
+                                        if (r.Finish.HasValue) {
+                                            PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == r.Finish);
+                                            if (pbLog != null) {
+                                                this.StatsForm.PersonalBestLog.Delete(r.Finish);
+                                                this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                            }
+                                            FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == r.Finish);
+                                            if (fPbLog != null) {
+                                                this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                                this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                            }
                                         }
                                     }
+                                    this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
+                                    this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
                                 }
-                                this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
-                                this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
-                            }
-                            this.StatsForm.StatsDB.Commit();
+                                this.StatsForm.StatsDB.Commit();
+                            });
+                            this.StatsForm.AddToDbTasksList(dbTaskDeleteShow, false);
+                            dbTaskDeleteShow.Wait();
                         }).ContinueWith(prevTask => {
                             this.BeginInvoke((MethodInvoker)delegate {
                                 this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1073,16 +1077,15 @@ namespace FallGuysStats {
                                     this.currentPage = this.totalPages;
                                 }
                                 this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
-                                
+
                                 this.gridDetails.Enabled = true;
                                 this.spinnerTransition.Stop();
                                 this.mpsSpinner01.Visible = false;
-                                
+
                                 this.StatsForm.ResetStats();
                                 Stats.IsOverlayRoundInfoNeedRefresh = true;
                             });
                         });
-                        this.StatsForm.dbTasks.Add(dbTaskDeleteShow.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
                     }
                 }
             }
@@ -1105,17 +1108,21 @@ namespace FallGuysStats {
                         int fromProfileId = this.StatsForm.GetCurrentProfileId();
                         int toProfileId = moveShows.SelectedProfileId;
                         lock (this.StatsForm.StatsDB) {
-                            Task dbTaskMoveShows = Task.Run(() => {
-                                this.StatsForm.StatsDB.BeginTrans();
-                                foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
-                                    RoundInfo bi = row.DataBoundItem as RoundInfo;
-                                    List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID && r.Profile == fromProfileId);
-                                    foreach (RoundInfo r in ri) {
-                                        r.Profile = toProfileId;
+                            Task.Run(() => {
+                                Task dbTaskMoveShows = new Task(() => {
+                                    this.StatsForm.StatsDB.BeginTrans();
+                                    foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                                        RoundInfo bi = row.DataBoundItem as RoundInfo;
+                                        List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID && r.Profile == fromProfileId);
+                                        foreach (RoundInfo r in ri) {
+                                            r.Profile = toProfileId;
+                                        }
+                                        this.StatsForm.RoundDetails.Update(ri);
                                     }
-                                    this.StatsForm.RoundDetails.Update(ri);
-                                }
-                                this.StatsForm.StatsDB.Commit();
+                                    this.StatsForm.StatsDB.Commit();
+                                });
+                                this.StatsForm.AddToDbTasksList(dbTaskMoveShows, false);
+                                dbTaskMoveShows.Wait();
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1133,7 +1140,6 @@ namespace FallGuysStats {
                                     Stats.IsOverlayRoundInfoNeedRefresh = true;
                                 });
                             });
-                            this.StatsForm.dbTasks.Add(dbTaskMoveShows.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
                         }
                     }
                 }
@@ -1153,21 +1159,25 @@ namespace FallGuysStats {
                         this.mpsSpinner01.Visible = true;
                         this.preventPaging = true;
                         lock (this.StatsForm.StatsDB) {
-                            Task dbTaskDeleteFinishTime = Task.Run(() => {
-                                this.StatsForm.StatsDB.BeginTrans();
-                                PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
-                                if (pbLog != null) {
-                                    this.StatsForm.PersonalBestLog.Delete(ri.Finish);
-                                    this.StatsForm.PersonalBestLogCache.Remove(pbLog);
-                                }
-                                FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == ri.Finish);
-                                if (fPbLog != null) {
-                                    this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
-                                    this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
-                                }
-                                ri.Finish = null;
-                                this.StatsForm.RoundDetails.Update(ri);
-                                this.StatsForm.StatsDB.Commit();
+                            Task.Run(() => {
+                                Task dbTaskDeleteFinishTime = new Task(() => {
+                                    this.StatsForm.StatsDB.BeginTrans();
+                                    PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
+                                    if (pbLog != null) {
+                                        this.StatsForm.PersonalBestLog.Delete(ri.Finish);
+                                        this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                    }
+                                    FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == ri.Finish);
+                                    if (fPbLog != null) {
+                                        this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                        this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                    }
+                                    ri.Finish = null;
+                                    this.StatsForm.RoundDetails.Update(ri);
+                                    this.StatsForm.StatsDB.Commit();
+                                });
+                                this.StatsForm.AddToDbTasksList(dbTaskDeleteFinishTime, false);
+                                dbTaskDeleteFinishTime.Wait();
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.spinnerTransition.Stop();
@@ -1179,7 +1189,6 @@ namespace FallGuysStats {
                                     Stats.IsOverlayRoundInfoNeedRefresh = true;
                                 });
                             });
-                            this.StatsForm.dbTasks.Add(dbTaskDeleteFinishTime.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
                         }
                     }
                 }
@@ -1201,7 +1210,7 @@ namespace FallGuysStats {
                             this.spinnerTransition.Start();
                             this.mpsSpinner01.Visible = true;
                             this.preventPaging = true;
-                            Task dbTaskUpdateCreativeLevel = Task.Run(() => {
+                            Task.Run(() => {
                                 try {
                                     JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
                                     JsonElement je = resData.GetProperty("data");
@@ -1244,9 +1253,13 @@ namespace FallGuysStats {
                                     }
                                     
                                     lock (this.StatsForm.StatsDB) {
-                                        this.StatsForm.StatsDB.BeginTrans();
-                                        this.StatsForm.RoundDetails.Update(filteredInfo);
-                                        this.StatsForm.StatsDB.Commit();
+                                        Task dbTaskUpdateCreativeLevel = new Task(() => {
+                                            this.StatsForm.StatsDB.BeginTrans();
+                                            this.StatsForm.RoundDetails.Update(filteredInfo);
+                                            this.StatsForm.StatsDB.Commit();
+                                        });
+                                        this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
+                                        dbTaskUpdateCreativeLevel.Wait();
                                     }
                                     
                                     this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, snapshot);
@@ -1293,9 +1306,13 @@ namespace FallGuysStats {
                                         }
                                         
                                         lock (this.StatsForm.StatsDB) {
-                                            this.StatsForm.StatsDB.BeginTrans();
-                                            this.StatsForm.RoundDetails.Update(filteredInfo);
-                                            this.StatsForm.StatsDB.Commit();
+                                            Task dbTaskUpdateCreativeLevel = new Task(() => {
+                                                this.StatsForm.StatsDB.BeginTrans();
+                                                this.StatsForm.RoundDetails.Update(filteredInfo);
+                                                this.StatsForm.StatsDB.Commit();
+                                            });
+                                            this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
+                                            dbTaskUpdateCreativeLevel.Wait();
                                         }
                                         
                                         this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, levelData);
@@ -1312,7 +1329,6 @@ namespace FallGuysStats {
                                     this.preventPaging = false;
                                 });
                             });
-                            this.StatsForm.dbTasks.Add(dbTaskUpdateCreativeLevel.ContinueWith(t => this.StatsForm.dbTasks.Remove(t)));
                         }
                     }
                 }

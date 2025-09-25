@@ -80,12 +80,12 @@ namespace FallGuysStats {
         private string filePath;
         private string prevFilePath;
         private List<LogLine> logLines = new List<LogLine>();
-        private bool running;
+        private bool isWatcherRunning, isParserRunning;
         private bool stop;
         private Task logFileWatcher, logLineParser;
 
         public Stats StatsForm { get; set; }
-        
+
         private readonly ThreadLocal<ThreadLocalData> threadLocalVariable = new ThreadLocal<ThreadLocalData>(() => new ThreadLocalData());
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
@@ -98,7 +98,7 @@ namespace FallGuysStats {
         private readonly GameStateWatcher gameStateWatcher = new GameStateWatcher();
 
         public void Start(string logDirectory, string fileName) {
-            if (this.running) return;
+            if (this.isWatcherRunning || this.isParserRunning) return;
 
             this.filePath = Path.Combine(logDirectory, fileName);
             this.prevFilePath = Path.Combine(logDirectory, $"{Path.GetFileNameWithoutExtension(fileName)}-prev.log");
@@ -111,22 +111,22 @@ namespace FallGuysStats {
 
         public async Task Stop() {
             this.stop = true;
-            while (this.running || this.logFileWatcher == null || this.logFileWatcher.Status == TaskStatus.Created) {
+            while (this.isWatcherRunning || this.isParserRunning || this.logFileWatcher == null || this.logFileWatcher.Status == TaskStatus.Created) {
                 await Task.Delay(50);
             }
             lock (this.logLines) {
                 this.logLines = new List<LogLine>();
             }
-            
+
             await Task.Run(() => this.logFileWatcher?.Wait());
             await Task.Run(() => this.logLineParser?.Wait());
-            
+
             // await this.gameStateWatcher.Stop();
             // await this.serverPingWatcher.Stop();
         }
 
         private void ReadLogFile() {
-            this.running = true;
+            this.isWatcherRunning = true;
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
@@ -281,10 +281,11 @@ namespace FallGuysStats {
                 }
                 Thread.Sleep(UpdateDelay);
             }
-            this.running = false;
+            this.isWatcherRunning = false;
         }
 
         private void ParseLines() {
+            this.isParserRunning = true;
             List<RoundInfo> round = new List<RoundInfo>();
             List<RoundInfo> allStats = new List<RoundInfo>();
             LogRound logRound = new LogRound();
@@ -310,6 +311,7 @@ namespace FallGuysStats {
                 }
                 Thread.Sleep(UpdateDelay);
             }
+            this.isParserRunning = false;
         }
 
         private void AddLineAfterClientShutdown() {

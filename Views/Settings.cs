@@ -731,11 +731,16 @@ namespace FallGuysStats {
         
         private void txtLogPath_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             try {
-                if (this.txtLogPath.Text.IndexOf(".log", StringComparison.OrdinalIgnoreCase) > 0) {
+                this.txtLogPath.Text = this.txtLogPath.Text.Trim();
+                if (this.txtLogPath.Text.EndsWith(".log", StringComparison.OrdinalIgnoreCase)) {
                     this.txtLogPath.Text = Path.GetDirectoryName(this.txtLogPath.Text);
                 }
+                this.txtLogPath.Text = Path.GetFullPath(this.txtLogPath.Text).TrimEnd('\\').TrimEnd();
+                if (string.Equals(this.txtLogPath.Text, Stats.LOGPATH, StringComparison.OrdinalIgnoreCase)) {
+                    this.txtLogPath.Text = string.Empty;
+                }
             } catch {
-                // ignored
+                this.txtLogPath.Text = string.Empty;
             }
         }
         
@@ -1465,8 +1470,8 @@ namespace FallGuysStats {
                             this.StatsForm.SaveWindowState();
                             this.StatsForm.SaveUserSettings();
                             this.StatsForm.Hide();
-                            this.StatsForm.overlay?.Hide();
-                            Task.Run(() => this.StatsForm.UpdateProgramAndExitAsync(false, web));
+                            this.StatsForm.overlay?.Dispose();
+                            Task.Run(() => this.StatsForm.UpdateAndExitProgram(false, web));
                         }
                     } else {
                         MetroMessageBox.Show(this,
