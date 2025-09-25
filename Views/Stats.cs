@@ -265,7 +265,7 @@ namespace FallGuysStats {
         private readonly Image numberNine = Utils.ImageOpacity(Properties.Resources.number_9, 0.5F);
 
         private bool maximizedForm;
-        private bool isFocused, isFormClosing;
+        private bool isFocused, isForceClosed;
         private bool shiftKeyToggle, ctrlKeyToggle;
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
@@ -273,7 +273,6 @@ namespace FallGuysStats {
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
         private bool isStartingUp = true;
-        public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
         private int profileWithLinkedCustomShow = -1;
@@ -290,6 +289,8 @@ namespace FallGuysStats {
         public event Action OnUpdatedLevelRows;
         private readonly System.Windows.Forms.Timer scrollTimer = new System.Windows.Forms.Timer { Interval = 100 };
         private bool isScrollingStopped = true;
+
+        public List<Task> dbTasks = new List<Task>();
 
         private const int currentDbVersion = 2;
 
@@ -405,37 +406,41 @@ namespace FallGuysStats {
         }
 
         private void DatabaseMigration() {
-            if (File.Exists($"{CURRENTDIR}data_new.db")) {
-                File.SetAttributes($"{CURRENTDIR}data_new.db", FileAttributes.Normal);
-                File.Delete($"{CURRENTDIR}data_new.db");
-            }
+            Task dbTaskMigration = Task.Run(() => {
+                if (File.Exists($"{CURRENTDIR}data_new.db")) {
+                    File.SetAttributes($"{CURRENTDIR}data_new.db", FileAttributes.Normal);
+                    File.Delete($"{CURRENTDIR}data_new.db");
+                }
 
-            if (File.Exists($"{CURRENTDIR}data.db")) {
-                int sourceDbVersion = 0;
-                using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
-                    sourceDbVersion = sourceDb.UserVersion;
-                    if (sourceDbVersion >= currentDbVersion) return;
+                if (File.Exists($"{CURRENTDIR}data.db")) {
+                    int sourceDbVersion = 0;
+                    using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
+                        sourceDbVersion = sourceDb.UserVersion;
+                        if (sourceDbVersion >= currentDbVersion) return;
 
-                    using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
-                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog",
+                        using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
+                            string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog",
                                                 "FallalyticsPbLog", "FallalyticsCrownLog", "UpcomingShow", "LevelTimeLimit" };
-                        foreach (var tableName in tableNames) {
-                            if (!sourceDb.CollectionExists(tableName)) continue;
-                            var sourceData = sourceDb.GetCollection(tableName).FindAll();
-                            var targetCollection = targetDb.GetCollection(tableName);
-                            targetCollection.InsertBulk(sourceData);
+                            foreach (var tableName in tableNames) {
+                                if (!sourceDb.CollectionExists(tableName)) continue;
+                                var sourceData = sourceDb.GetCollection(tableName).FindAll();
+                                var targetCollection = targetDb.GetCollection(tableName);
+                                targetCollection.InsertBulk(sourceData);
+                            }
+                            targetDb.UserVersion = currentDbVersion;
                         }
-                        targetDb.UserVersion = currentDbVersion;
                     }
+                    if (!File.Exists($"{CURRENTDIR}data_bak_v{sourceDbVersion}.db")) {
+                        File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_v{sourceDbVersion}.db");
+                    } else {
+                        File.SetAttributes($"{CURRENTDIR}data.db", FileAttributes.Normal);
+                        File.Delete($"{CURRENTDIR}data.db");
+                    }
+                    File.Move($"{CURRENTDIR}data_new.db", $"{CURRENTDIR}data.db");
                 }
-                if (!File.Exists($"{CURRENTDIR}data_bak_v{sourceDbVersion}.db")) {
-                    File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_v{sourceDbVersion}.db");
-                } else {
-                    File.SetAttributes($"{CURRENTDIR}data.db", FileAttributes.Normal);
-                    File.Delete($"{CURRENTDIR}data.db");
-                }
-                File.Move($"{CURRENTDIR}data_new.db", $"{CURRENTDIR}data.db");
-            }
+            });
+            this.dbTasks.Add(dbTaskMigration.ContinueWith(t => this.dbTasks.Remove(t)));
+            dbTaskMigration.Wait();
         }
 
         private void DatabaseBackup() {
@@ -480,10 +485,11 @@ namespace FallGuysStats {
                 interval = 24 * 60 * 60 * 1000;
             }
             TimerAbsolute databaseBackupTimer = new TimerAbsolute((s, e) => {
-                Task.Run(() => {
+                Task dbTaskBackupJob = Task.Run(() => {
                     this.DatabaseBackup();
                     this.DatabaseBackupJob(false);
                 });
+                this.dbTasks.Add(dbTaskBackupJob.ContinueWith(t => this.dbTasks.Remove(t)));
             });
             databaseBackupTimer.Start(interval);
         }
@@ -504,7 +510,7 @@ namespace FallGuysStats {
                 interval = 24 * 60 * 60 * 1000;
             }
             TimerAbsolute updateOnlineDatabasesTimer = new TimerAbsolute((s, e) => {
-                Task.Run(() => {
+                Task dbTaskUpdateOnlineJob = Task.Run(() => {
                     if (!Utils.IsInternetConnected()) {
                         this.UpdateOnlineDatabasesJob(true, true);
                         return;
@@ -536,6 +542,7 @@ namespace FallGuysStats {
                     }
                     this.UpdateOnlineDatabasesJob(initJob);
                 });
+                this.dbTasks.Add(dbTaskUpdateOnlineJob.ContinueWith(t => this.dbTasks.Remove(t)));
             });
             updateOnlineDatabasesTimer.Start(interval);
         }
@@ -909,24 +916,28 @@ namespace FallGuysStats {
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
 
-            if (this.UserSettings.Count() == 0) {
-                this.CurrentSettings = this.GetDefaultSettings();
-                this.StatsDB.BeginTrans();
-                this.UserSettings.Insert(this.CurrentSettings);
-                this.StatsDB.Commit();
-            } else {
-                try {
-                    this.CurrentSettings = this.UserSettings.FindAll().First();
-                    CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
-                    CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
-                } catch {
+            Task dbTaskInitUserSettings = Task.Run(() => {
+                if (this.UserSettings.Count() == 0) {
                     this.CurrentSettings = this.GetDefaultSettings();
                     this.StatsDB.BeginTrans();
-                    this.UserSettings.DeleteAll();
                     this.UserSettings.Insert(this.CurrentSettings);
                     this.StatsDB.Commit();
+                } else {
+                    try {
+                        this.CurrentSettings = this.UserSettings.FindAll().First();
+                        CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
+                        CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
+                    } catch {
+                        this.CurrentSettings = this.GetDefaultSettings();
+                        this.StatsDB.BeginTrans();
+                        this.UserSettings.DeleteAll();
+                        this.UserSettings.Insert(this.CurrentSettings);
+                        this.StatsDB.Commit();
+                    }
                 }
-            }
+            });
+            this.dbTasks.Add(dbTaskInitUserSettings.ContinueWith(t => this.dbTasks.Remove(t)));
+            dbTaskInitUserSettings.Wait();
 
 #if AllowUpdate
             this.RemoveUpdateFiles();
@@ -976,30 +987,34 @@ namespace FallGuysStats {
             this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
             this.LevelTimeLimit = this.StatsDB.GetCollection<LevelTimeLimit>("LevelTimeLimit");
 
-            this.StatsDB.BeginTrans();
+            Task dbTaskEnsureCollectionIndex = Task.Run(() => {
+                this.StatsDB.BeginTrans();
 
-            this.RoundDetails.EnsureIndex(r => r.Name);
-            this.RoundDetails.EnsureIndex(r => r.ShowID);
-            this.RoundDetails.EnsureIndex(r => r.Round);
-            this.RoundDetails.EnsureIndex(r => r.Start);
-            this.RoundDetails.EnsureIndex(r => r.InParty);
+                this.RoundDetails.EnsureIndex(r => r.Name);
+                this.RoundDetails.EnsureIndex(r => r.ShowID);
+                this.RoundDetails.EnsureIndex(r => r.Round);
+                this.RoundDetails.EnsureIndex(r => r.Start);
+                this.RoundDetails.EnsureIndex(r => r.InParty);
 
-            this.Profiles.EnsureIndex(p => p.ProfileId);
+                this.Profiles.EnsureIndex(p => p.ProfileId);
 
-            this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
-            this.PersonalBestLog.EnsureIndex(f => f.PbDate);
+                this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
+                this.PersonalBestLog.EnsureIndex(f => f.PbDate);
 
-            this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
-            this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
-            this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
+                this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
+                this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
+                this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
 
-            this.FallalyticsCrownLog.EnsureIndex(f => f.Id);
-            this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
+                this.FallalyticsCrownLog.EnsureIndex(f => f.Id);
+                this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
 
-            this.UpcomingShow.EnsureIndex(f => f.LevelId);
-            this.LevelTimeLimit.EnsureIndex(f => f.LevelId);
+                this.UpcomingShow.EnsureIndex(f => f.LevelId);
+                this.LevelTimeLimit.EnsureIndex(f => f.LevelId);
 
-            this.StatsDB.Commit();
+                this.StatsDB.Commit();
+            });
+            this.dbTasks.Add(dbTaskEnsureCollectionIndex.ContinueWith(t => this.dbTasks.Remove(t)));
+            dbTaskEnsureCollectionIndex.Wait();
 
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
@@ -1009,29 +1024,33 @@ namespace FallGuysStats {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
-                        CurrentLanguage = initLanguageForm.selectedLanguage;
-                        Overlay.SetDefaultFont(18, CurrentLanguage);
-                        this.CurrentSettings.Multilingual = (int)initLanguageForm.selectedLanguage;
-                        this.StatsDB.BeginTrans();
-                        if (initLanguageForm.autoGenerateProfiles) {
-                            for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
-                                string showId = this.PublicShowIdList[i - 1];
-                                this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId, DoNotCombineShows = false });
+                        Task dbTaskInitProfiles = Task.Run(() => {
+                            CurrentLanguage = initLanguageForm.selectedLanguage;
+                            Overlay.SetDefaultFont(18, CurrentLanguage);
+                            this.CurrentSettings.Multilingual = (int)initLanguageForm.selectedLanguage;
+                            this.StatsDB.BeginTrans();
+                            if (initLanguageForm.autoGenerateProfiles) {
+                                for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
+                                    string showId = this.PublicShowIdList[i - 1];
+                                    this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId, DoNotCombineShows = false });
+                                }
+                            } else {
+                                this.Profiles.Insert(new Profiles { ProfileId = 9, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 10, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 8, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 9, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 7, ProfileName = Multilingual.GetWord("main_profile_ranked_squad"), ProfileOrder = 8, LinkedShowId = "ranked_squads_show", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 6, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 7, LinkedShowId = "squads_4player", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 5, ProfileName = Multilingual.GetWord("main_profile_ranked_trio"), ProfileOrder = 6, LinkedShowId = "ranked_trios_show", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 4, ProfileName = Multilingual.GetWord("main_profile_trio"), ProfileOrder = 5, LinkedShowId = "squads_3player_template", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_ranked_duo"), ProfileOrder = 4, LinkedShowId = "ranked_duos_show", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 3, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_ranked_solo"), ProfileOrder = 2, LinkedShowId = "ranked_solo_show", DoNotCombineShows = false });
+                                this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
                             }
-                        } else {
-                            this.Profiles.Insert(new Profiles { ProfileId = 9, ProfileName = Multilingual.GetWord("main_profile_creative"), ProfileOrder = 10, LinkedShowId = "fall_guys_creative_mode", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 8, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 9, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 7, ProfileName = Multilingual.GetWord("main_profile_ranked_squad"), ProfileOrder = 8, LinkedShowId = "ranked_squads_show", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 6, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 7, LinkedShowId = "squads_4player", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 5, ProfileName = Multilingual.GetWord("main_profile_ranked_trio"), ProfileOrder = 6, LinkedShowId = "ranked_trios_show", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 4, ProfileName = Multilingual.GetWord("main_profile_trio"), ProfileOrder = 5, LinkedShowId = "squads_3player_template", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_ranked_duo"), ProfileOrder = 4, LinkedShowId = "ranked_duos_show", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 3, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_ranked_solo"), ProfileOrder = 2, LinkedShowId = "ranked_solo_show", DoNotCombineShows = false });
-                            this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
-                        }
-                        this.StatsDB.Commit();
-                        this.StatsDB.UserVersion = currentDbVersion;
+                            this.StatsDB.Commit();
+                            this.StatsDB.UserVersion = currentDbVersion;
+                        });
+                        this.dbTasks.Add(dbTaskInitProfiles.ContinueWith(t => this.dbTasks.Remove(t)));
+                        dbTaskInitProfiles.Wait();
                     }
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
@@ -1052,8 +1071,12 @@ namespace FallGuysStats {
                 .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
                 .ToList();
 
-            this.UpdateDatabaseDateFormat();
-            this.UpdateDatabaseVersion();
+            Task dbTaskUpdate = Task.Run(() => {
+                this.UpdateDatabaseDateFormat();
+                this.UpdateDatabaseVersion();
+            });
+            this.dbTasks.Add(dbTaskUpdate.ContinueWith(t => this.dbTasks.Remove(t)));
+            dbTaskUpdate.Wait();
             
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
@@ -1064,11 +1087,12 @@ namespace FallGuysStats {
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
             
-            Task.Run(() => {
+            Task dbTaskBackupThenUpdateOnline = Task.Run(() => {
                 this.DatabaseBackup();
                 this.DatabaseBackupJob(true);
                 this.UpdateOnlineDatabases();
             });
+            this.dbTasks.Add(dbTaskBackupThenUpdateOnline.ContinueWith(t => this.dbTasks.Remove(t)));
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
@@ -1098,8 +1122,6 @@ namespace FallGuysStats {
             this.overlay.Show();
             this.overlay.Hide();
             this.overlay.StartTimer();
-            
-            this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             
             this.UpdateGameExeLocation();
         }
@@ -1840,12 +1862,13 @@ namespace FallGuysStats {
         
 #if AllowUpdate
         private void RemoveUpdateFiles() {
-            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            foreach (string file in Directory.EnumerateFiles(filePath, "*.bak")) {
+            foreach (string file in Directory.EnumerateFiles(CURRENTDIR, "*.bak")) {
                 try {
                     File.SetAttributes(file, FileAttributes.Normal);
                     File.Delete(file);
-                } catch { }
+                } catch {
+                    // ignored
+                }
             }
         }
 #endif
@@ -4316,9 +4339,13 @@ namespace FallGuysStats {
         
         public void SaveUserSettings() {
             lock (this.StatsDB) {
-                this.StatsDB.BeginTrans();
-                this.UserSettings.Update(this.CurrentSettings);
-                this.StatsDB.Commit();
+                Task dbTaskSaveUserSettings = Task.Run(() => {
+                    this.StatsDB.BeginTrans();
+                    this.UserSettings.Update(this.CurrentSettings);
+                    this.StatsDB.Commit();
+                });
+                this.dbTasks.Add(dbTaskSaveUserSettings.ContinueWith(t => this.dbTasks.Remove(t)));
+                dbTaskSaveUserSettings.Wait();
             }
         }
         
@@ -4333,7 +4360,7 @@ namespace FallGuysStats {
             List<RoundInfo> rounds = new List<RoundInfo>();
             int profile = this.GetCurrentProfileId();
 
-            lock (this.StatsDB) {
+            lock (this.AllStats) {
                 this.AllStats.Clear();
                 this.nextShowID = 0;
                 this.lastAddedShow = DateTime.MinValue;
@@ -4642,27 +4669,35 @@ namespace FallGuysStats {
         }
         
         public void Stats_ExitProgram(object sender, EventArgs e) {
-            this.isFormClosing = true;
+            this.isForceClosed = true;
+            try {
+                if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                    this.SaveWindowState();
+                    this.SaveUserSettings();
+                }
+                Task.WhenAll(this.dbTasks).Wait();
+                this.StatsDB?.Dispose();
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             this.Close();
         }
         
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
-            if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
+            if (!this.isForceClosed && this.CurrentSettings.SystemTrayIcon) {
+                this.Hide();
+                e.Cancel = true;
+            } else if (!this.isForceClosed) {
                 try {
-                    if (!this.isUpdate && !this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
                         this.SaveUserSettings();
                     }
-                    Task.Run(async () => {
-                        await this.logFile.Stop();
-                        this.StatsDB?.Dispose();
-                    }).Wait();
+                    Task.WhenAll(this.dbTasks).Wait();
+                    this.StatsDB?.Dispose();
                 } catch (Exception ex) {
                     MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            } else {
-                e.Cancel = true;
-                this.Hide();
             }
         }
         
@@ -4696,15 +4731,19 @@ namespace FallGuysStats {
             }
             return rtnStr;
         }
-
+        
         private void InitLogData() {
-            this.ClearServerConnectionLog(5);
-            this.ClearPersonalBestLog(15);
-            this.ClearWeeklyCrownLog(15);
-            this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
-            this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
-            this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
-            this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
+            Task dbTaskInitLogData = Task.Run(() => {
+                this.ClearServerConnectionLog(5);
+                this.ClearPersonalBestLog(15);
+                this.ClearWeeklyCrownLog(15);
+                this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
+                this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
+                this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
+                this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
+            });
+            this.dbTasks.Add(dbTaskInitLogData.ContinueWith(t => this.dbTasks.Remove(t)));
+            dbTaskInitLogData.Wait();
         }
         
         private void Stats_Shown(object sender, EventArgs e) {
@@ -4712,10 +4751,14 @@ namespace FallGuysStats {
 #if AllowUpdate
                 if (Utils.IsInternetConnected()) {
                     if (this.CurrentSettings.AutoUpdate) {
+                        this.EnableInfoStrip(false);
+                        this.EnableMainMenu(false);
                         if (this.CheckForUpdate(true)) {
-                            this.Stats_ExitProgram(this, null);
+                            // this.Stats_ExitProgram(this, null);
                             return;
                         }
+                        this.EnableInfoStrip(true);
+                        this.EnableMainMenu(true);
                     } else {
                         this.CheckForNewVersion();
                         this.CheckForNewVersionJob();
@@ -4725,12 +4768,12 @@ namespace FallGuysStats {
                         try {
                             string changelog = Utils.GetApiData(Utils.FALLGUYSSTATS_RELEASES_LATEST_INFO_URL).GetProperty("body").GetString();
                             changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
-
+                            
                             MetroMessageBox.Show(this,
                                                  $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
                                                  $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
                                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                            
                             this.CurrentSettings.ShowChangelog = false;
                             this.SaveUserSettings();
                         } catch {
@@ -4756,7 +4799,7 @@ namespace FallGuysStats {
                 }
                 this.SetMainDataGridViewOrder();
                 InstalledEmojiFont = Utils.IsFontInstalled("Segoe UI Emoji");
-
+                
                 if (this.WindowState != FormWindowState.Minimized) {
                     this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
                 }
@@ -4767,12 +4810,6 @@ namespace FallGuysStats {
                     this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
                 }
                 
-                string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
-                if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath)) {
-                    logFilePath = this.CurrentSettings.LogPath;
-                }
-                this.logFile.Start(logFilePath, LOGFILENAME);
-
                 this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                     this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
                     this.CurrentSettings.OverlayColor, this.CurrentSettings.LockButtonLocation,
@@ -4825,9 +4862,25 @@ namespace FallGuysStats {
                 this.isStartingUp = false;
                 
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
-                    Task.Run(() => this.LaunchGame(true));
+                    this.EnableInfoStrip(false);
+                    this.EnableMainMenu(false);
+                    this.LaunchGame(true);
+                    this.EnableInfoStrip(true);
+                    this.EnableMainMenu(true);
+
                 }
+                
+                this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
+                this.SaveUserSettings();
+                
+                string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
+                if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath)) {
+                    logFilePath = this.CurrentSettings.LogPath;
+                }
+                this.logFile.Start(logFilePath, LOGFILENAME);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -4847,7 +4900,7 @@ namespace FallGuysStats {
         }
 
         private void LogFile_OnPersonalBestNotification(string showNameId, string roundId, TimeSpan existingRecord, TimeSpan currentRecord) {
-            string timeDiffContent = String.Empty;
+            string timeDiffContent = string.Empty;
             if (existingRecord != TimeSpan.MaxValue) {
                 TimeSpan timeDiff = existingRecord - currentRecord;
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
@@ -5051,7 +5104,7 @@ namespace FallGuysStats {
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                             // var stat1 = stat;
-                                            // Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, snapshot); });
+                                            // Task.Run(() => { this.UpdateCreativeLevel(stat1.Name, shareCode, snapshot); });
                                         } catch {
                                             try {
                                                 JsonElement resData = Utils.GetApiData(Utils.FGANALYST_API_URL, $"creative/?share_code={shareCode}");
@@ -5089,7 +5142,7 @@ namespace FallGuysStats {
                                                 stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                                 stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                                 // var stat1 = stat;
-                                                // Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, levelData); });
+                                                // Task.Run(() => { this.UpdateCreativeLevel(stat1.Name, shareCode, levelData); });
                                             } catch {
                                                 stat.CreativeOnlinePlatformId = string.Empty;
                                                 stat.CreativeAuthor = string.Empty;
@@ -5122,6 +5175,7 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
+                                /*
                                 if ((this.CurrentSettings.EnableFallalyticsReporting || this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) && !stat.PrivateLobby && !stat.UseShareCode && stat.ShowEnd > this.startupTime) {
                                     if (this.CurrentSettings.EnableFallalyticsReporting) {
                                         Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
@@ -5165,7 +5219,7 @@ namespace FallGuysStats {
                                             }
                                         }
                                     }
-                                }
+                                }*/
                             } else {
                                 continue;
                             }
@@ -5328,17 +5382,20 @@ namespace FallGuysStats {
 
         public void InsertPersonalBestLog(DateTime finish, string sessionId, string showId, string roundId, double record, bool isPb) {
             lock (this.StatsDB) {
-                if (string.IsNullOrEmpty(HostCountryCode)) {
-                    HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
-                }
-                PersonalBestLog log = new PersonalBestLog {
-                    PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
-                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
-                };
-                this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Insert(log);
-                this.StatsDB.Commit();
-                this.PersonalBestLogCache.Add(log);
+                Task dbTaskInsertPersonalBest = Task.Run(() => {
+                    if (string.IsNullOrEmpty(HostCountryCode)) {
+                        HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+                    }
+                    PersonalBestLog log = new PersonalBestLog {
+                        PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
+                        CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
+                    };
+                    this.StatsDB.BeginTrans();
+                    this.PersonalBestLog.Insert(log);
+                    this.StatsDB.Commit();
+                    this.PersonalBestLogCache.Add(log);
+                });
+                this.dbTasks.Add(dbTaskInsertPersonalBest.ContinueWith(t => this.dbTasks.Remove(t)));
             }
         }
 
@@ -5403,41 +5460,51 @@ namespace FallGuysStats {
 
         public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
             lock (this.StatsDB) {
-                if (string.IsNullOrEmpty(HostCountryCode)) {
-                    HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
-                }
-                ServerConnectionLog log = new ServerConnectionLog {
-                    SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
-                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                    IsNotify = isNotify, IsPlaying = isPlaying
-                };
-                this.StatsDB.BeginTrans();
-                this.ServerConnectionLog.Insert(log);
-                this.StatsDB.Commit();
-                this.ServerConnectionLogCache.Add(log);
+                Task dbTaskInsertServerConnection = Task.Run(() => {
+                    if (string.IsNullOrEmpty(HostCountryCode)) {
+                        HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+                    }
+                    ServerConnectionLog log = new ServerConnectionLog {
+                        SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                        CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                        IsNotify = isNotify, IsPlaying = isPlaying
+                    };
+                    this.StatsDB.BeginTrans();
+                    this.ServerConnectionLog.Insert(log);
+                    this.StatsDB.Commit();
+                    this.ServerConnectionLogCache.Add(log);
+                });
+                this.dbTasks.Add(dbTaskInsertServerConnection.ContinueWith(t => this.dbTasks.Remove(t)));
+                dbTaskInsertServerConnection.Wait();
             }
         }
 
         public void UpdateServerConnectionLog(string sessionId, bool isPlaying) {
             lock (this.StatsDB) {
-                ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
-                if (log != null) {
-                    log.IsPlaying = isPlaying;
-                    this.StatsDB.BeginTrans();
-                    this.ServerConnectionLog.Update(log);
-                    this.StatsDB.Commit();
-                }
+                Task dbTaskUpdateServerConnection = Task.Run(() => {
+                    ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
+                    if (log != null) {
+                        log.IsPlaying = isPlaying;
+                        this.StatsDB.BeginTrans();
+                        this.ServerConnectionLog.Update(log);
+                        this.StatsDB.Commit();
+                    }
+                });
+                this.dbTasks.Add(dbTaskUpdateServerConnection.ContinueWith(t => this.dbTasks.Remove(t)));
             }
         }
 
         // public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
         //     lock (this.StatsDB) {
-        //         this.StatsDB.BeginTrans();
-        //         this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
-        //             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-        //             IsNotify = isNotify, IsPlaying = isPlaying
+        //         Task dbTaskUpsertServerConnection = Task.Run(() => {
+        //             this.StatsDB.BeginTrans();
+        //             this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
+        //                 CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+        //                 IsNotify = isNotify, IsPlaying = isPlaying
+        //             });
+        //             this.StatsDB.Commit();
         //         });
-        //         this.StatsDB.Commit();
+        //         this.dbTasks.Add(dbTaskUpsertServerConnection);
         //     }
         // }
 
@@ -5881,7 +5948,7 @@ namespace FallGuysStats {
             return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.CreativeShareCode, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         
-        public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement levelData) {
+        public void UpdateCreativeLevel(string levelId, string shareCode, JsonElement levelData) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => string.Equals(r.Name, levelId) || string.Equals(r.Name, shareCode) || string.Equals(r.CreativeShareCode, shareCode));
             if (filteredInfo.Count <= 0) return;
             
@@ -6748,9 +6815,9 @@ namespace FallGuysStats {
                     this.gridDetails.Invalidate();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -7167,8 +7234,7 @@ namespace FallGuysStats {
 
                         if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_execution_question")}",
                                 $"[{Multilingual.GetWord("level_detail_online_platform_eos")}] {Multilingual.GetWord("message_execution_caption")}",
-                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        {
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             Process.Start(this.CurrentSettings.GameShortcutLocation);
                             this.WindowState = FormWindowState.Minimized;
                         }
@@ -7191,8 +7257,7 @@ namespace FallGuysStats {
 
                         if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_execution_question")}",
                                 $"[{Multilingual.GetWord("level_detail_online_platform_steam")}] {Multilingual.GetWord("message_execution_caption")}",
-                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        {
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             Process.Start(this.CurrentSettings.GameExeLocation);
                             this.WindowState = FormWindowState.Minimized;
                         }
@@ -7380,6 +7445,8 @@ namespace FallGuysStats {
             this.menuSettings.Enabled = enable;
             this.menuFilters.Enabled = enable;
             this.menuProfile.Enabled = enable;
+            this.menuUpdate.Enabled = enable;
+            this.menuLaunchFallGuys.Enabled = enable;
             this.mlLeaderboard.Enabled = enable;
             if (enable) {
                 this.menuSettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -7389,6 +7456,8 @@ namespace FallGuysStats {
                 this.traySettings.Enabled = enable;
                 this.trayFilters.Enabled = enable;
                 this.trayProfile.Enabled = enable;
+                this.trayUpdate.Enabled = enable;
+                this.trayLaunchFallGuys.Enabled = enable;
                 this.trayExitProgram.Enabled = enable;
                 if (enable) {
                     this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -8082,14 +8151,21 @@ namespace FallGuysStats {
         private void menuUpdate_Click(object sender, EventArgs e) {
             try {
                 if (Utils.IsInternetConnected()) {
+                    this.EnableInfoStrip(false);
+                    this.EnableMainMenu(false);
                     if (this.CheckForUpdate(false)) {
-                        this.Stats_ExitProgram(this, null);
+                        // this.Stats_ExitProgram(this, null);
+                        return;
                     }
+                    this.EnableInfoStrip(true);
+                    this.EnableMainMenu(true);
                 } else {
                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_check_internet_connection")}", $"{Multilingual.GetWord("message_check_internet_connection_caption")}",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -8184,29 +8260,20 @@ namespace FallGuysStats {
                         if (newVersion > currentVersion) {
                             this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
                             if (MetroMessageBox.Show(this,
-                                    $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
-                                    $"{Multilingual.GetWord("message_update_question_caption")}",
-                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                            {
+                                                     $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
+                                                     $"{Multilingual.GetWord("message_update_question_caption")}",
+                                                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                                this.trayIcon.Visible = false;
+                                this.CurrentSettings.ShowChangelog = true;
                                 if (!isSilent) {
                                     if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                                         this.SaveWindowState();
                                     }
                                 }
-                                this.CurrentSettings.ShowChangelog = true;
                                 this.SaveUserSettings();
                                 this.Hide();
                                 this.overlay?.Hide();
-                                
-                                using (DownloadProgress progress = new DownloadProgress()) {
-                                    this.StatsDB?.Dispose();
-                                    progress.ZipWebClient = web;
-                                    progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
-                                    progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
-                                    progress.ShowDialog(this);
-                                }
-
-                                this.isUpdate = true;
+                                Task.Run(() => this.UpdateProgramAndExitAsync(isSilent, web));
                                 return true;
                             }
                         } else if (!isSilent) {
@@ -8230,6 +8297,22 @@ namespace FallGuysStats {
             this.LaunchHelpInBrowser();
 #endif
             return false;
+        }
+        
+        public async Task UpdateProgramAndExitAsync(bool isSilent, ZipWebClient web) {
+            if (!isSilent) {
+                await this.logFile.Stop();
+            }
+            await Task.WhenAll(this.dbTasks).ContinueWith(prevTask => {
+                this.StatsDB?.Dispose();
+                
+                using (DownloadProgress progress = new DownloadProgress()) {
+                    progress.ZipWebClient = web;
+                    progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
+                    progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
+                    progress.ShowDialog(this);
+                }
+            });
         }
         
         private void SetSystemTrayIcon(bool enable) {
@@ -8344,9 +8427,9 @@ namespace FallGuysStats {
                     this.EnableMainMenu(true);
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -8413,38 +8496,47 @@ namespace FallGuysStats {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     editProfiles.ShowDialog(this);
-                    if (editProfiles.IsUpdate || editProfiles.IsDelete) {
-                        lock (this.StatsDB) {
-                            this.StatsDB.BeginTrans();
-                            this.AllProfiles = editProfiles.Profiles;
-                            this.Profiles.DeleteAll();
-                            this.Profiles.InsertBulk(this.AllProfiles);
-                            this.AllStats = editProfiles.AllStats;
-                            if (editProfiles.IsUpdate) this.RoundDetails.Update(this.AllStats);
-                            if (editProfiles.IsDelete) {
-                                foreach (int p in editProfiles.DeleteList) {
-                                    this.RoundDetails.DeleteMany(r => r.Profile == p);
+                    Task dbTaskEditProfiles = Task.Run(() => {
+                        if (editProfiles.IsUpdate || editProfiles.IsDelete) {
+                            lock (this.StatsDB) {
+                                this.StatsDB.BeginTrans();
+                                this.AllProfiles = editProfiles.Profiles;
+                                this.Profiles.DeleteAll();
+                                this.Profiles.InsertBulk(this.AllProfiles);
+                                this.AllStats = editProfiles.AllStats;
+                                if (editProfiles.IsUpdate) this.RoundDetails.Update(this.AllStats);
+                                if (editProfiles.IsDelete) {
+                                    foreach (int p in editProfiles.DeleteList) {
+                                        this.RoundDetails.DeleteMany(r => r.Profile == p);
+                                    }
                                 }
+                                this.StatsDB.Commit();
                             }
-                            this.StatsDB.Commit();
+                            this.ReloadProfileMenuItems();
+                            IsOverlayRoundInfoNeedRefresh = true;
                         }
-                        this.ReloadProfileMenuItems();
-                        IsOverlayRoundInfoNeedRefresh = true;
-                    }
-                    this.EnableInfoStrip(true);
-                    this.EnableMainMenu(true);
+                        this.EnableInfoStrip(true);
+                        this.EnableMainMenu(true);
+                    });
+                    this.dbTasks.Add(dbTaskEditProfiles.ContinueWith(t => this.dbTasks.Remove(t)));
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
             try {
-                Task.Run(() => this.LaunchGame(false));
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
+                this.LaunchGame(false);
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

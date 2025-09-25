@@ -53,6 +53,7 @@ namespace FallGuysStats {
             File.Delete(this.FileName);
             Process.Start(new ProcessStartInfo($"{Stats.CURRENTDIR}{exeName}"));
             this.Close();
+            Process.GetCurrentProcess().Kill();
         }
         
         private void DownloadNewVersion() {

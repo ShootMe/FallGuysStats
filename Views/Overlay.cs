@@ -191,7 +191,7 @@ namespace FallGuysStats {
                     break;
                 case 0x0112:
                     if ((m.WParam.ToInt32() & 0xFFF0) == 0xF060) {
-                        StatsForm.Stats_ExitProgram(this, null);
+                        this.StatsForm.Stats_ExitProgram(this, null);
                     }
                     break;
             }
