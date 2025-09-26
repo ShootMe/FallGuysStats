@@ -1892,9 +1892,24 @@ namespace FallGuysStats {
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 130;
+            int lastVersion = 131;
             for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
                 switch (version) {
+                    case 130: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "wle_nature_ltm")
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round == 3 || string.Equals(ri.Name, "logroll_nature_ltm")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 129: {
                             this.CurrentSettings.LevelTimeLimitVersion = 0;
                             if (Utils.IsInternetConnected()) {
