@@ -456,10 +456,7 @@ namespace FallGuysStats {
                         && string.Equals(roundId, "showcase_rollinruins"))
 
                     || (string.Equals(showId, "wle_nature_ltm")
-                        && (string.Equals(roundId, "logroll_nature_ltm")
-                            || string.Equals(roundId, "lilypadlimbo_nature_ltm")
-                            || string.Equals(roundId, "junglewall_nature_ltm")
-                            || string.Equals(roundId, "showcase_frogjet")))
+                        && (roundNum == 3 || string.Equals(roundId, "logroll_nature_ltm")))
 
                     || (showId.StartsWith("greatestsquads_")
                         && (roundNum == 3 || string.Equals(roundId, "gs_slimecycle")))
