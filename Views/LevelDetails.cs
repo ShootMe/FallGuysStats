@@ -267,7 +267,7 @@ namespace FallGuysStats {
             if (visible) {
                 this.mlLastPagingButton.Location = new Point(this.gridDetails.Right - this.mlLastPagingButton.Width, this.mlLastPagingButton.Top);
                 this.mlRightPagingButton.Location = new Point(this.mlLastPagingButton.Left - this.mlRightPagingButton.Width - 5, this.mlRightPagingButton.Top);
-                this.lblPagingInfo.Text = $"{this.currentPage} / {this.totalPages}";
+                this.lblPagingInfo.Text = $@"{this.currentPage} / {this.totalPages}";
                 this.lblPagingInfo.Location = new Point(this.mlRightPagingButton.Left - this.lblPagingInfo.Width - 5, this.lblPagingInfo.Top);
                 this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Left - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Top);
                 this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Left - this.mlFirstPagingButton.Width - 5, this.mlFirstPagingButton.Top);
@@ -289,7 +289,7 @@ namespace FallGuysStats {
         }
         
         private void UpdateGridPage(bool isFirstPage, bool isLastPage, FirstDisplayedScrollingRowIndex firstDisplayedScrollingRowIndex, bool isInitialize) {
-            this.EnablePagingUI(false);
+            // this.EnablePagingUI(false);
             Task.Run(() => {
                 if (this.RoundDetails.Count > 0) {
                     this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
