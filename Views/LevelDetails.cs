@@ -1067,8 +1067,7 @@ namespace FallGuysStats {
                                 }
                                 this.StatsForm.StatsDB.Commit();
                             });
-                            this.StatsForm.AddToDbTasksList(dbTaskDeleteShow, false);
-                            dbTaskDeleteShow.Wait();
+                            if (!this.StatsForm.AddToDbTasksList(dbTaskDeleteShow, false)) return;
                         }).ContinueWith(prevTask => {
                             this.BeginInvoke((MethodInvoker)delegate {
                                 this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1121,8 +1120,7 @@ namespace FallGuysStats {
                                     }
                                     this.StatsForm.StatsDB.Commit();
                                 });
-                                this.StatsForm.AddToDbTasksList(dbTaskMoveShows, false);
-                                dbTaskMoveShows.Wait();
+                                if (!this.StatsForm.AddToDbTasksList(dbTaskMoveShows, false)) return;
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1176,8 +1174,7 @@ namespace FallGuysStats {
                                     this.StatsForm.RoundDetails.Update(ri);
                                     this.StatsForm.StatsDB.Commit();
                                 });
-                                this.StatsForm.AddToDbTasksList(dbTaskDeleteFinishTime, false);
-                                dbTaskDeleteFinishTime.Wait();
+                                if (!this.StatsForm.AddToDbTasksList(dbTaskDeleteFinishTime, false)) return;
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.spinnerTransition.Stop();
@@ -1258,8 +1255,7 @@ namespace FallGuysStats {
                                             this.StatsForm.RoundDetails.Update(filteredInfo);
                                             this.StatsForm.StatsDB.Commit();
                                         });
-                                        this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
-                                        dbTaskUpdateCreativeLevel.Wait();
+                                        if (!this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false)) return;
                                     }
                                     
                                     this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, snapshot);
@@ -1311,8 +1307,7 @@ namespace FallGuysStats {
                                                 this.StatsForm.RoundDetails.Update(filteredInfo);
                                                 this.StatsForm.StatsDB.Commit();
                                             });
-                                            this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
-                                            dbTaskUpdateCreativeLevel.Wait();
+                                            if (!this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false)) return;
                                         }
                                         
                                         this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, levelData);
