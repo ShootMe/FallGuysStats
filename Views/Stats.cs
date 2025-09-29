@@ -554,6 +554,15 @@ namespace FallGuysStats {
             }
         }
 
+        public struct LatestDbVersionsInfo {
+            public bool success { get; set; }
+            public List<DbInfo> db_list { get; set; }
+            public struct DbInfo {
+                public string name { get; set; }
+                public int version { get; set; }
+            }
+        }
+
         public struct LevelTimeLimitInfo {
             public int version { get; set; }
             public ShowData data { get; set; }
@@ -565,6 +574,27 @@ namespace FallGuysStats {
                     public struct Level {
                         public string id { get; set; }
                         public int duration { get; set; }
+                    }
+                }
+            }
+        }
+
+        public struct UpcomingShowInfo {
+            public int version { get; set; }
+            public ShowData data { get; set; }
+            public struct ShowData {
+                public List<Show> shows { get; set; }
+                public struct Show {
+                    public string id { get; set; }
+                    public List<Level> levels { get; set; }
+                    public struct Level {
+                        public string id { get; set; }
+                        public string share_code { get; set; }
+                        public string display_name { get; set; }
+                        public string level_type { get; set; }
+                        public string best_record_type { get; set; }
+                        public bool is_creative { get; set; }
+                        public bool is_final { get; set; }
                     }
                 }
             }
@@ -699,109 +729,40 @@ namespace FallGuysStats {
             }
         }
 
-        private void UpdateUpcomingShow() {
+        private void UpdateUpcomingShow(bool updateViaGitHub) {
             lock (this.UpcomingShowCache) {
                 DateTime currentUtc = DateTime.UtcNow;
                 using (ApiWebClient web = new ApiWebClient()) {
-                    try {
-                        string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
-                        FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
-                        if (upcomingShow.ok) {
-                            bool isCacheUpdated = false;
-                            foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
-                                foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
-                                    var levelType = this.GetCreativeLevelType(level.creative_game_mode_id);
-                                    if (Equals(levelType, LevelType.Unknown)) continue;
-
-                                    this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
-                                                                          && string.Equals(u.ShowId, show.id)
-                                                                          && (!string.Equals(u.DisplayName, level.display_name)
-                                                                              || (!Equals(u.LevelType, levelType))));
-                                    if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
-                                                                            && string.Equals(u.ShowId, show.id))) {
-                                        var newInfo = new UpcomingShow {
-                                            ShowId = show.id,
-                                            LevelId = level.id,
-                                            DisplayName = level.display_name,
-                                            ShareCode = level.share_code,
-                                            IsFinal = level.is_final,
-                                            IsCreative = true,
-                                            LevelType = levelType,
-                                            BestRecordType = this.GetBestRecordType(level.creative_game_mode_id),
-                                            AddDate = currentUtc
-                                        };
-                                        this.UpcomingShowCache.Add(newInfo);
-                                        isCacheUpdated = true;
-                                    }
-                                }
-                            }
-
-                            if (isCacheUpdated) {
-                                lock (this.StatsDB) {
-                                    Task dbTaskUpdateUpcomingShow = new Task(() => {
-                                        this.StatsDB.BeginTrans();
-                                        this.UpcomingShow.DeleteAll();
-                                        this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                                        this.StatsDB.Commit();
-                                    });
-                                    this.AddToDbTasksList(dbTaskUpdateUpcomingShow, false);
-                                }
-                            }
-                        } else {
-                            throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
-                        }
-                    } catch {
+                    if (!updateViaGitHub) {
                         try {
-                            string json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-selector/");
-                            FGA_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGA_UpcomingShowInfo>(json);
-                            if (string.Equals(upcomingShow.xstatus, "success")) {
-                                var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                                foreach (var liveShow in upcomingShow.shows.live_shows) {
-                                    foreach (var showInfo in liveShow.showInfo.Values) {
-                                        var show = showInfo.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
-                                        if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) {
-                                            if (this.IsCreativeShow(show.id) || string.Equals(show.id, "event_snowday_stumble")) {
-                                                selectedShows.Add(show);
-                                            }
-                                        } else if (!string.Equals(show.id, "ftue_uk_show") && show.victory_rewards.Count != 0) {
-                                            selectedShows.Add(show);
-                                        }
-                                    }
-                                }
+                            string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
+                            FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
+                            if (upcomingShow.ok) {
                                 bool isCacheUpdated = false;
-                                foreach (var show in selectedShows) {
-                                    if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
-                                        json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
-                                        FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
-                                        if (string.Equals(roundpool.xstatus, "success")) {
-                                            foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
-                                                var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
-                                                if (string.Equals(level.type, "wushu")) {
-                                                    var levelType = this.GetCreativeLevelType(level.creative_gamemode);
-                                                    if (Equals(levelType, LevelType.Unknown)) continue;
+                                foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
+                                    foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
+                                        var levelType = this.GetCreativeLevelType(level.creative_game_mode_id);
+                                        if (Equals(levelType, LevelType.Unknown)) continue;
 
-                                                    this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
-                                                                                          && string.Equals(u.ShowId, show.id)
-                                                                                          && (!string.Equals(u.DisplayName, level.name)
-                                                                                              || (!Equals(u.LevelType, levelType))));
-                                                    if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
-                                                                                            && string.Equals(u.ShowId, show.id))) {
-                                                        var newInfo = new UpcomingShow {
-                                                            ShowId = show.id,
-                                                            LevelId = level.id,
-                                                            DisplayName = level.name,
-                                                            ShareCode = level.wushu_id,
-                                                            IsFinal = level.is_final,
-                                                            IsCreative = true,
-                                                            LevelType = levelType,
-                                                            BestRecordType = this.GetBestRecordType(level.creative_gamemode),
-                                                            AddDate = currentUtc
-                                                        };
-                                                        this.UpcomingShowCache.Add(newInfo);
-                                                        isCacheUpdated = true;
-                                                    }
-                                                }
-                                            }
+                                        this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
+                                                                              && string.Equals(u.ShowId, show.id)
+                                                                              && (!string.Equals(u.DisplayName, level.display_name)
+                                                                                  || (!Equals(u.LevelType, levelType))));
+                                        if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                                && string.Equals(u.ShowId, show.id))) {
+                                            var newInfo = new UpcomingShow {
+                                                ShowId = show.id,
+                                                LevelId = level.id,
+                                                DisplayName = level.display_name,
+                                                ShareCode = level.share_code,
+                                                IsFinal = level.is_final,
+                                                IsCreative = true,
+                                                LevelType = levelType,
+                                                BestRecordType = this.GetBestRecordType(level.creative_game_mode_id),
+                                                AddDate = currentUtc
+                                            };
+                                            this.UpcomingShowCache.Add(newInfo);
+                                            isCacheUpdated = true;
                                         }
                                     }
                                 }
@@ -817,6 +778,132 @@ namespace FallGuysStats {
                                         this.AddToDbTasksList(dbTaskUpdateUpcomingShow, false);
                                     }
                                 }
+                            } else {
+                                throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
+                            }
+                        } catch {
+                            try {
+                                string json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-selector/");
+                                FGA_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGA_UpcomingShowInfo>(json);
+                                if (string.Equals(upcomingShow.xstatus, "success")) {
+                                    var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                                    foreach (var liveShow in upcomingShow.shows.live_shows) {
+                                        foreach (var showInfo in liveShow.showInfo.Values) {
+                                            var show = showInfo.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                                            if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) {
+                                                if (this.IsCreativeShow(show.id) || string.Equals(show.id, "event_snowday_stumble")) {
+                                                    selectedShows.Add(show);
+                                                }
+                                            } else if (!string.Equals(show.id, "ftue_uk_show") && show.victory_rewards.Count != 0) {
+                                                selectedShows.Add(show);
+                                            }
+                                        }
+                                    }
+                                    bool isCacheUpdated = false;
+                                    foreach (var show in selectedShows) {
+                                        if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
+                                            json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
+                                            FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
+                                            if (string.Equals(roundpool.xstatus, "success")) {
+                                                foreach (var levelInfo in roundpool.shows.roundpool.roundpoolInfo.Values) {
+                                                    var level = levelInfo.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
+                                                    if (string.Equals(level.type, "wushu")) {
+                                                        var levelType = this.GetCreativeLevelType(level.creative_gamemode);
+                                                        if (Equals(levelType, LevelType.Unknown)) continue;
+
+                                                        this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
+                                                                                              && string.Equals(u.ShowId, show.id)
+                                                                                              && (!string.Equals(u.DisplayName, level.name)
+                                                                                                  || (!Equals(u.LevelType, levelType))));
+                                                        if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                                                && string.Equals(u.ShowId, show.id))) {
+                                                            var newInfo = new UpcomingShow {
+                                                                ShowId = show.id,
+                                                                LevelId = level.id,
+                                                                DisplayName = level.name,
+                                                                ShareCode = level.wushu_id,
+                                                                IsFinal = level.is_final,
+                                                                IsCreative = true,
+                                                                LevelType = levelType,
+                                                                BestRecordType = this.GetBestRecordType(level.creative_gamemode),
+                                                                AddDate = currentUtc
+                                                            };
+                                                            this.UpcomingShowCache.Add(newInfo);
+                                                            isCacheUpdated = true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (isCacheUpdated) {
+                                        lock (this.StatsDB) {
+                                            Task dbTaskUpdateUpcomingShow = new Task(() => {
+                                                this.StatsDB.BeginTrans();
+                                                this.UpcomingShow.DeleteAll();
+                                                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                                                this.StatsDB.Commit();
+                                            });
+                                            this.AddToDbTasksList(dbTaskUpdateUpcomingShow, false);
+                                        }
+                                    }
+                                } else {
+                                    throw new Exception("FGAnalyst API is unavailable => Check on GitHub now");
+                                }
+                            } catch {
+                                // ignored
+                            }
+                        }
+                    } else {
+                        // Update "UpcomingShow" collection via GitHub
+                        try {
+                            string json = web.DownloadString(Utils.FALLGUYSSTATS_UPCOMING_SHOW_DB_URL);
+                            UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<UpcomingShowInfo>(json);
+                            if (upcomingShow.version > this.CurrentSettings.UpcomingShowVersion) {
+                                bool isCacheUpdated = false;
+                                foreach (var show in upcomingShow.data.shows) {
+                                    foreach (var level in show.levels) {
+                                        Enum.TryParse(level.level_type, out LevelType levelType);
+                                        if (Equals(levelType, LevelType.Unknown)) continue;
+
+                                        this.UpcomingShowCache.RemoveAll(u => string.Equals(u.LevelId, level.id)
+                                                                              && string.Equals(u.ShowId, show.id)
+                                                                              && (!string.Equals(u.DisplayName, level.display_name)
+                                                                                  || (!Equals(u.LevelType, levelType))));
+                                        if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id)
+                                                                                && string.Equals(u.ShowId, show.id))) {
+                                            Enum.TryParse(level.best_record_type, out BestRecordType bestRecordType);
+                                            var newInfo = new UpcomingShow {
+                                                ShowId = show.id,
+                                                LevelId = level.id,
+                                                DisplayName = level.display_name,
+                                                ShareCode = level.share_code,
+                                                IsFinal = level.is_final,
+                                                IsCreative = level.is_creative,
+                                                LevelType = levelType,
+                                                BestRecordType = bestRecordType,
+                                                AddDate = currentUtc
+                                            };
+                                            this.UpcomingShowCache.Add(newInfo);
+                                            isCacheUpdated = true;
+                                        }
+                                    }
+                                }
+
+                                if (isCacheUpdated) {
+                                    lock (this.StatsDB) {
+                                        Task dbTaskUpdateUpcomingShow = new Task(() => {
+                                            this.StatsDB.BeginTrans();
+                                            this.UpcomingShow.DeleteAll();
+                                            this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                                            this.StatsDB.Commit();
+                                        });
+                                        this.AddToDbTasksList(dbTaskUpdateUpcomingShow, false);
+                                    }
+                                }
+                                this.CurrentSettings.UpcomingShowVersion = upcomingShow.version;
+                                this.SaveUserSettings();
                             }
                         } catch {
                             // ignored
@@ -838,14 +925,34 @@ namespace FallGuysStats {
             }
         }
 
+        private void CheckDatabaseUpdateViaGitHub() {
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string json = web.DownloadString(Utils.FALLGUYSSTATS_LATEST_DB_VERSIONS_URL);
+                    LatestDbVersionsInfo latestDbVersionsInfo = System.Text.Json.JsonSerializer.Deserialize<LatestDbVersionsInfo>(json);
+                    if (latestDbVersionsInfo.success) {
+                        foreach (var dbInfo in latestDbVersionsInfo.db_list) {
+                            if (string.Equals(dbInfo.name, "LevelTimeLimit") && dbInfo.version > this.CurrentSettings.LevelTimeLimitVersion) {
+                                this.UpdateLevelTimeLimit();
+                            } else if (string.Equals(dbInfo.name, "UpcomingShow") && dbInfo.version > this.CurrentSettings.UpcomingShowVersion) {
+                                this.UpdateUpcomingShow(true);
+                            }
+                        }
+                    }
+                } catch {
+                    // ignored
+                }
+            }
+        }
+
         private void UpdateDatabaseOnline(bool initJob) {
             if (!Utils.IsInternetConnected()) {
                 this.UpdateDatabaseOnlineJob(true, true);
                 return;
             }
 
-            this.UpdateLevelTimeLimit();
-            this.UpdateUpcomingShow();
+            this.CheckDatabaseUpdateViaGitHub();
+            this.UpdateUpcomingShow(false);
             this.GenerateLevelStats();
             lock (this.UpcomingShowCache) {
                 if (this.UpcomingShowCache.Any()) {
@@ -4280,6 +4387,7 @@ namespace FallGuysStats {
                 ShowChangelog = true,
                 Visible = true,
                 LevelTimeLimitVersion = 0,
+                UpcomingShowVersion = 0,
                 Version = 0
             };
         }
