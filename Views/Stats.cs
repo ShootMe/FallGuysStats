@@ -4284,10 +4284,6 @@ namespace FallGuysStats {
             };
         }
         
-        public int GetOverlaySetting() {
-            return (this.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.CurrentSettings.HideTimeInfo ? 1 : 0);
-        }
-        
         private bool IsFinalWithCreativeLevel(string levelId) {
             return string.Equals(levelId, "wle_s10_orig_round_010") ||
                    string.Equals(levelId, "wle_s10_orig_round_011") ||
@@ -4634,19 +4630,6 @@ namespace FallGuysStats {
         
         public void SaveWindowState() {
             this.CurrentSettings.Visible = this.Visible;
-            if (this.overlay.Visible) {
-                if (!this.overlay.IsFixed()) {
-                    this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
-                    this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
-                    this.CurrentSettings.OverlayWidth = this.overlay.Width;
-                    this.CurrentSettings.OverlayHeight = this.overlay.Height;
-                } else {
-                    this.CurrentSettings.OverlayFixedPositionX = this.overlay.Location.X;
-                    this.CurrentSettings.OverlayFixedPositionY = this.overlay.Location.Y;
-                    this.CurrentSettings.OverlayFixedWidth = this.overlay.Width;
-                    this.CurrentSettings.OverlayFixedHeight = this.overlay.Height;
-                }
-            }
             
             if (this.WindowState != FormWindowState.Normal) {
                 this.CurrentSettings.FormLocationX = this.RestoreBounds.Location.X;
@@ -4666,10 +4649,10 @@ namespace FallGuysStats {
         public void Stats_ExitProgram(object sender, EventArgs e) {
             this.isForceClosed = true;
             try {
-                if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                if (!this.IsDisposed && !this.Disposing) {
                     this.SaveWindowState();
-                    this.SaveUserSettings();
                 }
+                this.SaveUserSettings();
                 Task.Run(() => this.logFile.Stop()).Wait();
                 Task.WaitAll(this.dbTasks.ToArray());
                 this.StatsDB?.Dispose();
@@ -4685,10 +4668,10 @@ namespace FallGuysStats {
                 e.Cancel = true;
             } else if (!this.isForceClosed) {
                 try {
-                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                    if (!this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
-                        this.SaveUserSettings();
                     }
+                    this.SaveUserSettings();
                     Task.Run(() => this.logFile.Stop()).Wait();
                     Task.WaitAll(this.dbTasks.ToArray());
                     this.StatsDB?.Dispose();
@@ -4808,13 +4791,10 @@ namespace FallGuysStats {
                     this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
                 }
                 
-                this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
-                    this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                    this.CurrentSettings.OverlayColor, this.CurrentSettings.LockButtonLocation,
-                    string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth,
-                    string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
-                    this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
-                if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
+                this.overlay.UpdateDisplay(true);
+                if (this.CurrentSettings.OverlayVisible) {
+                    this.ToggleOverlay(this.overlay);
+                }
                 
                 this.ReloadProfileMenuItems();
                 
@@ -7497,22 +7477,22 @@ namespace FallGuysStats {
         
         private void Stats_KeyUp(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
-                case Keys.ShiftKey:
-                    this.shiftKeyToggle = false;
-                    break;
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = false;
+                    break;
+                case Keys.ShiftKey:
+                    this.shiftKeyToggle = false;
                     break;
             }
         }
         
         private void Stats_KeyDown(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
-                case Keys.ShiftKey:
-                    this.shiftKeyToggle = true;
-                    break;
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
+                    break;
+                case Keys.ShiftKey:
+                    this.shiftKeyToggle = true;
                     break;
             }
             
@@ -7542,20 +7522,30 @@ namespace FallGuysStats {
                     this.overlay.SetBackgroundColor(colorOption);
                     this.CurrentSettings.OverlayColor = colorOption;
                     this.SaveUserSettings();
-                    this.overlay.ResetBackgroundImage();
                     break;
                 case true when e.KeyCode == Keys.F:
                     if (!this.overlay.IsFixed()) {
                         this.overlay.FlipDisplay(!this.overlay.flippedImage);
                         this.CurrentSettings.FlippedDisplay = this.overlay.flippedImage;
                         this.SaveUserSettings();
-                        this.overlay.ResetBackgroundImage();
+                        this.overlay.UpdateDisplay();
                     }
                     break;
                 case true when e.KeyCode == Keys.R:
                     this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
                     this.SaveUserSettings();
-                    this.overlay.ResetBackgroundImage();
+                    this.overlay.UpdateDisplay();
+                    break;
+                case true when e.KeyCode == Keys.C:
+                    this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
+                    this.SaveUserSettings();
+                    this.overlay.UpdateDisplay();
+                    break;
+                case false when e.KeyCode == Keys.ControlKey:
+                    this.ctrlKeyToggle = true;
+                    break;
+                case false when e.KeyCode == Keys.ShiftKey:
+                    this.shiftKeyToggle = true;
                     break;
                 case true when e.Shift && e.KeyCode == Keys.Z:
                     this.SetAutoChangeProfile(!this.CurrentSettings.AutoChangeProfile);
@@ -7564,24 +7554,13 @@ namespace FallGuysStats {
                     this.overlay.ResetOverlaySize();
                     break;
                 case true when e.Shift && e.KeyCode == Keys.C:
-                    this.overlay.ResetOverlayLocation(true);
+                    this.overlay.ResetOverlayLocation();
                     break;
                 case true when e.Shift && e.KeyCode == Keys.Up:
                     this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity + 5);
                     break;
                 case true when e.Shift && e.KeyCode == Keys.Down:
                     this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity - 5);
-                    break;
-                case true when e.KeyCode == Keys.C:
-                    this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
-                    this.SaveUserSettings();
-                    this.overlay.ResetBackgroundImage();
-                    break;
-                case false when e.KeyCode == Keys.ShiftKey:
-                    this.shiftKeyToggle = true;
-                    break;
-                case false when e.KeyCode == Keys.ControlKey:
-                    this.ctrlKeyToggle = true;
                     break;
             }
             e.SuppressKeyPress = true;
@@ -8149,7 +8128,7 @@ namespace FallGuysStats {
                     this.SaveUserSettings();
                 }
                 
-                this.overlay.ResetBackgroundImage();
+                this.overlay.UpdateDisplay();
                 
                 this.loadingExisting = true;
                 this.LogFile_OnParsedLogLines(rounds);
@@ -8277,7 +8256,7 @@ namespace FallGuysStats {
                                 this.trayIcon.Visible = false;
                                 this.CurrentSettings.ShowChangelog = true;
                                 if (!isSilent) {
-                                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                                    if (!this.IsDisposed && !this.Disposing) {
                                         this.SaveWindowState();
                                     }
                                 }
@@ -8345,7 +8324,7 @@ namespace FallGuysStats {
             } else {
                 this.overlay.ShowInTaskbar = !topMost;
             }
-            this.overlay.ResetBackgroundImage();
+            this.overlay.UpdateDisplay();
         }
         
         public void SetAutoChangeProfile(bool autoChangeProfile) {
@@ -8362,7 +8341,7 @@ namespace FallGuysStats {
             this.CurrentSettings.OverlayBackgroundOpacity = opacity;
             this.overlay.Opacity = opacity / 100d;
             this.SaveUserSettings();
-            this.overlay.ResetBackgroundImage();
+            this.overlay.UpdateDisplay();
         }
         
         private void SetMinimumSize() {
@@ -8428,7 +8407,7 @@ namespace FallGuysStats {
                             this.logFile.Start(logPath, LOGFILENAME);
                         }
                         
-                        this.overlay.ResetBackgroundImage();
+                        this.overlay.UpdateDisplay(true);
                     } else {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
@@ -8454,26 +8433,8 @@ namespace FallGuysStats {
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.trayOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
-                if (!overlay.IsFixed()) {
-                    this.CurrentSettings.OverlayLocationX = overlay.Location.X;
-                    this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                    this.CurrentSettings.OverlayWidth = overlay.Width;
-                    this.CurrentSettings.OverlayHeight = overlay.Height;
-                }
-                this.CurrentSettings.OverlayVisible = false;
-                this.SaveUserSettings();
             } else {
-                IsDisplayOverlayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
-                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
-                overlay.Show();
-                overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
-                this.menuOverlay.Image = Properties.Resources.stat_icon;
-                this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
-                this.trayOverlay.Image = Properties.Resources.stat_icon;
-                this.trayOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
-                this.CurrentSettings.OverlayVisible = true;
-                this.SaveUserSettings();
-
+                this.overlay.saveDisplayChange = false;
                 if (overlay.IsFixed()) {
                     if (this.CurrentSettings.OverlayFixedPositionX.HasValue &&
                         Utils.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
@@ -8488,8 +8449,19 @@ namespace FallGuysStats {
                                        ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                        : this.Location;
                 }
-                this.overlay.ResetBackgroundImage();
+                this.overlay.saveDisplayChange = true;
+                this.overlay.UpdateDisplay();
+                IsDisplayOverlayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
+                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
+                overlay.Show();
+                overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
+                this.menuOverlay.Image = Properties.Resources.stat_icon;
+                this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
+                this.trayOverlay.Image = Properties.Resources.stat_icon;
+                this.trayOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
             }
+            this.CurrentSettings.OverlayVisible = overlay.Visible;
+            this.SaveUserSettings();
         }
         
         private void menuHelp_Click(object sender, EventArgs e) {

@@ -473,6 +473,7 @@ namespace FallGuysStats {
             //this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
             //this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
             this.Load += new System.EventHandler(this.Overlay_Load);
+            this.LocationChanged += new System.EventHandler(this.Overlay_LocationChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
