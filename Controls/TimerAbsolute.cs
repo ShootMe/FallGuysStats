@@ -13,6 +13,11 @@ namespace FallGuysStats {
             this.AutoReset = true;
         }
 
+        protected new void Dispose() {
+            this.Elapsed -= this.ElapsedAction;
+            base.Dispose();
+        }
+
         public void Start(double interval) {
             this.m_dueTime = DateTime.Now.AddMilliseconds(interval);
             // Timer tick is 1 second
