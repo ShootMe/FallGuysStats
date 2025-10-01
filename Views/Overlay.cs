@@ -826,26 +826,54 @@ namespace FallGuysStats {
                             int pcCount = this.lastRound.PlayersPc;
                             int mobileCount = this.lastRound.PlayersAndroid + this.lastRound.PlayersIos;
                             if (this.StatsForm.CurrentSettings.CountPlayersDuringTheLevel) {
-                                psCount -= (Stats.NumPlayersPsEliminated + Stats.NumPlayersPsSucceeded);
-                                xbCount -= (Stats.NumPlayersXbEliminated + Stats.NumPlayersXbSucceeded);
-                                swCount -= (Stats.NumPlayersSwEliminated + Stats.NumPlayersSwSucceeded);
-                                pcCount -= (Stats.NumPlayersPcEliminated + Stats.NumPlayersPcSucceeded);
-                                mobileCount -= (Stats.NumPlayersMbEliminated + Stats.NumPlayersMbSucceeded);
+                                if (type == LevelType.Survival || type == LevelType.CreativeSurvival) {
+                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
+                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
+                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
+                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
+                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                } else if (type == LevelType.Logic || type == LevelType.CreativeLogic) {
+                                    if (bestRecordType == BestRecordType.Fastest) {
+                                        psCount -= Stats.NumPlayersPsEliminated;
+                                        xbCount -= Stats.NumPlayersXbEliminated;
+                                        swCount -= Stats.NumPlayersSwEliminated;
+                                        pcCount -= Stats.NumPlayersPcEliminated;
+                                        mobileCount -= Stats.NumPlayersMbEliminated;
+                                    } else if (bestRecordType == BestRecordType.Longest) {
+                                        psCount -= Stats.NumPlayersPsEliminated;
+                                        xbCount -= Stats.NumPlayersXbEliminated;
+                                        swCount -= Stats.NumPlayersSwEliminated;
+                                        pcCount -= Stats.NumPlayersPcEliminated;
+                                        mobileCount -= Stats.NumPlayersMbEliminated;
+                                    }
+                                } else if (type == LevelType.Race || type == LevelType.CreativeRace || type == LevelType.Hunt || type == LevelType.CreativeHunt || type == LevelType.Team || type == LevelType.CreativeTeam) {
+                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
+                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
+                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
+                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
+                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                } else {
+                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
+                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
+                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
+                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
+                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                }
                             }
-                            this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount}");
-                            this.lblPlayersPs.Size = new Size((psCount > 9 ? 31 : 25), 16);
+                            this.lblPlayersPs.TextRight = psCount <= 0 ? "-" : $"{psCount}";
+                            this.lblPlayersPs.Size = new Size(psCount > 9 ? 31 : 25, 16);
                             this.lblPlayersPs.DrawVisible = true;
-                            this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount}");
-                            this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 31 : 25), 16);
+                            this.lblPlayersXbox.TextRight = xbCount <= 0 ? "-" : $"{xbCount}";
+                            this.lblPlayersXbox.Size = new Size(xbCount > 9 ? 31 : 25, 16);
                             this.lblPlayersXbox.DrawVisible = true;
-                            this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount}");
-                            this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 31 : 25), 16);
+                            this.lblPlayersSwitch.TextRight = swCount <= 0 ? "-" : $"{swCount}";
+                            this.lblPlayersSwitch.Size = new Size(swCount > 9 ? 31 : 25, 16);
                             this.lblPlayersSwitch.DrawVisible = true;
-                            this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount}");
-                            this.lblPlayersPc.Size = new Size((pcCount > 9 ? 31 : 25), 16);
+                            this.lblPlayersPc.TextRight = pcCount <= 0 ? "-" : $"{pcCount}";
+                            this.lblPlayersPc.Size = new Size(pcCount > 9 ? 31 : 25, 16);
                             this.lblPlayersPc.DrawVisible = true;
-                            this.lblPlayersMobile.TextRight = (mobileCount == 0 ? "-" : $"{mobileCount}");
-                            this.lblPlayersMobile.Size = new Size((mobileCount > 9 ? 27 : 21), 16);
+                            this.lblPlayersMobile.TextRight = mobileCount <= 0 ? "-" : $"{mobileCount}";
+                            this.lblPlayersMobile.Size = new Size(mobileCount > 9 ? 27 : 21, 16);
                             this.lblPlayersMobile.DrawVisible = true;
                             this.lblCountryIcon.DrawVisible = false;
                             this.lblPingIcon.DrawVisible = false;
@@ -854,20 +882,32 @@ namespace FallGuysStats {
                             this.lblPlayers.Text = $@"{Multilingual.GetWord("overlay_players")} :";
                             if (this.StatsForm.CurrentSettings.CountPlayersDuringTheLevel) {
                                 if (type == LevelType.Survival || type == LevelType.CreativeSurvival) {
-                                    this.lblPlayers.TextRight = $"{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                    this.lblPlayers.TextRight = $"{(this.lastRound.Players - Stats.NumPlayersEliminated >= 0 ? this.lastRound.Players - Stats.NumPlayersEliminated : this.lastRound.Players)}";
                                 } else if (type == LevelType.Logic || type == LevelType.CreativeLogic) {
                                     if (bestRecordType == BestRecordType.Fastest) {
-                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                        if (this.lastRound.Players - Stats.NumPlayersEliminated >= 0) {
+                                            this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players - Stats.NumPlayersEliminated}";
+                                        } else {
+                                            this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players}";
+                                        }
                                     } else if (bestRecordType == BestRecordType.Longest) {
-                                        this.lblPlayers.TextRight = $"{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                        this.lblPlayers.TextRight = $"{(this.lastRound.Players - Stats.NumPlayersEliminated >= 0 ? this.lastRound.Players - Stats.NumPlayersEliminated : this.lastRound.Players)}";
                                     }
                                 } else if (type == LevelType.Race || type == LevelType.CreativeRace || type == LevelType.Hunt || type == LevelType.CreativeHunt || type == LevelType.Team || type == LevelType.CreativeTeam) {
-                                    this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                    if (this.lastRound.Players - Stats.NumPlayersEliminated >= 0) {
+                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players - Stats.NumPlayersEliminated}";
+                                    } else {
+                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players}";
+                                    }
                                 } else {
-                                    this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                    if (this.lastRound.Players - Stats.NumPlayersEliminated >= 0) {
+                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players - Stats.NumPlayersEliminated}";
+                                    } else {
+                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound.Players}";
+                                    }
                                 }
                             } else {
-                                this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
+                                this.lblPlayers.TextRight = $"{this.lastRound.Players}";
                             }
                             this.lblPlayersPs.DrawVisible = false;
                             this.lblPlayersXbox.DrawVisible = false;

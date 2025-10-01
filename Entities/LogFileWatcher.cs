@@ -1007,52 +1007,52 @@ namespace FallGuysStats {
                 string playerId = line.Line.Substring(line.Line.IndexOf(" and playerID: ", StringComparison.OrdinalIgnoreCase) + 15);
                 if (line.Line.IndexOf("ps4", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPs4++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "ps4");
                     }
                 } else if (line.Line.IndexOf("ps5", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPs5++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "ps5");
                     }
                 } else if (line.Line.IndexOf("xb1", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersXb1++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "xb1");
                     }
                 } else if (line.Line.IndexOf("xsx", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersXsx++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "xsx");
                     }
                 } else if (line.Line.IndexOf("switch", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersSw++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "switch");
                     }
                 } else if (line.Line.IndexOf("pc", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPc++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "pc");
                     }
                 } else if (line.Line.IndexOf("android", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersAndroid++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "android");
                     }
                 } else if (line.Line.IndexOf("ios", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersIos++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "ios");
                     }
                 } else if (line.Line.IndexOf("bots", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersBots++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "bots");
                     }
                 } else {
                     logRound.Info.PlayersEtc++;
-                    if (!Stats.ReadyPlayerIds.ContainsKey(playerId)) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.ReadyPlayerIds.Add(playerId, "etc");
                     }
                 }
@@ -1150,7 +1150,7 @@ namespace FallGuysStats {
                 } else if (line.Line.IndexOf("succeeded=False", StringComparison.OrdinalIgnoreCase) != -1) {
                     int prevIndex = line.Line.IndexOf(" ", index + 36);
                     string playerId = line.Line.Substring(index + 36, prevIndex - index - 36);
-                    if (!Stats.EliminatedPlayerIds.Contains(playerId)) {
+                    if (!Stats.EliminatedPlayerIds.Contains(playerId) && Stats.ReadyPlayerIds.ContainsKey(playerId)) {
                         Stats.EliminatedPlayerIds.Add(playerId);
                         Stats.NumPlayersEliminated++;
                         if (Stats.ReadyPlayerIds.TryGetValue(playerId, out string platformId)) {
