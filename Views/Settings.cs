@@ -576,9 +576,9 @@ namespace FallGuysStats {
             this.CurrentSettings.HideRoundInfo = this.chkHideRoundInfo.Checked;
             this.CurrentSettings.HideTimeInfo = this.chkHideTimeInfo.Checked;
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
-            
+
             if (resizeOverlay) {
-                int overlaySetting = this.StatsForm.GetOverlaySetting();
+                int overlaySetting = this.Overlay.GetDisplaySetting();
                 switch (overlaySetting) {
                     case 0: this.CurrentSettings.OverlayWidth = 786; this.CurrentSettings.OverlayFixedWidth = 786; break;
                     case 1: this.CurrentSettings.OverlayWidth = 786 - 225 - 6; this.CurrentSettings.OverlayFixedWidth = 786 - 225 - 6; break;
@@ -588,16 +588,8 @@ namespace FallGuysStats {
                     case 5: this.CurrentSettings.OverlayWidth = 786 - 242 - 225 - 12; this.CurrentSettings.OverlayFixedWidth = 786 - 242 - 225 - 12; break;
                     case 6: this.CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; this.CurrentSettings.OverlayFixedWidth = 786 - 242 - 281 - 12; break;
                 }
-
-                if (this.CurrentSettings.ShowOverlayTabs) {
-                    this.CurrentSettings.OverlayHeight = 134;
-                    this.CurrentSettings.OverlayFixedHeight = 134;
-                } else {
-                    this.CurrentSettings.OverlayHeight = 99;
-                    this.CurrentSettings.OverlayFixedHeight = 99;
-                }
             }
-            
+
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
@@ -607,7 +599,7 @@ namespace FallGuysStats {
             this.CurrentSettings.NotificationWindowPosition = this.cboNotificationWindowPosition.SelectedIndex;
             this.CurrentSettings.NotificationWindowAnimation = this.cboNotificationWindowAnimation.SelectedIndex;
             this.CurrentSettings.PreventOverlayMouseClicks = this.chkPreventOverlayMouseClicks.Checked;
-            
+
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
