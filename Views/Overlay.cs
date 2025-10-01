@@ -827,18 +827,26 @@ namespace FallGuysStats {
                             int mobileCount = this.lastRound.PlayersAndroid + this.lastRound.PlayersIos;
                             if (this.StatsForm.CurrentSettings.CountPlayersDuringTheLevel) {
                                 if (type == LevelType.Survival || type == LevelType.CreativeSurvival) {
-                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
-                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
-                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
-                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
-                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                    psCount -= Stats.NumPlayersPsEliminated;
+                                    xbCount -= Stats.NumPlayersXbEliminated;
+                                    swCount -= Stats.NumPlayersSwEliminated;
+                                    pcCount -= Stats.NumPlayersPcEliminated;
+                                    mobileCount -= Stats.NumPlayersMbEliminated;
                                 } else if (type == LevelType.Logic || type == LevelType.CreativeLogic) {
                                     if (bestRecordType == BestRecordType.Fastest) {
-                                        psCount -= Stats.NumPlayersPsEliminated;
-                                        xbCount -= Stats.NumPlayersXbEliminated;
-                                        swCount -= Stats.NumPlayersSwEliminated;
-                                        pcCount -= Stats.NumPlayersPcEliminated;
-                                        mobileCount -= Stats.NumPlayersMbEliminated;
+                                        if (Stats.NumPlayersSucceeded > 0) {
+                                            psCount = Stats.NumPlayersPsSucceeded;
+                                            xbCount = Stats.NumPlayersXbSucceeded;
+                                            swCount = Stats.NumPlayersSwSucceeded;
+                                            pcCount = Stats.NumPlayersPcSucceeded;
+                                            mobileCount = Stats.NumPlayersMbSucceeded;
+                                        } else {
+                                            psCount -= Stats.NumPlayersPsEliminated;
+                                            xbCount -= Stats.NumPlayersXbEliminated;
+                                            swCount -= Stats.NumPlayersSwEliminated;
+                                            pcCount -= Stats.NumPlayersPcEliminated;
+                                            mobileCount -= Stats.NumPlayersMbEliminated;
+                                        }
                                     } else if (bestRecordType == BestRecordType.Longest) {
                                         psCount -= Stats.NumPlayersPsEliminated;
                                         xbCount -= Stats.NumPlayersXbEliminated;
@@ -847,17 +855,33 @@ namespace FallGuysStats {
                                         mobileCount -= Stats.NumPlayersMbEliminated;
                                     }
                                 } else if (type == LevelType.Race || type == LevelType.CreativeRace || type == LevelType.Hunt || type == LevelType.CreativeHunt || type == LevelType.Team || type == LevelType.CreativeTeam) {
-                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
-                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
-                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
-                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
-                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                    if (Stats.NumPlayersSucceeded > 0) {
+                                        psCount = Stats.NumPlayersPsSucceeded;
+                                        xbCount = Stats.NumPlayersXbSucceeded;
+                                        swCount = Stats.NumPlayersSwSucceeded;
+                                        pcCount = Stats.NumPlayersPcSucceeded;
+                                        mobileCount = Stats.NumPlayersMbSucceeded;
+                                    } else {
+                                        psCount -= Stats.NumPlayersPsEliminated;
+                                        xbCount -= Stats.NumPlayersXbEliminated;
+                                        swCount -= Stats.NumPlayersSwEliminated;
+                                        pcCount -= Stats.NumPlayersPcEliminated;
+                                        mobileCount -= Stats.NumPlayersMbEliminated;
+                                    }
                                 } else {
-                                    psCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPsSucceeded : psCount - Stats.NumPlayersPsEliminated;
-                                    xbCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersXbSucceeded : xbCount - Stats.NumPlayersXbEliminated;
-                                    swCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSwSucceeded : swCount - Stats.NumPlayersSwEliminated;
-                                    pcCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersPcSucceeded : pcCount - Stats.NumPlayersPcEliminated;
-                                    mobileCount = Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersMbSucceeded : mobileCount - Stats.NumPlayersMbEliminated;
+                                    if (Stats.NumPlayersSucceeded > 0) {
+                                        psCount = Stats.NumPlayersPsSucceeded;
+                                        xbCount = Stats.NumPlayersXbSucceeded;
+                                        swCount = Stats.NumPlayersSwSucceeded;
+                                        pcCount = Stats.NumPlayersPcSucceeded;
+                                        mobileCount = Stats.NumPlayersMbSucceeded;
+                                    } else {
+                                        psCount -= Stats.NumPlayersPsEliminated;
+                                        xbCount -= Stats.NumPlayersXbEliminated;
+                                        swCount -= Stats.NumPlayersSwEliminated;
+                                        pcCount -= Stats.NumPlayersPcEliminated;
+                                        mobileCount -= Stats.NumPlayersMbEliminated;
+                                    }
                                 }
                             }
                             this.lblPlayersPs.TextRight = psCount <= 0 ? "-" : $"{psCount}";
@@ -1433,7 +1457,7 @@ namespace FallGuysStats {
         }
 
         public void ArrangeDisplay(bool initDisplay, bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int lockButtonLocation, int? width, int? height, string serializedFont, string serializedFontColor) {
-            if (!this.isPositionLock || initDisplay) {
+            if (!this.IsFixed() || initDisplay) {
                 this.MaximumSize = new Size(0, 0);
                 this.MinimumSize = new Size(0, 0);
             }
@@ -1886,7 +1910,7 @@ namespace FallGuysStats {
             
             this.Background = this.RecreateBackground();
             
-            if (this.isPositionLock) {
+            if (this.IsFixed()) {
                 this.MaximumSize = this.Size;
                 this.MinimumSize = this.Size;
             }
