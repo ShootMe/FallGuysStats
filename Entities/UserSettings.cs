@@ -76,6 +76,7 @@ namespace FallGuysStats {
         public bool HideOverlayPercentages { get; set; }
         public bool HoopsieHeros { get; set; }
         public int LevelTimeLimitVersion { get; set; }
+        public int UpcomingShowVersion { get; set; }
         public int Version { get; set; }
         public bool IgnoreLevelTypeWhenSorting { get; set; }
         public bool GroupingCreativeRoundLevels { get; set; }
