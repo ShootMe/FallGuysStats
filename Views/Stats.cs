@@ -96,6 +96,10 @@ namespace FallGuysStats {
         }
 
         public static bool IsExitingProgram;
+#if AllowUpdate
+        public static bool IsExitingForUpdate;
+        public static bool IsUpdatingOnAppLaunch;
+#endif
 
         public static readonly string CURRENTDIR = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -416,6 +420,7 @@ namespace FallGuysStats {
             lock (task) {
                 task.ContinueWith(t => {
                     lock (this.dbTasks) {
+                        if (IsExitingProgram) return;
                         this.dbTasks.Remove(t);
                     }
                 });
@@ -4793,20 +4798,45 @@ namespace FallGuysStats {
         
         public void Stats_ExitProgram(object sender, EventArgs e) {
             try {
+#if AllowUpdate
+                if (IsExitingForUpdate) {
+                    this.trayIcon.Visible = false;
+                    this.CurrentSettings.ShowChangelog = true;
+                }
+
+                if (!IsUpdatingOnAppLaunch && !this.IsDisposed && !this.Disposing) {
+                    this.SaveWindowState();
+                }
+#else
                 if (!this.IsDisposed && !this.Disposing) {
                     this.SaveWindowState();
                 }
+#endif
                 this.SaveUserSettings();
+#if AllowUpdate
+                if (IsExitingForUpdate) {
+                    this.Hide();
+                    this.overlay?.Hide();
+                }
+#endif
                 if (this.logFile.logFileWatcher != null) {
                     Task.Run(() => this.logFile.Stop()).Wait();
                 }
+                
                 lock (this.dbTasks) {
                     IsExitingProgram = true;
                     Task.WaitAll(this.dbTasks.ToArray());
                 }
                 this.StatsDB?.Dispose();
+#if AllowUpdate
+                if (IsExitingForUpdate) return;
+#endif
             } catch (Exception ex) {
+                IsExitingProgram = true;
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+#if AllowUpdate
+                if (IsExitingForUpdate) return;
+#endif
             }
             this.Close();
         }
@@ -4861,7 +4891,6 @@ namespace FallGuysStats {
                         this.EnableInfoStrip(false);
                         this.EnableMainMenu(false);
                         if (this.CheckForUpdate(true)) {
-                            // this.Stats_ExitProgram(this, null);
                             return;
                         }
                         this.EnableInfoStrip(true);
@@ -4892,34 +4921,7 @@ namespace FallGuysStats {
                 }
                 this.RemoveUpdateFiles();
 #endif
-                
-                this.scrollTimer.Tick += this.scrollTimer_Tick;
-                if (this.CurrentSettings.Visible) {
-                    this.Show();
-                    this.ShowInTaskbar = true;
-                    this.Opacity = 1;
-                } else {
-                    this.Hide();
-                    this.ShowInTaskbar = true;
-                    this.Opacity = 1;
-                }
-                this.SetMainDataGridViewOrder();
                 InstalledEmojiFont = Utils.IsFontInstalled("Segoe UI Emoji");
-                
-                if (this.WindowState != FormWindowState.Minimized) {
-                    this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
-                }
-                if (this.CurrentSettings.FormWidth.HasValue) {
-                    this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
-                }
-                if (this.CurrentSettings.FormLocationX.HasValue && Utils.IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width, this.Height)) {
-                    this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
-                }
-                
-                this.overlay.UpdateDisplay(true);
-                if (this.CurrentSettings.OverlayVisible) {
-                    this.ToggleOverlay(this.overlay);
-                }
                 
                 this.ReloadProfileMenuItems();
                 
@@ -4960,9 +4962,10 @@ namespace FallGuysStats {
                         this.menuStats_Click(this.menuSessionStats, EventArgs.Empty);
                         break;
                 }
-                
-                this.SetWindowCorner();
                 this.isStartingUp = false;
+                
+                string logPath = !string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath) ? this.CurrentSettings.LogPath : LOGPATH;
+                this.logFile.Start(logPath, LOGFILENAME);
                 
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
                     this.EnableInfoStrip(false);
@@ -4972,11 +4975,36 @@ namespace FallGuysStats {
                     this.EnableMainMenu(true);
                 }
                 
-                this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
-                this.SaveUserSettings();
+                this.scrollTimer.Tick += this.scrollTimer_Tick;
+                if (this.CurrentSettings.Visible) {
+                    this.Show();
+                    this.Select();
+                } else {
+                    this.Hide();
+                }
+                this.Opacity = 1;
                 
-                string logPath = !string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath) ? this.CurrentSettings.LogPath : LOGPATH;
-                this.logFile.Start(logPath, LOGFILENAME);
+                this.SetMainDataGridViewOrder();
+                
+                if (this.WindowState != FormWindowState.Minimized) {
+                    this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
+                }
+                if (this.CurrentSettings.FormWidth.HasValue) {
+                    this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
+                }
+                if (this.CurrentSettings.FormLocationX.HasValue && Utils.IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width, this.Height)) {
+                    this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
+                }
+                
+                this.ShowInTaskbar = true;
+                this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
+                
+                this.SetWindowCorner();
+                
+                this.overlay.UpdateDisplay(true);
+                if (this.CurrentSettings.OverlayVisible) {
+                    this.ToggleOverlay(this.overlay, false);
+                }
             } catch (Exception ex) {
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
@@ -5099,13 +5127,13 @@ namespace FallGuysStats {
 
                             if (info == null && stat.Start > this.lastAddedShow) {
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 0) {
+                                    this.EnableInfoStrip(false);
+                                    this.EnableMainMenu(false);
                                     IsDisplayOverlayTime = false;
                                     using (EditShows editShows = new EditShows()) {
                                         editShows.FunctionFlag = "add";
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
-                                        this.EnableInfoStrip(false);
-                                        this.EnableMainMenu(false);
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
                                             if (editShows.UseLinkedProfiles) {
@@ -5118,10 +5146,10 @@ namespace FallGuysStats {
                                         } else {
                                             this.askedPreviousShows = 2;
                                         }
-                                        this.EnableInfoStrip(true);
-                                        this.EnableMainMenu(true);
-                                        IsDisplayOverlayTime = true;
                                     }
+                                    IsDisplayOverlayTime = true;
+                                    this.EnableInfoStrip(true);
+                                    this.EnableMainMenu(true);
                                 }
 
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 2) {
@@ -8278,7 +8306,6 @@ namespace FallGuysStats {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (this.CheckForUpdate(false)) {
-                        // this.Stats_ExitProgram(this, null);
                         return;
                     }
                     this.EnableInfoStrip(true);
@@ -8387,16 +8414,12 @@ namespace FallGuysStats {
                                                      $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
                                                      $"{Multilingual.GetWord("message_update_question_caption")}",
                                                      MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                                this.trayIcon.Visible = false;
-                                this.CurrentSettings.ShowChangelog = true;
-                                if (!isSilent && !this.IsDisposed && !this.Disposing) {
-                                    this.SaveWindowState();
-                                }
-                                this.SaveUserSettings();
-                                IsExitingProgram = true;
-                                this.Hide();
-                                this.overlay?.Dispose();
-                                Task.Run(() => this.UpdateAndExitProgram(web));
+                                Task.Run(() => {
+                                    IsExitingForUpdate = true;
+                                    IsUpdatingOnAppLaunch = isSilent;
+                                    this.Stats_ExitProgram(this, null);
+                                    this.UpdateProgram(web);
+                                });
                                 return true;
                             }
                         } else if (!isSilent) {
@@ -8423,20 +8446,13 @@ namespace FallGuysStats {
         }
         
 #if AllowUpdate
-        public async Task UpdateAndExitProgram(ZipWebClient web) {
-            if (this.logFile.logFileWatcher != null) {
-                await this.logFile.Stop();
+        public void UpdateProgram(ZipWebClient web) {
+            using (DownloadProgress progress = new DownloadProgress()) {
+                progress.ZipWebClient = web;
+                progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
+                progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
+                progress.ShowDialog(this);
             }
-            await Task.WhenAll(this.dbTasks).ContinueWith(prevTask => {
-                this.StatsDB?.Dispose();
-                
-                using (DownloadProgress progress = new DownloadProgress()) {
-                    progress.ZipWebClient = web;
-                    progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
-                    progress.FileName = $"{CURRENTDIR}FallGuysStats.zip";
-                    progress.ShowDialog(this);
-                }
-            });
         }
 #endif
         
@@ -8558,7 +8574,7 @@ namespace FallGuysStats {
             this.ToggleOverlay(this.overlay);
         }
         
-        public void ToggleOverlay(Overlay overlay) {
+        public void ToggleOverlay(Overlay overlay, bool saveSetting = true) {
             if (overlay.Visible) {
                 IsDisplayOverlayPing = false;
                 overlay.Hide();
@@ -8593,8 +8609,10 @@ namespace FallGuysStats {
                 this.trayOverlay.Image = Properties.Resources.stat_icon;
                 this.trayOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
             }
-            this.CurrentSettings.OverlayVisible = overlay.Visible;
-            this.SaveUserSettings();
+            if (saveSetting) {
+                this.CurrentSettings.OverlayVisible = overlay.Visible;
+                this.SaveUserSettings();
+            }
         }
         
         private void menuHelp_Click(object sender, EventArgs e) {

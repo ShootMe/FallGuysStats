@@ -1456,15 +1456,10 @@ namespace FallGuysStats {
                                                  $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
                                                  $"{Multilingual.GetWord("message_update_question_caption")}",
                                                  MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            this.StatsForm.trayIcon.Visible = false;
                             this.Hide();
-                            this.StatsForm.CurrentSettings.ShowChangelog = true;
-                            this.StatsForm.SaveWindowState();
-                            this.StatsForm.SaveUserSettings();
-                            Stats.IsExitingProgram = true;
-                            this.StatsForm.Hide();
-                            this.StatsForm.overlay?.Dispose();
-                            Task.Run(() => this.StatsForm.UpdateAndExitProgram(web));
+                            Stats.IsExitingForUpdate = true;
+                            this.StatsForm.Stats_ExitProgram(this, null);
+                            this.StatsForm.UpdateProgram(web);
                         }
                     } else {
                         MetroMessageBox.Show(this,
