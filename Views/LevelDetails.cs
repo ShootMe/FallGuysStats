@@ -1068,7 +1068,6 @@ namespace FallGuysStats {
                                 this.StatsForm.StatsDB.Commit();
                             });
                             this.StatsForm.AddToDbTasksList(dbTaskDeleteShow, false);
-                            dbTaskDeleteShow.Wait();
                         }).ContinueWith(prevTask => {
                             this.BeginInvoke((MethodInvoker)delegate {
                                 this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1122,7 +1121,6 @@ namespace FallGuysStats {
                                     this.StatsForm.StatsDB.Commit();
                                 });
                                 this.StatsForm.AddToDbTasksList(dbTaskMoveShows, false);
-                                dbTaskMoveShows.Wait();
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1177,7 +1175,6 @@ namespace FallGuysStats {
                                     this.StatsForm.StatsDB.Commit();
                                 });
                                 this.StatsForm.AddToDbTasksList(dbTaskDeleteFinishTime, false);
-                                dbTaskDeleteFinishTime.Wait();
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.spinnerTransition.Stop();
@@ -1259,7 +1256,6 @@ namespace FallGuysStats {
                                             this.StatsForm.StatsDB.Commit();
                                         });
                                         this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
-                                        dbTaskUpdateCreativeLevel.Wait();
                                     }
                                     
                                     this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, snapshot);
@@ -1312,7 +1308,6 @@ namespace FallGuysStats {
                                                 this.StatsForm.StatsDB.Commit();
                                             });
                                             this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
-                                            dbTaskUpdateCreativeLevel.Wait();
                                         }
                                         
                                         this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, levelData);

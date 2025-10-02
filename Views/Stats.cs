@@ -95,9 +95,11 @@ namespace FallGuysStats {
             }
         }
 
+        public static bool IsExitingProgram;
+
         public static readonly string CURRENTDIR = AppDomain.CurrentDomain.BaseDirectory;
 
-        protected internal static readonly string LOGPATH = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
+        internal static readonly string LOGPATH = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
         private static readonly string LOGFILENAME = "Player.log";
 
         public static readonly (string Name, DateTime StartDate)[] Seasons = new (string Name, DateTime StartDate)[] {
@@ -155,9 +157,9 @@ namespace FallGuysStats {
         public static long LastServerPing = 0;
         public static bool IsBadServerPing = false;
 
-        public static readonly List<string> SucceededPlayerIds = new List<string>();
-        public static readonly List<string> EliminatedPlayerIds = new List<string>();
-        public static readonly Dictionary<string, string> ReadyPlayerIds = new Dictionary<string, string>();
+        public static readonly List<int> SucceededPlayerIds = new List<int>();
+        public static readonly List<int> EliminatedPlayerIds = new List<int>();
+        public static readonly Dictionary<int, string> ReadyPlayerIds = new Dictionary<int, string>();
 
         public static int CasualRoundNum { get; set; }
         public static string SavedSessionId { get; set; }
@@ -182,8 +184,8 @@ namespace FallGuysStats {
         public static DateTime? LastPlayedRoundStart { get; set; }
         public static DateTime? LastPlayedRoundEnd { get; set; }
 
-        public static bool IsQueuing = false;
-        public static int QueuedPlayers = 0;
+        public static bool IsQueuing { get; set; }
+        public static int QueuedPlayers { get; set; }
 
         private static readonly FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
 
@@ -266,7 +268,7 @@ namespace FallGuysStats {
         private readonly Image numberNine = Utils.ImageOpacity(Properties.Resources.number_9, 0.5F);
 
         private bool maximizedForm;
-        private bool isFocused, isForceClosed;
+        private bool isFocused;
         private bool shiftKeyToggle, ctrlKeyToggle;
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
@@ -293,7 +295,7 @@ namespace FallGuysStats {
 
         public List<Task> dbTasks = new List<Task>();
 
-        private const int currentDbVersion = 2;
+        private readonly int currentDbVersion = 132;
 
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -407,12 +409,20 @@ namespace FallGuysStats {
         }
 
         public void AddToDbTasksList(Task task, bool runAsync) {
+            if (IsExitingProgram) return;
+
             lock (this.dbTasks) {
                 this.dbTasks.Add(task);
             }
-            task.ContinueWith(t => this.dbTasks.Remove(t));
-            task.Start();
-            if (!runAsync) task.Wait();
+            lock (task) {
+                task.ContinueWith(t => {
+                    lock (this.dbTasks) {
+                        this.dbTasks.Remove(t);
+                    }
+                });
+                task.Start();
+                if (!runAsync) task.Wait();
+            }
         }
 
         private void DatabaseMigration() {
@@ -423,10 +433,10 @@ namespace FallGuysStats {
                 }
 
                 if (File.Exists($"{CURRENTDIR}data.db")) {
-                    int sourceDbVersion = 0;
+                    int sourceDbUserVersion = 0;
                     using (var sourceDb = new LiteDatabase($@"{CURRENTDIR}data.db")) {
-                        sourceDbVersion = sourceDb.UserVersion;
-                        if (sourceDbVersion >= currentDbVersion) return;
+                        sourceDbUserVersion = sourceDb.UserVersion;
+                        if (sourceDbUserVersion >= 2) return;
 
                         using (var targetDb = new LiteDatabase($@"Filename={CURRENTDIR}data_new.db;Upgrade=true")) {
                             string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog",
@@ -437,11 +447,11 @@ namespace FallGuysStats {
                                 var targetCollection = targetDb.GetCollection(tableName);
                                 targetCollection.InsertBulk(sourceData);
                             }
-                            targetDb.UserVersion = currentDbVersion;
+                            targetDb.UserVersion = 2;
                         }
                     }
-                    if (!File.Exists($"{CURRENTDIR}data_bak_v{sourceDbVersion}.db")) {
-                        File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_v{sourceDbVersion}.db");
+                    if (!File.Exists($"{CURRENTDIR}data_bak_v{sourceDbUserVersion}.db")) {
+                        File.Move($"{CURRENTDIR}data.db", $"{CURRENTDIR}data_bak_v{sourceDbUserVersion}.db");
                     } else {
                         File.SetAttributes($"{CURRENTDIR}data.db", FileAttributes.Normal);
                         File.Delete($"{CURRENTDIR}data.db");
@@ -450,7 +460,6 @@ namespace FallGuysStats {
                 }
             });
             this.AddToDbTasksList(dbTaskMigration, false);
-            dbTaskMigration.Wait();
         }
 
         private void DatabaseBackup(bool initJob) {
@@ -978,6 +987,36 @@ namespace FallGuysStats {
             this.UpdateDatabaseOnlineJob(initJob);
         }
 
+        private string TranslateChangelog(string s) {
+            string[] lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string rtnStr = string.Empty;
+            for (int i = 0; i < lines.Length; i++) {
+                if (i > 0) rtnStr += Environment.NewLine;
+                rtnStr += CurrentLanguage == Language.English || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
+                          ? lines[i]
+                          : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
+            }
+            for (int i = 0; i < 5 - lines.Length; i++) {
+                rtnStr += Environment.NewLine;
+            }
+            return rtnStr;
+        }
+
+        private void InitLogData() {
+            Task dbTaskClearLogs = new Task(() => {
+                this.ClearServerConnectionLog(5);
+                this.ClearPersonalBestLog(15);
+                this.ClearWeeklyCrownLog(15);
+            });
+            this.AddToDbTasksList(dbTaskClearLogs, false);
+            this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
+            this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
+            this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
+            this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
+            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
+            this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
+        }
+
         private void SetWindowCorner() {
             Utils.DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
@@ -1026,7 +1065,6 @@ namespace FallGuysStats {
                 }
             });
             this.AddToDbTasksList(dbTaskInitUserSettings, false);
-            dbTaskInitUserSettings.Wait();
 
 #if AllowUpdate
             this.RemoveUpdateFiles();
@@ -1103,7 +1141,6 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
             });
             this.AddToDbTasksList(dbTaskEnsureCollectionsIndex, false);
-            dbTaskEnsureCollectionsIndex.Wait();
 
             if (this.Profiles.Count() == 0) {
                 this.EnableInfoStrip(false);
@@ -1136,10 +1173,9 @@ namespace FallGuysStats {
                                 this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
                             }
                             this.StatsDB.Commit();
-                            this.StatsDB.UserVersion = currentDbVersion;
+                            this.StatsDB.UserVersion = 2;
                         });
                         this.AddToDbTasksList(dbTaskInitProfiles, false);
-                        dbTaskInitProfiles.Wait();
                     }
                 }
                 this.EnableInfoStrip(true);
@@ -1973,16 +2009,18 @@ namespace FallGuysStats {
                     this.AllStats.Clear();
                 });
                 this.AddToDbTasksList(dbTaskUpdateDbDateFormat, false);
-                dbTaskUpdateDbDateFormat.Wait();
                 this.CurrentSettings.UpdatedDateFormat = true;
                 this.SaveUserSettings();
             }
         }
         
         private void UpdateDatabaseVersion() {
-            int lastVersion = 131;
-            for (int version = this.CurrentSettings.Version; version < lastVersion; version++) {
+            for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
+                    case 131: {
+                            this.CurrentSettings.WinPerDayGraphStyle = 2;
+                            break;
+                        }
                     case 130: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "wle_nature_ltm")
@@ -4286,8 +4324,8 @@ namespace FallGuysStats {
                         }
                 }
             }
-            if (this.CurrentSettings.Version < lastVersion) {
-                this.CurrentSettings.Version = lastVersion;
+            if (this.CurrentSettings.Version < currentDbVersion) {
+                this.CurrentSettings.Version = currentDbVersion;
                 this.SaveUserSettings();
             }
         }
@@ -4295,25 +4333,26 @@ namespace FallGuysStats {
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
                 ID = 1,
+                UpdatedDateFormat = true,
+                LogPath = string.Empty,
+                MaximizedWindowState = false,
+                FormLocationX = null,
+                FormLocationY = null,
+                FormWidth = null,
+                FormHeight = null,
                 Theme = 0,
-                CycleTimeSeconds = 5,
+                Visible = true,
                 FilterType = 1,
                 CustomFilterRangeStart = DateTime.MinValue,
                 CustomFilterRangeEnd = DateTime.MaxValue,
                 SelectedCustomTemplateSeason = -1,
                 SelectedProfile = 0,
-                LogPath = null,
+                CycleTimeSeconds = 5,
                 OverlayBackground = 0,
                 OverlayBackgroundResourceName = string.Empty,
                 OverlayTabResourceName = string.Empty,
                 OverlayBackgroundOpacity = 100,
                 IsOverlayBackgroundCustomized = false,
-                NotifyServerConnected = false,
-                NotifyPersonalBest = false,
-                MuteNotificationSounds = false,
-                NotificationSounds = 0,
-                NotificationWindowPosition = 0,
-                NotificationWindowAnimation = 0,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -4341,40 +4380,40 @@ namespace FallGuysStats {
                 ColorByRoundType = false,
                 AutoChangeProfile = true,
                 ShadeTheFlagImage = false,
-                DisplayCurrentTime = false,
-                DisplayGamePlayedInfo = false,
+                DisplayCurrentTime = true,
+                DisplayGamePlayedInfo = true,
                 CountPlayersDuringTheLevel = true,
                 PreviousWins = 0,
                 WinsFilter = 1,
-                QualifyFilter = 1,
                 FastestFilter = 1,
+                QualifyFilter = 1,
                 HideWinsInfo = false,
                 HideRoundInfo = false,
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
                 ShowPercentages = false,
                 AutoUpdate = true,
-                MaximizedWindowState = false,
                 SystemTrayIcon = true,
                 PreventOverlayMouseClicks = false,
-                FormLocationX = null,
-                FormLocationY = null,
-                FormWidth = null,
-                FormHeight = null,
+                NotifyServerConnected = true,
+                NotifyPersonalBest = true,
+                MuteNotificationSounds = false,
+                NotificationSounds = 0,
+                NotificationWindowPosition = 3,
+                NotificationWindowAnimation = 0,
                 OverlayWidth = 786,
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                AutoLaunchGameOnStartup = false,
+                IgnoreLevelTypeWhenSorting = false,
+                GroupingCreativeRoundLevels = true,
+                RecordEscapeDuringAGame = true,
                 GameExeLocation = string.Empty,
                 GameShortcutLocation = string.Empty,
-                IgnoreLevelTypeWhenSorting = false,
-                GroupingCreativeRoundLevels = false,
-                RecordEscapeDuringAGame = false,
-                UpdatedDateFormat = true,
-                WinPerDayGraphStyle = 0,
-                EnableFallalyticsReporting = false,
-                EnableFallalyticsWeeklyCrownLeague = false,
+                AutoLaunchGameOnStartup = false,
+                WinPerDayGraphStyle = 2,
+                EnableFallalyticsReporting = true,
+                EnableFallalyticsWeeklyCrownLeague = true,
                 EnableFallalyticsAnonymous = false,
                 UseProxyServer = false,
                 ProxyAddress = string.Empty,
@@ -4385,10 +4424,9 @@ namespace FallGuysStats {
                 SucceededTestProxy = false,
                 IpGeolocationService = 0,
                 ShowChangelog = true,
-                Visible = true,
                 LevelTimeLimitVersion = 0,
                 UpcomingShowVersion = 0,
-                Version = 0
+                Version = currentDbVersion
             };
         }
         
@@ -4755,14 +4793,18 @@ namespace FallGuysStats {
         }
         
         public void Stats_ExitProgram(object sender, EventArgs e) {
-            this.isForceClosed = true;
+            IsExitingProgram = true;
             try {
                 if (!this.IsDisposed && !this.Disposing) {
                     this.SaveWindowState();
                 }
                 this.SaveUserSettings();
-                Task.Run(() => this.logFile.Stop()).Wait();
-                Task.WaitAll(this.dbTasks.ToArray());
+                if (this.logFile.logFileWatcher != null) {
+                    Task.Run(() => this.logFile.Stop()).Wait();
+                }
+                lock (this.dbTasks) {
+                    Task.WaitAll(this.dbTasks.ToArray());
+                }
                 this.StatsDB?.Dispose();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4771,17 +4813,24 @@ namespace FallGuysStats {
         }
         
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
-            if (!this.isForceClosed && this.CurrentSettings.SystemTrayIcon) {
+            if (IsExitingProgram) return;
+            
+            if (this.CurrentSettings.SystemTrayIcon) {
                 this.Hide();
                 e.Cancel = true;
-            } else if (!this.isForceClosed) {
+            } else {
+                IsExitingProgram = true;
                 try {
                     if (!this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
                     }
                     this.SaveUserSettings();
-                    Task.Run(() => this.logFile.Stop()).Wait();
-                    Task.WaitAll(this.dbTasks.ToArray());
+                    if (this.logFile.logFileWatcher != null) {
+                        Task.Run(() => this.logFile.Stop()).Wait();
+                    }
+                    lock (this.dbTasks) {
+                        Task.WaitAll(this.dbTasks.ToArray());
+                    }
                     this.StatsDB?.Dispose();
                 } catch (Exception ex) {
                     MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4798,42 +4847,11 @@ namespace FallGuysStats {
                 this.SetTheme(CurrentTheme);
                 this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
                 this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-
+                
                 this.UpdateDates();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        
-        private string TranslateChangelog(string s) {
-            string[] lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            string rtnStr = string.Empty;
-            for (int i = 0; i < lines.Length; i++) {
-                if (i > 0) rtnStr += Environment.NewLine;
-                rtnStr += CurrentLanguage == Language.English || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
-                          ? lines[i]
-                          : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
-            }
-            for (int i = 0; i < 5 - lines.Length; i++) {
-                rtnStr += Environment.NewLine;
-            }
-            return rtnStr;
-        }
-        
-        private void InitLogData() {
-            Task dbTaskClearLogs = new Task(() => {
-                this.ClearServerConnectionLog(5);
-                this.ClearPersonalBestLog(15);
-                this.ClearWeeklyCrownLog(15);
-            });
-            this.AddToDbTasksList(dbTaskClearLogs, false);
-            dbTaskClearLogs.Wait();
-            this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
-            this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
-            this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
-            this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
-            this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
-            this.LevelTimeLimitCache = this.LevelTimeLimit.FindAll().ToList();
         }
         
         private void Stats_Shown(object sender, EventArgs e) {
@@ -4953,12 +4971,11 @@ namespace FallGuysStats {
                     this.LaunchGame(true);
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
-
                 }
                 
                 this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                 this.SaveUserSettings();
-
+                
                 string logPath = !string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath) ? this.CurrentSettings.LogPath : LOGPATH;
                 this.logFile.Start(logPath, LOGFILENAME);
             } catch (Exception ex) {
@@ -5304,6 +5321,11 @@ namespace FallGuysStats {
                                     }
                                 }
                             } else {
+                                if (this.CurrentSettings.AutoChangeProfile) {
+                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby);
+                                    this.CurrentSettings.SelectedProfile = profile;
+                                    this.SetProfileMenu(profile);
+                                }
                                 continue;
                             }
                         }
@@ -7149,7 +7171,12 @@ namespace FallGuysStats {
                 display.wins = (double[])wins.ToArray(typeof(double));
                 display.winsInfo = winsInfo;
                 
+                display.graphStyle = this.CurrentSettings.WinPerDayGraphStyle;
                 display.ShowDialog(this);
+                if (display.graphStyle != this.CurrentSettings.WinPerDayGraphStyle) {
+                    this.CurrentSettings.WinPerDayGraphStyle = display.graphStyle;
+                    this.SaveUserSettings();
+                }
             }
         }
         
@@ -7931,13 +7958,13 @@ namespace FallGuysStats {
                     if (this.isStartingUp) {
                         this.updateFilterRange = true;
                     } else {
+                        this.EnableInfoStrip(false);
+                        this.EnableMainMenu(false);
                         using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
                             filterCustomRange.StatsForm = this;
                             filterCustomRange.startDate = this.customfilterRangeStart;
                             filterCustomRange.endDate = this.customfilterRangeEnd;
                             filterCustomRange.selectedCustomTemplateSeason = this.selectedCustomTemplateSeason;
-                            this.EnableInfoStrip(false);
-                            this.EnableMainMenu(false);
                             if (filterCustomRange.ShowDialog(this) == DialogResult.OK) {
                                 this.menuCustomRangeStats.Checked = true;
                                 this.menuAllStats.Checked = false;
@@ -7960,9 +7987,9 @@ namespace FallGuysStats {
                                 this.EnableMainMenu(true);
                                 return;
                             }
-                            this.EnableInfoStrip(true);
-                            this.EnableMainMenu(true);
                         }
+                        this.EnableInfoStrip(true);
+                        this.EnableMainMenu(true);
                     }
                 } else if (Equals(button, this.menuAllStats) || Equals(button, this.menuSeasonStats) || Equals(button, this.menuWeekStats) || Equals(button, this.menuDayStats) || Equals(button, this.menuSessionStats)) {
                     if (!this.menuAllStats.Checked && !this.menuSeasonStats.Checked && !this.menuWeekStats.Checked && !this.menuDayStats.Checked && !this.menuSessionStats.Checked) {
@@ -8602,7 +8629,6 @@ namespace FallGuysStats {
                                 this.StatsDB.Commit();
                             });
                             this.AddToDbTasksList(dbTaskEditProfiles, false);
-                            dbTaskEditProfiles.Wait();
                         }
                         this.ReloadProfileMenuItems();
                         IsOverlayRoundInfoNeedRefresh = true;

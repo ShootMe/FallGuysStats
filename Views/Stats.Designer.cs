@@ -1687,7 +1687,7 @@
         }
 
         #endregion
-        protected internal System.Windows.Forms.NotifyIcon trayIcon;
+        internal System.Windows.Forms.NotifyIcon trayIcon;
         private MetroFramework.Controls.MetroToggle mtgCreativeLevel;
         private System.Windows.Forms.Label lblCreativeLevel;
         private MetroFramework.Controls.MetroToggle mtgIgnoreLevelTypeWhenSorting;

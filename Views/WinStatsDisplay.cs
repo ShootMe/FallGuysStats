@@ -13,13 +13,13 @@ namespace FallGuysStats {
         public double[] dates, shows, finals, wins;
         public Dictionary<double, SortedList<string, int>> winsInfo;
         public double manualSpacing = 1.0;
+        public int graphStyle;
         public Stats StatsForm { get; set; }
         public WinStatsDisplay() {
             this.InitializeComponent();
             this.Opacity = 0;
         }
 
-        private int switchGraphStyle;
         private double yMax;
         private ScatterPlot MyScatterPlot1, MyScatterPlot2, MyScatterPlot3;
         private BarPlot MyBarPlot1, MyBarPlot2, MyBarPlot3;
@@ -85,9 +85,8 @@ namespace FallGuysStats {
                 this.chkShows.Checked = true;
                 this.chkFinals.Checked = true;
                 this.chkWins.Checked = true;
-                this.switchGraphStyle = this.StatsForm.CurrentSettings.WinPerDayGraphStyle;
-                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
-                this.ChangeFormsPlotStyle(this.switchGraphStyle);
+                this.picSwitchGraphStyle.Image = this.graphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.graphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
+                this.ChangeFormsPlotStyle(this.graphStyle);
             } else {
                 this.formsPlot.Refresh();
             }
@@ -98,7 +97,6 @@ namespace FallGuysStats {
         }
 
         private void ChangeFormsPlotStyle(int style) {
-            this.StatsForm.CurrentSettings.WinPerDayGraphStyle = style;
             this.BeginInvoke((MethodInvoker)delegate {
                 if (style == 1) {
                     // LollipopPlot
@@ -217,7 +215,7 @@ namespace FallGuysStats {
 
                 this.SetTooltipStyle();
 
-                //this.HighlightedDate.MarkerShape = (this.switchGraphStyle == 0) ? MarkerShape.openCircle : MarkerShape.none;
+                //this.HighlightedDate.MarkerShape = (this.graphStyle == 0) ? MarkerShape.openCircle : MarkerShape.none;
                 this.formsPlot.Render();
             });
         }
@@ -346,7 +344,7 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
-            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
+            this.picSwitchGraphStyle.Image = this.graphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.graphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
             this.chkWins.Theme = theme;
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
@@ -373,25 +371,25 @@ namespace FallGuysStats {
         
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                this.switchGraphStyle += 1;
-                if (this.switchGraphStyle > 2) { this.switchGraphStyle = 0; }
+                this.graphStyle += 1;
+                if (this.graphStyle > 2) { this.graphStyle = 0; }
             } else if (e.Button == MouseButtons.Right) {
-                this.switchGraphStyle -= 1;
-                if (this.switchGraphStyle < 0) { this.switchGraphStyle = 2; }
+                this.graphStyle -= 1;
+                if (this.graphStyle < 0) { this.graphStyle = 2; }
             }
-            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
+            this.picSwitchGraphStyle.Image = this.graphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.graphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
             if (this.dates == null) return;
 
-            this.ChangeFormsPlotStyle(this.switchGraphStyle);
+            this.ChangeFormsPlotStyle(this.graphStyle);
         }
         
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) return;
-            if (this.switchGraphStyle == 1) {
+            if (this.graphStyle == 1) {
                 this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
                 this.MyBarPlot3.IsVisible = false;
                 this.MyLollipopPlot3.IsVisible = this.chkWins.Checked;
-            } else if (this.switchGraphStyle == 2) {
+            } else if (this.graphStyle == 2) {
                 this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
                 this.MyBarPlot3.IsVisible = this.chkWins.Checked;
                 this.MyLollipopPlot3.IsVisible = false;
@@ -403,11 +401,11 @@ namespace FallGuysStats {
         
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) return;
-            if (this.switchGraphStyle == 1) {
+            if (this.graphStyle == 1) {
                 this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = false;
                 this.MyLollipopPlot2.IsVisible = this.chkFinals.Checked;
-            } else if (this.switchGraphStyle == 2) {
+            } else if (this.graphStyle == 2) {
                 this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyLollipopPlot2.IsVisible = false;
@@ -419,11 +417,11 @@ namespace FallGuysStats {
         
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) return;
-            if (this.switchGraphStyle == 1) {
+            if (this.graphStyle == 1) {
                 this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
                 this.MyBarPlot1.IsVisible = false;
                 this.MyLollipopPlot1.IsVisible = this.chkShows.Checked;
-            } else if (this.switchGraphStyle == 2) {
+            } else if (this.graphStyle == 2) {
                 this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
                 this.MyBarPlot1.IsVisible = this.chkShows.Checked;
                 this.MyLollipopPlot1.IsVisible = false;
