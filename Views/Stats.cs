@@ -409,9 +409,8 @@ namespace FallGuysStats {
         }
 
         public void AddToDbTasksList(Task task, bool runAsync) {
-            if (IsExitingProgram) return;
-
             lock (this.dbTasks) {
+                if (IsExitingProgram) return;
                 this.dbTasks.Add(task);
             }
             lock (task) {
@@ -4793,7 +4792,6 @@ namespace FallGuysStats {
         }
         
         public void Stats_ExitProgram(object sender, EventArgs e) {
-            IsExitingProgram = true;
             try {
                 if (!this.IsDisposed && !this.Disposing) {
                     this.SaveWindowState();
@@ -4803,6 +4801,7 @@ namespace FallGuysStats {
                     Task.Run(() => this.logFile.Stop()).Wait();
                 }
                 lock (this.dbTasks) {
+                    IsExitingProgram = true;
                     Task.WaitAll(this.dbTasks.ToArray());
                 }
                 this.StatsDB?.Dispose();
@@ -4819,7 +4818,6 @@ namespace FallGuysStats {
                 this.Hide();
                 e.Cancel = true;
             } else {
-                IsExitingProgram = true;
                 try {
                     if (!this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
@@ -4829,6 +4827,7 @@ namespace FallGuysStats {
                         Task.Run(() => this.logFile.Stop()).Wait();
                     }
                     lock (this.dbTasks) {
+                        IsExitingProgram = true;
                         Task.WaitAll(this.dbTasks.ToArray());
                     }
                     this.StatsDB?.Dispose();
@@ -8390,15 +8389,14 @@ namespace FallGuysStats {
                                                      MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                                 this.trayIcon.Visible = false;
                                 this.CurrentSettings.ShowChangelog = true;
-                                if (!isSilent) {
-                                    if (!this.IsDisposed && !this.Disposing) {
-                                        this.SaveWindowState();
-                                    }
+                                if (!isSilent && !this.IsDisposed && !this.Disposing) {
+                                    this.SaveWindowState();
                                 }
                                 this.SaveUserSettings();
+                                IsExitingProgram = true;
                                 this.Hide();
                                 this.overlay?.Dispose();
-                                Task.Run(() => this.UpdateAndExitProgram(isSilent, web));
+                                Task.Run(() => this.UpdateAndExitProgram(web));
                                 return true;
                             }
                         } else if (!isSilent) {
@@ -8425,8 +8423,8 @@ namespace FallGuysStats {
         }
         
 #if AllowUpdate
-        public async Task UpdateAndExitProgram(bool isSilent, ZipWebClient web) {
-            if (!isSilent) {
+        public async Task UpdateAndExitProgram(ZipWebClient web) {
+            if (this.logFile.logFileWatcher != null) {
                 await this.logFile.Stop();
             }
             await Task.WhenAll(this.dbTasks).ContinueWith(prevTask => {
