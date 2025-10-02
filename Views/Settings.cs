@@ -1461,9 +1461,10 @@ namespace FallGuysStats {
                             this.StatsForm.CurrentSettings.ShowChangelog = true;
                             this.StatsForm.SaveWindowState();
                             this.StatsForm.SaveUserSettings();
+                            Stats.IsExitingProgram = true;
                             this.StatsForm.Hide();
                             this.StatsForm.overlay?.Dispose();
-                            Task.Run(() => this.StatsForm.UpdateAndExitProgram(false, web));
+                            Task.Run(() => this.StatsForm.UpdateAndExitProgram(web));
                         }
                     } else {
                         MetroMessageBox.Show(this,
