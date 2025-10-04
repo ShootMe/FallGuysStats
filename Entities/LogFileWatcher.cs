@@ -132,7 +132,7 @@ namespace FallGuysStats {
             this.isWatcherRunning = true;
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
-            bool completed = false;
+            bool prevFileCompleted = false;
             string currentFilePath = this.prevFilePath;
             long offset = 0;
             while (!this.stop) {
@@ -271,8 +271,8 @@ namespace FallGuysStats {
                         this.OnParsedLogLinesCurrent?.Invoke(round);
                     }
 
-                    if (!completed) {
-                        completed = true;
+                    if (!prevFileCompleted) {
+                        prevFileCompleted = true;
                         offset = this.threadLocalVariable.Value.lastQueuingInfoLinePos = 0;
                         currentFilePath = this.filePath;
                     }
