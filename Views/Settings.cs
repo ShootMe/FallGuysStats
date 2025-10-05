@@ -1362,7 +1362,7 @@ namespace FallGuysStats {
                     this.panelFallGuys.Visible = true;
                 } else if (sender.Equals(this.tileAbout)) {
                     this.tileAbout.Style = MetroColorStyle.Teal;
-                    #if AllowUpdate
+#if AllowUpdate
                     this.lblupdateNote.Text = Multilingual.GetWord("settings_checking_for_updates");
                     using (ZipWebClient web = new ZipWebClient()) {
                         string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");

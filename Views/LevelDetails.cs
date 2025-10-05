@@ -1043,7 +1043,7 @@ namespace FallGuysStats {
                     this.preventPaging = true;
                     lock (this.StatsForm.StatsDB) {
                         Task.Run(() => {
-                            Task dbTaskDeleteShow = new Task(() => {
+                            Task deleteShowTask = new Task(() => {
                                 this.StatsForm.StatsDB.BeginTrans();
                                 foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                     RoundInfo bi = row.DataBoundItem as RoundInfo;
@@ -1067,7 +1067,7 @@ namespace FallGuysStats {
                                 }
                                 this.StatsForm.StatsDB.Commit();
                             });
-                            this.StatsForm.AddToDbTasksList(dbTaskDeleteShow, false);
+                            this.StatsForm.RunDatabaseTask(deleteShowTask, false);
                         }).ContinueWith(prevTask => {
                             this.BeginInvoke((MethodInvoker)delegate {
                                 this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1108,7 +1108,7 @@ namespace FallGuysStats {
                         int toProfileId = moveShows.SelectedProfileId;
                         lock (this.StatsForm.StatsDB) {
                             Task.Run(() => {
-                                Task dbTaskMoveShows = new Task(() => {
+                                Task moveShowsTask = new Task(() => {
                                     this.StatsForm.StatsDB.BeginTrans();
                                     foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                         RoundInfo bi = row.DataBoundItem as RoundInfo;
@@ -1120,7 +1120,7 @@ namespace FallGuysStats {
                                     }
                                     this.StatsForm.StatsDB.Commit();
                                 });
-                                this.StatsForm.AddToDbTasksList(dbTaskMoveShows, false);
+                                this.StatsForm.RunDatabaseTask(moveShowsTask, false);
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -1158,7 +1158,7 @@ namespace FallGuysStats {
                         this.preventPaging = true;
                         lock (this.StatsForm.StatsDB) {
                             Task.Run(() => {
-                                Task dbTaskDeleteFinishTime = new Task(() => {
+                                Task deleteFinishTimeTask = new Task(() => {
                                     this.StatsForm.StatsDB.BeginTrans();
                                     PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
                                     if (pbLog != null) {
@@ -1174,7 +1174,7 @@ namespace FallGuysStats {
                                     this.StatsForm.RoundDetails.Update(ri);
                                     this.StatsForm.StatsDB.Commit();
                                 });
-                                this.StatsForm.AddToDbTasksList(dbTaskDeleteFinishTime, false);
+                                this.StatsForm.RunDatabaseTask(deleteFinishTimeTask, false);
                             }).ContinueWith(prevTask => {
                                 this.BeginInvoke((MethodInvoker)delegate {
                                     this.spinnerTransition.Stop();
@@ -1250,12 +1250,12 @@ namespace FallGuysStats {
                                     }
                                     
                                     lock (this.StatsForm.StatsDB) {
-                                        Task dbTaskUpdateCreativeLevel = new Task(() => {
+                                        Task updateCreativeLevelTask = new Task(() => {
                                             this.StatsForm.StatsDB.BeginTrans();
                                             this.StatsForm.RoundDetails.Update(filteredInfo);
                                             this.StatsForm.StatsDB.Commit();
                                         });
-                                        this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
+                                        this.StatsForm.RunDatabaseTask(updateCreativeLevelTask, false);
                                     }
                                     
                                     this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, snapshot);
@@ -1302,12 +1302,12 @@ namespace FallGuysStats {
                                         }
                                         
                                         lock (this.StatsForm.StatsDB) {
-                                            Task dbTaskUpdateCreativeLevel = new Task(() => {
+                                            Task updateCreativeLevelTask = new Task(() => {
                                                 this.StatsForm.StatsDB.BeginTrans();
                                                 this.StatsForm.RoundDetails.Update(filteredInfo);
                                                 this.StatsForm.StatsDB.Commit();
                                             });
-                                            this.StatsForm.AddToDbTasksList(dbTaskUpdateCreativeLevel, false);
+                                            this.StatsForm.RunDatabaseTask(updateCreativeLevelTask, false);
                                         }
                                         
                                         this.StatsForm.UpdateCreativeLevel(ri.Name, shareCode, levelData);

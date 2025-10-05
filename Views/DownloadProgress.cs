@@ -9,20 +9,21 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public partial class DownloadProgress : MetroFramework.Forms.MetroForm {
+        public string CurrentExeName { get; set; }
         public ZipWebClient ZipWebClient { get; set; }
-        public string FileName { get; set; }
+        public string ZipFileName { get; set; }
         public string DownloadUrl { get; set; }
-
+        
         public DownloadProgress() {
             this.InitializeComponent();
         }
-
+        
         private void Progress_Load(object sender, EventArgs e) {
             this.SetTheme(Stats.CurrentTheme);
             this.ChangeLanguage();
             this.DownloadNewVersion();
         }
-
+        
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
             this.lblDownloadDescription.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -35,23 +36,27 @@ namespace FallGuysStats {
                 this.mpbProgressBar.Invalidate();
             }
         }
+        
         private void zipWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
             this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
             this.lblDownloadDescription.Refresh();
-            string exeName = null;
-            using (ZipArchive zipFile = new ZipArchive(new FileStream(this.FileName, FileMode.Open), ZipArchiveMode.Read)) {
+            using (ZipArchive zipFile = new ZipArchive(new FileStream(this.ZipFileName, FileMode.Open), ZipArchiveMode.Read)) {
                 foreach (var entry in zipFile.Entries) {
-                    if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
-                        exeName = entry.Name;
-                    }
                     if (File.Exists($"{Stats.CURRENTDIR}{entry.Name}")) {
                         File.Move($"{Stats.CURRENTDIR}{entry.Name}", $"{Stats.CURRENTDIR}{entry.Name}.bak");
                     }
-                    entry.ExtractToFile($"{Stats.CURRENTDIR}{entry.Name}", true);
+                    if (entry.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) {
+                        if (!File.Exists($"{Stats.CURRENTDIR}{this.CurrentExeName}.bak")) {
+                            File.Move($"{Stats.CURRENTDIR}{this.CurrentExeName}", $"{Stats.CURRENTDIR}{this.CurrentExeName}.bak");
+                        }
+                        entry.ExtractToFile($"{Stats.CURRENTDIR}{this.CurrentExeName}", true);
+                    } else {
+                        entry.ExtractToFile($"{Stats.CURRENTDIR}{entry.Name}", true);
+                    }
                 }
             }
-            File.Delete(this.FileName);
-            Process.Start(new ProcessStartInfo($"{Stats.CURRENTDIR}{exeName}"));
+            File.Delete(this.ZipFileName);
+            Process.Start(new ProcessStartInfo($"{Stats.CURRENTDIR}{this.CurrentExeName}"));
             Process.GetCurrentProcess().Kill();
         }
         
@@ -59,9 +64,9 @@ namespace FallGuysStats {
             this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
             this.ZipWebClient.DownloadProgressChanged += this.zipWebClient_DownloadProgressChanged;
             this.ZipWebClient.DownloadFileCompleted += this.zipWebClient_DownloadFileCompleted;
-            this.ZipWebClient.DownloadFileAsync(new Uri(this.DownloadUrl), this.FileName);
+            this.ZipWebClient.DownloadFileAsync(new Uri(this.DownloadUrl), this.ZipFileName);
         }
-
+        
         private void ChangeLanguage() {
             this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_program");
             this.lblDownloadDescription.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
