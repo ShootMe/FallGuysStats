@@ -1231,9 +1231,11 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.levelTimeLimit = this.lastRound.IsCasualShow && (this.levelType == LevelType.CreativeRace || this.levelType == LevelType.CreativeHunt) ? 1800 :
-                                          this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds :
-                                          this.StatsForm.LevelTimeLimitCache.Find(l => string.Equals(l.LevelId, this.lastRound.RoundId ?? this.lastRound.Name))?.Duration ?? 0;
+                    lock (this.StatsForm.LevelTimeLimitCache) {
+                        this.levelTimeLimit = this.lastRound.IsCasualShow && (this.levelType == LevelType.CreativeRace || this.levelType == LevelType.CreativeHunt) ? 1800 :
+                                              this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds :
+                                              this.StatsForm.LevelTimeLimitCache.Find(l => string.Equals(l.LevelId, this.lastRound.RoundId ?? this.lastRound.Name))?.Duration ?? 0;
+                    }
                     
                     this.SetDurationLabel(this.levelTimeLimit, currentUtc, overlaySetting);
                     this.SetFinishLabel(this.levelSummary, this.levelType, this.levelId, this.recordType, currentUtc, overlaySetting);

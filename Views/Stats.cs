@@ -1006,8 +1006,8 @@ namespace FallGuysStats {
         }
 
         private void InitLogData() {
-            this.ClearServerConnectionLog(5);
             this.ClearPersonalBestLog(15);
+            this.ClearServerConnectionLog(5);
             this.ClearWeeklyCrownLog(15);
             this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
             this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
@@ -1060,7 +1060,7 @@ namespace FallGuysStats {
             this.RunDatabaseTask(initUserSettingsTask, false);
 
 #if AllowUpdate
-            this.RemoveUpdateFiles();
+            this.RemoveBackupFiles();
 #endif
 
             this.InitializeComponent();
@@ -1974,7 +1974,7 @@ namespace FallGuysStats {
         }
         
 #if AllowUpdate
-        private void RemoveUpdateFiles() {
+        private void RemoveBackupFiles() {
             foreach (string file in Directory.EnumerateFiles(CURRENTDIR, "*.bak")) {
                 try {
                     File.SetAttributes(file, FileAttributes.Normal);
@@ -5023,10 +5023,10 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnPersonalBestNotification(string showNameId, string roundId, TimeSpan existingRecord, TimeSpan currentRecord) {
+        private void LogFile_OnPersonalBestNotification(string showNameId, string roundId, double currentPb, double currentRecord) {
             string timeDiffContent = string.Empty;
-            if (existingRecord != TimeSpan.MaxValue) {
-                TimeSpan timeDiff = existingRecord - currentRecord;
+            if (currentPb > 0) {
+                TimeSpan timeDiff = TimeSpan.FromMilliseconds(currentPb - currentRecord);
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                                   : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
@@ -5335,7 +5335,10 @@ namespace FallGuysStats {
                                                         Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
                                                     }
 
-                                                    bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                                                    bool existsTransferFailedLogs;
+                                                    lock (this.FallalyticsCrownLogCache) {
+                                                        existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                                                    }
                                                     if (existsTransferFailedLogs) {
                                                         Task.Run(this.FallalyticsResendWeeklyCrown);
                                                     }
@@ -5508,7 +5511,9 @@ namespace FallGuysStats {
                     PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 };
-                this.PersonalBestLogCache.Add(log);
+                lock (this.PersonalBestLogCache) {
+                    this.PersonalBestLogCache.Add(log);
+                }
                 Task insertPersonalBestTask = new Task(() => {
                     this.StatsDB.BeginTrans();
                     this.PersonalBestLog.Insert(log);
@@ -5531,18 +5536,28 @@ namespace FallGuysStats {
         //     }
         // }
 
-        private void ClearServerConnectionLog(int days) {
-            lock (this.StatsDB) {
-                DateTime daysCond = DateTime.Now.AddDays(days * -1);
-                BsonExpression condition = Query.LT("ConnectionDate", daysCond);
-                Task clearServerConnectionTask = new Task(() => {
-                    this.StatsDB.BeginTrans();
-                    this.ServerConnectionLog.DeleteMany(condition);
-                    this.StatsDB.Commit();
-                });
-                this.RunDatabaseTask(clearServerConnectionTask, false);
-            }
-        }
+        // private void ClearUnsavedPersonalBestLog() {
+        //     lock (this.PersonalBestLogCache) {
+        //         bool isCacheUpdated = false;
+        //         List<DateTime> allPbDateLogs = this.PersonalBestLogCache.FindAll(l => l.IsPb).Select(l => l.PbDate).ToList();
+        //         foreach (DateTime pbDate in allPbDateLogs) {
+        //             if (!this.RoundDetails.Exists(r => r.Finish.HasValue && r.Finish.Value == pbDate)) {
+        //                 PersonalBestLog pbLog = this.PersonalBestLogCache.Find(l => l.PbDate == pbDate);
+        //                 this.PersonalBestLogCache.Remove(pbLog);
+        //                 isCacheUpdated = true;
+        //             }
+        //         }
+        //         if (isCacheUpdated) {
+        //             Task clearUnsavedPersonalBestTask = new Task(() => {
+        //                 this.StatsDB.BeginTrans();
+        //                 this.PersonalBestLog.DeleteAll();
+        //                 this.PersonalBestLog.InsertBulk(this.PersonalBestLogCache);
+        //                 this.StatsDB.Commit();
+        //             });
+        //             this.RunDatabaseTask(clearUnsavedPersonalBestTask, false);
+        //         }
+        //     }
+        // }
 
         private void ClearPersonalBestLog(int days) {
             lock (this.StatsDB) {
@@ -5554,6 +5569,19 @@ namespace FallGuysStats {
                     this.StatsDB.Commit();
                 });
                 this.RunDatabaseTask(clearPersonalBestTask, false);
+            }
+        }
+
+        private void ClearServerConnectionLog(int days) {
+            lock (this.StatsDB) {
+                DateTime daysCond = DateTime.Now.AddDays(days * -1);
+                BsonExpression condition = Query.LT("ConnectionDate", daysCond);
+                Task clearServerConnectionTask = new Task(() => {
+                    this.StatsDB.BeginTrans();
+                    this.ServerConnectionLog.DeleteMany(condition);
+                    this.StatsDB.Commit();
+                });
+                this.RunDatabaseTask(clearServerConnectionTask, false);
             }
         }
 
@@ -5610,18 +5638,20 @@ namespace FallGuysStats {
         }
 
         public void UpdateServerConnectionLog(string sessionId, bool isPlaying) {
-            lock (this.StatsDB) {
+            lock (this.ServerConnectionLogCache) {
                 ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
                 if (log != null && !Equals(log.IsPlaying, isPlaying)) {
                     this.ServerConnectionLogCache.Remove(log);
                     log.IsPlaying = isPlaying;
                     this.ServerConnectionLogCache.Add(log);
-                    Task updateServerConnectionTask = new Task(() => {
-                        this.StatsDB.BeginTrans();
-                        this.ServerConnectionLog.Update(log);
-                        this.StatsDB.Commit();
-                    });
-                    this.RunDatabaseTask(updateServerConnectionTask, false);
+                    lock (this.StatsDB) {
+                        Task updateServerConnectionTask = new Task(() => {
+                            this.StatsDB.BeginTrans();
+                            this.ServerConnectionLog.Update(log);
+                            this.StatsDB.Commit();
+                        });
+                        this.RunDatabaseTask(updateServerConnectionTask, false);
+                    }
                 }
             }
         }
@@ -5641,7 +5671,11 @@ namespace FallGuysStats {
         // }
 
         private async Task FallalyticsResendWeeklyCrown() {
-            foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false)) {
+            List<FallalyticsCrownLog> transferFailedLogs;
+            lock (this.FallalyticsCrownLogCache) {
+                transferFailedLogs = this.FallalyticsCrownLogCache.FindAll(l => !l.IsTransferSuccess);
+            }
+            foreach (FallalyticsCrownLog log in transferFailedLogs) {
                 RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End, OnlineServiceType = log.OnlineServiceType, OnlineServiceId = log.OnlineServiceId, OnlineServiceNickname = log.OnlineServiceNickname };
                 log.IsTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
                 
@@ -5669,7 +5703,9 @@ namespace FallGuysStats {
                     OnlineServiceType = stat.OnlineServiceType.Value, OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
                     IsTransferSuccess = isTransferSuccess
                 };
-                this.FallalyticsCrownLogCache.Add(log);
+                lock (this.FallalyticsCrownLogCache) {
+                    this.FallalyticsCrownLogCache.Add(log);
+                }
                 Task FallalyticsWeeklyCrownTask = new Task(() => {
                     this.StatsDB.BeginTrans();
                     this.FallalyticsCrownLog.Insert(log);
@@ -5686,10 +5722,13 @@ namespace FallGuysStats {
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess;
+            bool existsPbLog;
             
-            bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
+            lock (this.FallalyticsPbLogCache) {
+                existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
+            }
             if (!existsPbLog) {
-                // RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                // RoundInfo recordInfo = this.AllStats.FindAll(r => !r.PrivateLobby && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
                 //
                 // if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
                 //     currentSessionId = recordInfo.SessionId;
@@ -5709,7 +5748,9 @@ namespace FallGuysStats {
                         OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
                         IsTransferSuccess = isTransferSuccess
                     };
-                    this.FallalyticsPbLogCache.Add(log);
+                    lock (this.FallalyticsPbLogCache) {
+                        this.FallalyticsPbLogCache.Add(log);
+                    }
                     Task FallalyticsRegisterPbTask = new Task(() => {
                         this.StatsDB.BeginTrans();
                         this.FallalyticsPbLog.Insert(log);
@@ -5718,9 +5759,12 @@ namespace FallGuysStats {
                     this.RunDatabaseTask(FallalyticsRegisterPbTask, false);
                 }
             } else {
-                int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
-                if (logIndex != -1) {
-                    FallalyticsPbLog pbLog = this.FallalyticsPbLogCache[logIndex];
+                FallalyticsPbLog pbLog;
+                lock (this.FallalyticsPbLogCache) {
+                    int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
+                    pbLog = logIndex != -1 ? this.FallalyticsPbLogCache[logIndex] : null;
+                }
+                if (pbLog != null) {
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     
                     // RoundInfo missingInfo = this.AllStats.FindAll(r =>

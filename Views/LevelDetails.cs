@@ -1050,15 +1050,19 @@ namespace FallGuysStats {
                                     List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID);
                                     foreach (RoundInfo r in ri) {
                                         if (r.Finish.HasValue) {
-                                            PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == r.Finish);
-                                            if (pbLog != null) {
-                                                this.StatsForm.PersonalBestLog.Delete(r.Finish);
-                                                this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                            lock (this.StatsForm.PersonalBestLogCache) {
+                                                PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == r.Finish);
+                                                if (pbLog != null) {
+                                                    this.StatsForm.PersonalBestLog.Delete(r.Finish);
+                                                    this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                                }
                                             }
-                                            FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == r.Finish);
-                                            if (fPbLog != null) {
-                                                this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
-                                                this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                            lock (this.StatsForm.FallalyticsPbLogCache) {
+                                                FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == r.Finish);
+                                                if (fPbLog != null) {
+                                                    this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                                    this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                                }
                                             }
                                         }
                                     }
@@ -1160,15 +1164,19 @@ namespace FallGuysStats {
                             Task.Run(() => {
                                 Task deleteFinishTimeTask = new Task(() => {
                                     this.StatsForm.StatsDB.BeginTrans();
-                                    PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
-                                    if (pbLog != null) {
-                                        this.StatsForm.PersonalBestLog.Delete(ri.Finish);
-                                        this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                    lock (this.StatsForm.PersonalBestLogCache) {
+                                        PersonalBestLog pbLog = this.StatsForm.PersonalBestLogCache.Find(l => l.PbDate == ri.Finish);
+                                        if (pbLog != null) {
+                                            this.StatsForm.PersonalBestLog.Delete(ri.Finish);
+                                            this.StatsForm.PersonalBestLogCache.Remove(pbLog);
+                                        }
                                     }
-                                    FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == ri.Finish);
-                                    if (fPbLog != null) {
-                                        this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
-                                        this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                    lock (this.StatsForm.FallalyticsPbLogCache) {
+                                        FallalyticsPbLog fPbLog = this.StatsForm.FallalyticsPbLogCache.Find(l => l.PbDate == ri.Finish);
+                                        if (fPbLog != null) {
+                                            this.StatsForm.FallalyticsPbLog.Delete(fPbLog.PbId);
+                                            this.StatsForm.FallalyticsPbLogCache.Remove(fPbLog);
+                                        }
                                     }
                                     ri.Finish = null;
                                     this.StatsForm.RoundDetails.Update(ri);
