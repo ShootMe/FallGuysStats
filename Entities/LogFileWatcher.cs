@@ -94,7 +94,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
         public event Action OnServerConnectionNotification;
-        public event Action<string, string, TimeSpan, TimeSpan> OnPersonalBestNotification;
+        public event Action<string, string, double, double> OnPersonalBestNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -762,65 +762,86 @@ namespace FallGuysStats {
         }
 
         private void UpdateServerConnectionLog(string session, string show) {
-            if (!this.StatsForm.ExistsServerConnectionLog(session)) {
-                this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
-                this.serverPingWatcher.Start();
-                this.SetCountryCodeByIp(Stats.LastServerIp);
-                if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                    this.OnServerConnectionNotification?.Invoke();
-                }
-            } else {
-                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session);
-                if (!serverConnectionLog.IsNotify) {
+            lock (this.StatsForm.ServerConnectionLogCache) {
+                if (!this.StatsForm.ExistsServerConnectionLog(session)) {
+                    this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                    this.serverPingWatcher.Start();
+                    this.SetCountryCodeByIp(Stats.LastServerIp);
                     if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                         this.OnServerConnectionNotification?.Invoke();
                     }
-                }
+                } else {
+                    ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session);
+                    if (!serverConnectionLog.IsNotify) {
+                        if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                            this.OnServerConnectionNotification?.Invoke();
+                        }
+                    }
 
-                if (serverConnectionLog.IsPlaying) {
-                    this.serverPingWatcher.Start();
-                    this.SetCountryCodeByIp(Stats.LastServerIp);
+                    if (serverConnectionLog.IsPlaying) {
+                        this.serverPingWatcher.Start();
+                        this.SetCountryCodeByIp(Stats.LastServerIp);
+                    }
                 }
             }
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (string.IsNullOrEmpty(info.SessionId) || info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) return;
+            lock (this.StatsForm.PersonalBestLogCache) {
+                if (string.IsNullOrEmpty(info.SessionId) || info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) return;
 
-            if (info.IsCasualShow) {
-                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)) return;
+                if (info.IsCasualShow && this.StatsForm.IsCreativeShow(info.ShowNameId)) {
+                    if (string.IsNullOrEmpty(info.Name) || (!string.Equals(info.CreativeGameModeId, "GAMEMODE_GAUNTLET", StringComparison.OrdinalIgnoreCase)
+                                                            && !string.Equals(info.CreativeGameModeId, "GAMEMODE_POINTS", StringComparison.OrdinalIgnoreCase))) return;
 
-                if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
-                    string levelName = !string.IsNullOrEmpty(info.CreativeTitle) ? info.CreativeTitle : this.StatsForm.GetUserCreativeLevelTitle(info.Name);
-                    List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, info.Name));
+                    if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
+                        List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
+                                                                                             !string.IsNullOrEmpty(r.ShowNameId) &&
+                                                                                             !string.IsNullOrEmpty(r.SessionId) &&
+                                                                                             r.IsCasualShow &&
+                                                                                             string.Equals(r.Name, info.Name) &&
+                                                                                             r.Finish.HasValue);
 
-                    TimeSpan currentRecord = info.Finish.Value - info.Start;
-                    TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                        double currentPb = roundInfoList.Count > 0 ? roundInfoList.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : 0;
+                        double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
+                        bool isNewPb = currentPb == 0 || currentRecord < currentPb;
 
-                    this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, "casual_show", info.Name, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
-                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
-                        this.OnPersonalBestNotification?.Invoke("casual_show", levelName, existingRecord, currentRecord);
+                        this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, "casual_show", info.Name, currentRecord, isNewPb);
+                        if (this.StatsForm.CurrentSettings.NotifyPersonalBest && isNewPb) {
+                            string levelName = !string.IsNullOrEmpty(info.CreativeTitle) ? info.CreativeTitle : this.StatsForm.GetUserCreativeLevelTitle(info.Name);
+                            this.OnPersonalBestNotification?.Invoke("casual_show", levelName, currentPb, currentRecord);
+                        }
                     }
-                }
-            } else {
-                string levelId = info.VerifiedName();
-                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) return;
+                } else {
+                    string levelId = info.VerifiedName();
+                    if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || (currentLevel.BestRecordType != BestRecordType.Fastest)) return;
 
-                if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
-                    List<RoundInfo> roundInfoList = new List<RoundInfo>();
-                    if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
-                        string[] ids = this.StatsForm.StatDetails.Where(l => string.Equals(l.ShareCode, currentLevel.ShareCode)).Select(l => l.Id).ToArray();
-                        roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && ids.Contains(r.Name));
-                    } else {
-                        roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, levelId));
-                    }
+                    if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
+                        List<RoundInfo> roundInfoList = new List<RoundInfo>();
+                        if (!info.IsCasualShow) {
+                            roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
+                                                                                 !string.IsNullOrEmpty(r.ShowNameId) &&
+                                                                                 !string.IsNullOrEmpty(r.SessionId) &&
+                                                                                 string.Equals(r.ShowNameId, info.ShowNameId) &&
+                                                                                 string.Equals(r.Name, levelId) &&
+                                                                                 r.Finish.HasValue);
+                        } else {
+                            roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
+                                                                                 !string.IsNullOrEmpty(r.ShowNameId) &&
+                                                                                 !string.IsNullOrEmpty(r.SessionId) &&
+                                                                                 r.IsCasualShow &&
+                                                                                 string.Equals(r.Name, levelId) &&
+                                                                                 r.Finish.HasValue);
+                        }
+                        double currentPb = roundInfoList.Count > 0 ? roundInfoList.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : 0;
+                        double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
+                        bool isNewPb = currentPb == 0 || currentRecord < currentPb;
 
-                    TimeSpan currentRecord = info.Finish.Value - info.Start;
-                    TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-
-                    this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, levelId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
-                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
-                        this.OnPersonalBestNotification?.Invoke(info.ShowNameId, levelId, existingRecord, currentRecord);
+                        string showId = !info.IsCasualShow ? info.ShowNameId : "casual_show";
+                        this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, showId, levelId, currentRecord, isNewPb);
+                        if (this.StatsForm.CurrentSettings.NotifyPersonalBest && isNewPb) {
+                            this.OnPersonalBestNotification?.Invoke(showId, levelId, currentPb, currentRecord);
+                        }
                     }
                 }
             }
