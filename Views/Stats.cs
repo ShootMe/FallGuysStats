@@ -5511,9 +5511,7 @@ namespace FallGuysStats {
                     PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 };
-                lock (this.PersonalBestLogCache) {
-                    this.PersonalBestLogCache.Add(log);
-                }
+                this.PersonalBestLogCache.Add(log);
                 Task insertPersonalBestTask = new Task(() => {
                     this.StatsDB.BeginTrans();
                     this.PersonalBestLog.Insert(log);

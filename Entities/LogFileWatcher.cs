@@ -818,21 +818,31 @@ namespace FallGuysStats {
 
                     if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                         List<RoundInfo> roundInfoList = new List<RoundInfo>();
-                        if (!info.IsCasualShow) {
+                        if (currentLevel.IsCreative) {
                             roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
                                                                                  !string.IsNullOrEmpty(r.ShowNameId) &&
                                                                                  !string.IsNullOrEmpty(r.SessionId) &&
                                                                                  string.Equals(r.ShowNameId, info.ShowNameId) &&
-                                                                                 string.Equals(r.Name, levelId) &&
+                                                                                 string.Equals(r.CreativeShareCode, currentLevel.ShareCode) &&
                                                                                  r.Finish.HasValue);
                         } else {
-                            roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
-                                                                                 !string.IsNullOrEmpty(r.ShowNameId) &&
-                                                                                 !string.IsNullOrEmpty(r.SessionId) &&
-                                                                                 r.IsCasualShow &&
-                                                                                 string.Equals(r.Name, levelId) &&
-                                                                                 r.Finish.HasValue);
+                            if (!info.IsCasualShow) {
+                                roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
+                                                                                     !string.IsNullOrEmpty(r.ShowNameId) &&
+                                                                                     !string.IsNullOrEmpty(r.SessionId) &&
+                                                                                     string.Equals(r.ShowNameId, info.ShowNameId) &&
+                                                                                     string.Equals(r.Name, levelId) &&
+                                                                                     r.Finish.HasValue);
+                            } else {
+                                roundInfoList = this.StatsForm.AllStats.FindAll(r => !r.PrivateLobby &&
+                                                                                     !string.IsNullOrEmpty(r.ShowNameId) &&
+                                                                                     !string.IsNullOrEmpty(r.SessionId) &&
+                                                                                     r.IsCasualShow &&
+                                                                                     string.Equals(r.Name, levelId) &&
+                                                                                     r.Finish.HasValue);
+                            }
                         }
+
                         double currentPb = roundInfoList.Count > 0 ? roundInfoList.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : 0;
                         double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
                         bool isNewPb = currentPb == 0 || currentRecord < currentPb;
