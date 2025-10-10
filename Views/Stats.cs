@@ -223,6 +223,7 @@ namespace FallGuysStats {
         private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals, EliminatedMedals;
         private int CustomAndCasualGoldMedals, CustomAndCasualSilverMedals, CustomAndCasualBronzeMedals, CustomAndCasualPinkMedals, CustomAndCasualEliminatedMedals;
         private int nextShowID;
+        private bool isUpcomingShowUpdated;
         private bool loadingExisting;
         private bool updateFilterType, updateFilterRange;
         private DateTime customfilterRangeStart = DateTime.MinValue;
@@ -300,7 +301,7 @@ namespace FallGuysStats {
         private readonly object dbTaskLock = new object();
         public List<Task> dbTasks = new List<Task>();
 
-        private readonly int currentDbVersion = 132;
+        private readonly int currentDbVersion = 133;
 
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -781,13 +782,22 @@ namespace FallGuysStats {
 
                                 if (isCacheUpdated) {
                                     lock (this.StatsDB) {
+                                        List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                                         where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
+                                                                               string.IsNullOrEmpty(ri.CreativeShareCode)
+                                                                         select ri).ToList();
+                                        foreach (RoundInfo ri in roundInfoList) {
+                                            ri.CreativeShareCode = this.UpcomingShowCache.Find(u => string.Equals(u.LevelId, ri.Name)).ShareCode;
+                                        }
                                         Task updateUpcomingShowTask = new Task(() => {
                                             this.StatsDB.BeginTrans();
+                                            this.RoundDetails.Update(roundInfoList);
                                             this.UpcomingShow.DeleteAll();
                                             this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                             this.StatsDB.Commit();
                                         });
                                         this.RunDatabaseTask(updateUpcomingShowTask, false);
+                                        this.isUpcomingShowUpdated = true;
                                     }
                                 }
                             } else {
@@ -851,13 +861,22 @@ namespace FallGuysStats {
 
                                     if (isCacheUpdated) {
                                         lock (this.StatsDB) {
+                                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                                             where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
+                                                                                   string.IsNullOrEmpty(ri.CreativeShareCode)
+                                                                             select ri).ToList();
+                                            foreach (RoundInfo ri in roundInfoList) {
+                                                ri.CreativeShareCode = this.UpcomingShowCache.Find(u => string.Equals(u.LevelId, ri.Name)).ShareCode;
+                                            }
                                             Task updateUpcomingShowTask = new Task(() => {
                                                 this.StatsDB.BeginTrans();
+                                                this.RoundDetails.Update(roundInfoList);
                                                 this.UpcomingShow.DeleteAll();
                                                 this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                                 this.StatsDB.Commit();
                                             });
                                             this.RunDatabaseTask(updateUpcomingShowTask, false);
+                                            this.isUpcomingShowUpdated = true;
                                         }
                                     }
                                 } else {
@@ -905,13 +924,22 @@ namespace FallGuysStats {
 
                                 if (isCacheUpdated) {
                                     lock (this.StatsDB) {
+                                        List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                                         where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
+                                                                               string.IsNullOrEmpty(ri.CreativeShareCode)
+                                                                         select ri).ToList();
+                                        foreach (RoundInfo ri in roundInfoList) {
+                                            ri.CreativeShareCode = this.UpcomingShowCache.Find(u => string.Equals(u.LevelId, ri.Name)).ShareCode;
+                                        }
                                         Task updateUpcomingShowTask = new Task(() => {
                                             this.StatsDB.BeginTrans();
+                                            this.RoundDetails.Update(roundInfoList);
                                             this.UpcomingShow.DeleteAll();
                                             this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
                                             this.StatsDB.Commit();
                                         });
                                         this.RunDatabaseTask(updateUpcomingShowTask, false);
+                                        this.isUpcomingShowUpdated = true;
                                     }
                                 }
                                 this.CurrentSettings.UpcomingShowVersion = upcomingShow.version;
@@ -926,7 +954,7 @@ namespace FallGuysStats {
         }
 
         private void GenerateLevelStats() {
-            lock (this.UpcomingShowCache) {
+            if (this.UpcomingShowCache.Any()) {
                 var sortedUpcomingShows = this.UpcomingShowCache.OrderByDescending(u => u.AddDate).ToList();
                 foreach (var level in sortedUpcomingShows) {
                     if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
@@ -965,9 +993,10 @@ namespace FallGuysStats {
 
             this.CheckDatabaseUpdateViaGitHub();
             this.UpdateUpcomingShow(false);
-            this.GenerateLevelStats();
             lock (this.UpcomingShowCache) {
-                if (this.UpcomingShowCache.Any()) {
+                if (this.isUpcomingShowUpdated) {
+                    this.isUpcomingShowUpdated = false;
+                    this.GenerateLevelStats();
                     lock (this.StatLookup) {
                         this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
                     }
@@ -984,9 +1013,10 @@ namespace FallGuysStats {
                             this.SortGridDetails(true);
                         });
                     }
+                    this.ResetStats();
+                    IsOverlayRoundInfoNeedRefresh = true;
                 }
             }
-            IsOverlayRoundInfoNeedRefresh = true;
             this.UpdateDatabaseOnlineJob(initJob);
         }
 
@@ -2010,6 +2040,22 @@ namespace FallGuysStats {
         private void UpdateDatabaseVersion() {
             for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
+                    case 132: {
+                            if (this.UpcomingShowCache.Any()) {
+                                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                                 where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
+                                                                       string.IsNullOrEmpty(ri.CreativeShareCode)
+                                                                 select ri).ToList();
+                                
+                                foreach (RoundInfo ri in roundInfoList) {
+                                    ri.CreativeShareCode = this.UpcomingShowCache.Find(u => string.Equals(u.LevelId, ri.Name)).ShareCode;
+                                }
+                                this.StatsDB.BeginTrans();
+                                this.RoundDetails.Update(roundInfoList);
+                                this.StatsDB.Commit();
+                            }
+                            break;
+                        }
                     case 131: {
                             this.CurrentSettings.WinPerDayGraphStyle = 2;
                             break;
