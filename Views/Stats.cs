@@ -2041,17 +2041,106 @@ namespace FallGuysStats {
             for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
                     case 132: {
+                            DateTime dateCond = new DateTime(2025, 10, 10, 12, 0, 0, DateTimeKind.Utc);
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where (string.Equals(ri.ShowNameId, "event_animals_template") ||
+                                                                    string.Equals(ri.ShowNameId, "event_snowday_stumble")) && ri.Start >= dateCond
+                                                             select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (ri.Round == 4) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                              where (string.Equals(ri.ShowNameId, "event_only_hoverboard_template") ||
+                                                                     string.Equals(ri.ShowNameId, "event_yeetus_template") ||
+                                                                     string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")) && ri.Start >= dateCond
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (ri.Round == 3) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "fp16_ski_fall_high_scorers")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList3) {
+                                if (ri.Round == 1) ri.IsFinal = true;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList3);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList4 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "event_only_slime_climb_2_template")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList4) {
+                                if (string.Equals(ri.RoundId, "round_slimeclimb_2_event_only_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList4);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList5 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "event_only_tip_toe_template")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList5) {
+                                if (ri.Round == 3 || string.Equals(ri.RoundId, "round_tip_toe_event_only_final")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList5);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList6 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "event_sports_suddendeath_squads")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList6) {
+                                if (ri.Round == 2 || string.Equals(ri.RoundId, "round_sports_suddendeath_fall_ball_02")) {
+                                    ri.IsFinal = true;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList6);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList7 = (from ri in this.RoundDetails.FindAll()
+                                                              where string.Equals(ri.ShowNameId, "event_squads_survival_template")
+                                                              select ri).ToList();
+                            
+                            foreach (RoundInfo ri in roundInfoList7) {
+                                if (string.Equals(ri.Name, "round_floor_fall") || string.Equals(ri.Name, "round_thin_ice")) {
+                                    ri.IsFinal = false;
+                                }
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList7);
+                            this.StatsDB.Commit();
+                            
                             if (this.UpcomingShowCache.Any()) {
-                                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                                 where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
-                                                                       string.IsNullOrEmpty(ri.CreativeShareCode)
-                                                                 select ri).ToList();
+                                List<RoundInfo> roundInfoList8 = (from ri in this.RoundDetails.FindAll()
+                                                                  where this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, ri.Name)) &&
+                                                                        string.IsNullOrEmpty(ri.CreativeShareCode)
+                                                                  select ri).ToList();
                                 
-                                foreach (RoundInfo ri in roundInfoList) {
+                                foreach (RoundInfo ri in roundInfoList8) {
                                     ri.CreativeShareCode = this.UpcomingShowCache.Find(u => string.Equals(u.LevelId, ri.Name)).ShareCode;
                                 }
                                 this.StatsDB.BeginTrans();
-                                this.RoundDetails.Update(roundInfoList);
+                                this.RoundDetails.Update(roundInfoList8);
                                 this.StatsDB.Commit();
                             }
                             break;
@@ -2096,8 +2185,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                              where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("greatestsquads_")
-                                                              select ri).ToList();
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("greatestsquads_")
+                                                             select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList) {
                                 if (ri.Round == 3 || string.Equals(ri.Name, "gs_slimecycle")) {
@@ -2109,8 +2198,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "event_only_fall_ball_trios_ranked")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "event_only_fall_ball_trios_ranked")
+                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
                                 if (ri.Round == 3 || string.Equals(ri.RoundId, "round_fall_ball_cup_only_trios_final")) {
@@ -2124,8 +2213,8 @@ namespace FallGuysStats {
                         }
                     case 127: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                              where string.Equals(ri.ShowNameId, "xtreme_solos_template_ranked")
-                                                              select ri).ToList();
+                                                             where string.Equals(ri.ShowNameId, "xtreme_solos_template_ranked")
+                                                             select ri).ToList();
                             
                             Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "ranked_solo_show"));
                             int profileId = profile?.ProfileId ?? -1;
@@ -2137,8 +2226,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "no_elimination_show")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "no_elimination_show")
+                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
                                 if (ri.Round == 3) ri.IsFinal = true;
@@ -2166,10 +2255,10 @@ namespace FallGuysStats {
                     case 125: {
                             DateTime dateCond = new DateTime(2025, 7, 29, 9, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                              where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                                    ri.Start >= dateCond &&
-                                                                    ri.ShowNameId.StartsWith("knockout_")
-                                                              select ri).ToList();
+                                                             where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                                   ri.ShowNameId.StartsWith("knockout_") &&
+                                                                   ri.Start >= dateCond
+                                                             select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList) {
                                 if ((this.StatLookup.TryGetValue(ri.Name, out LevelStats levelStats) && levelStats.IsFinal)
@@ -2186,8 +2275,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "showcase_fp20")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "showcase_fp20")
+                                                              select ri).ToList();
                             
                             Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                             int profileId = profile?.ProfileId ?? -1;
@@ -2202,8 +2291,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "anniversary_fp12_ltm")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "anniversary_fp12_ltm")
+                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList3) {
                                 if (ri.Round == 10) ri.IsFinal = true;
@@ -2226,8 +2315,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "sports_show")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "sports_show")
+                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
                                 if (ri.Round == 3 || string.Equals(ri.Name, "round_fall_ball_60_players")) {
@@ -2284,8 +2373,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                             
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "showcase_fp19")
-                                                             select ri).ToList();
+                                                              where string.Equals(ri.ShowNameId, "showcase_fp19")
+                                                              select ri).ToList();
                             
                             Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                             int profileId = profile?.ProfileId ?? -1;
@@ -2370,7 +2459,8 @@ namespace FallGuysStats {
                             
                             DateTime dateCond = new DateTime(2025, 4, 1, 9, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "knockout_mode") && ri.Start >= dateCond
+                                                             where string.Equals(ri.ShowNameId, "knockout_mode") &&
+                                                                   ri.Start >= dateCond
                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList) {
@@ -2572,7 +2662,8 @@ namespace FallGuysStats {
                     case 107: {
                             DateTime dateCond = new DateTime(2024, 11, 17, 10, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "event_animals_template") && ri.Start >= dateCond
+                                                             where string.Equals(ri.ShowNameId, "event_animals_template") &&
+                                                                   ri.Start >= dateCond
                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList) {
@@ -2588,7 +2679,8 @@ namespace FallGuysStats {
                     case 106: {
                             DateTime dateCond = new DateTime(2024, 10, 25, 12, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                             where string.Equals(ri.ShowNameId, "event_only_button_bashers_template") && ri.Start >= dateCond
+                                                             where string.Equals(ri.ShowNameId, "event_only_button_bashers_template") &&
+                                                                   ri.Start >= dateCond
                                                              select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList) {
@@ -2727,8 +2819,8 @@ namespace FallGuysStats {
                             DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
                                                               where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                                    ri.Start >= dateCond &&
-                                                                    ri.ShowNameId.StartsWith("knockout_")
+                                                                    ri.ShowNameId.StartsWith("knockout_") &&
+                                                                    ri.Start >= dateCond
                                                               select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
@@ -2907,8 +2999,8 @@ namespace FallGuysStats {
                             DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
                                                               where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                                    ri.Start >= dateCond &&
-                                                                    ri.ShowNameId.StartsWith("knockout_")
+                                                                    ri.ShowNameId.StartsWith("knockout_") &&
+                                                                    ri.Start >= dateCond
                                                               select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
@@ -3162,7 +3254,8 @@ namespace FallGuysStats {
                             
                             DateTime dateCond = new DateTime(2024, 2, 28, 10, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                              where ri.Start <= dateCond && string.Equals(ri.Name, "user_creative_race_round")
+                                                              where string.Equals(ri.Name, "user_creative_race_round") &&
+                                                                    ri.Start <= dateCond
                                                               select ri).ToList();
                             
                             foreach (RoundInfo ri in roundInfoList2) {
@@ -3320,9 +3413,8 @@ namespace FallGuysStats {
                     case 72: {
                             DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                             where ri.Start >= dateCond &&
-                                                                   string.Equals(ri.Name, "user_creative_race_round") &&
-                                                                   (ri.PrivateLobby == false || ri.Round > 1)
+                                                             where string.Equals(ri.Name, "user_creative_race_round") &&
+                                                                   ri.Start >= dateCond && (ri.PrivateLobby == false || ri.Round > 1)
                                                              select ri).ToList();
                             
                             this.StatsDB.BeginTrans();
@@ -5945,6 +6037,12 @@ namespace FallGuysStats {
                     return "knockout_mode";
                 case "live_event_timeattack_shuffle_pl":
                     return "live_event_timeattack_shuffle";
+                case "pl_duos_show":
+                    return "classic_duos_show";
+                case "pl_solo_main_show":
+                    return "classic_solo_main_show";
+                case "pl_squads_show":
+                    return "classic_squads_show";
                 default:
                     return showId;
             }

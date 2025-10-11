@@ -400,28 +400,22 @@ namespace FallGuysStats {
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
 
                     || (string.Equals(showId, "event_animals_template")
-                        && string.Equals(roundId, "round_drumtop_final_animals"))
+                        && roundNum == 4)
 
                     || (string.Equals(showId, "event_yeetus_template")
-                        && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
-
-                    || (string.Equals(showId, "event_only_button_bashers_template")
-                        && roundNum == 4)
+                        && roundNum == 3)
 
                     || (string.Equals(showId, "event_only_finals_v3_template")
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
 
                     || (string.Equals(showId, "event_only_hoverboard_template")
-                        && string.Equals(roundId, "round_hoverboardsurvival_final"))
-
-                    || (string.Equals(showId, "event_only_slime_climb_2_template")
                         && roundNum == 3)
 
                     || (string.Equals(showId, "event_snowday_stumble")
-                        && (string.Equals(roundId, "round_cloudyteacups_final_sds") || string.Equals(roundId, "round_goopropegrandslam_final_sds")))
+                        && roundNum == 4)
 
                     || (string.Equals(showId, "fp16_ski_fall_high_scorers")
-                        && string.Equals(roundId, "round_event_only_skeefall_timetrial_s6_1"))
+                        && roundNum == 1)
 
                     || (string.Equals(showId, "ftue_uk_show")
                         && string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2"))
@@ -455,7 +449,7 @@ namespace FallGuysStats {
                         && (roundNum == 3 || string.Equals(roundId, "showcase_boats")))
 
                     || (string.Equals(showId, "wle_mrs_bouncy_bean_time")
-                        && string.Equals(roundId, "showcase_rollinruins"))
+                        && roundNum == 3)
 
                     || (string.Equals(showId, "wle_nature_ltm")
                         && (roundNum == 3 || string.Equals(roundId, "logroll_nature_ltm")))
@@ -479,7 +473,10 @@ namespace FallGuysStats {
         }
 
         private bool IsModeException(string roundId, string showId) {
-            return roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+            return roundId.IndexOf("round_1v1_button_basher_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_slimeclimb_2_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_tip_toe_event_only", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
@@ -499,14 +496,20 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_thin_ice_event_only", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_fall_ball_cup_only_trios", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_sports_suddendeath_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_squads_survival", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_thin_ice_squads_survival", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
                    // || showId.StartsWith("knockout_")
                    || showId.StartsWith("ranked_"); // "Ranked Knockout" Show
         }
 
         private bool IsModeFinalException(string roundId) {
-            return ((roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+            return ((roundId.IndexOf("round_1v1_button_basher_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_slimeclimb_2_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_tip_toe_event_only", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
@@ -529,6 +532,9 @@ namespace FallGuysStats {
 
                      || (roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
                          && roundId.EndsWith("_fn", StringComparison.OrdinalIgnoreCase))
+
+                     || (roundId.IndexOf("round_sports_suddendeath_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
+                         && roundId.EndsWith("_02", StringComparison.OrdinalIgnoreCase))
 
                      || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                          && roundId.EndsWith("_03", StringComparison.OrdinalIgnoreCase))
