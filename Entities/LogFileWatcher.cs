@@ -207,7 +207,7 @@ namespace FallGuysStats {
                                                     if (!string.Equals(content, "null")
                                                         && int.TryParse(content, out int queuedPlayers)) {
                                                         Stats.QueuedPlayers = queuedPlayers;
-                                                        Stats.IsQueuing = true;
+                                                        Stats.IsQueuing = !this.threadLocalVariable.Value.isPrivateLobby;
                                                     }
                                                     break;
                                                 }
