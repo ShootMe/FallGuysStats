@@ -301,7 +301,7 @@ namespace FallGuysStats {
         private readonly object dbTaskLock = new object();
         public List<Task> dbTasks = new List<Task>();
 
-        private readonly int currentDbVersion = 133;
+        private readonly int currentDbVersion = 134;
 
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -349,6 +349,7 @@ namespace FallGuysStats {
         };
 
         public readonly string[] PublicShowIdList2 = {
+            "event_only_finals_v3_ranked",
             "xtreme_solos_template_ranked",
             "ranked_show_knockout",
             "knockout_mode",
@@ -2040,6 +2041,22 @@ namespace FallGuysStats {
         private void UpdateDatabaseVersion() {
             for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
+                    case 133: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_finals_v3_ranked")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "ranked_solo_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = ri.Round == 5;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 132: {
                             DateTime dateCond = new DateTime(2025, 10, 10, 12, 0, 0, DateTimeKind.Utc);
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
@@ -5161,16 +5178,16 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnPersonalBestNotification(string showNameId, string roundId, double currentPb, double currentRecord) {
+        private void LogFile_OnPersonalBestNotification(string showId, string roundId, double currentPb, double currentRecord) {
             string timeDiffContent = string.Empty;
             if (currentPb > 0) {
                 TimeSpan timeDiff = TimeSpan.FromMilliseconds(currentPb - currentRecord);
-                timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
-                                  : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
+                timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️ {Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff:s\\.fff}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
+                                  : $" ⏱️ {timeDiff:s\\.fff}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
-            string levelName = this.StatLookup.TryGetValue(roundId, out LevelStats l1) ? l1.Name : roundId;
-            string showName = $"{(string.Equals(Multilingual.GetShowName(showNameId), levelName) ? $"({levelName})" : $"({Multilingual.GetShowName(showNameId)} • {levelName})")}";
-            string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
+            string levelName = this.StatLookup.TryGetValue(roundId, out LevelStats l1) ? l1.Name : roundId.Substring(0, roundId.Length - 3);
+            string info = $"{(string.Equals(Multilingual.GetShowName(showId), levelName) ? $"({levelName})" : $"({Multilingual.GetShowName(showId)} • {levelName})")}";
+            string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{info}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
             ToastPosition toastPosition = Enum.TryParse(this.CurrentSettings.NotificationWindowPosition.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
@@ -6052,6 +6069,7 @@ namespace FallGuysStats {
             switch (showId) {
                 case "ranked_show_knockout":
                 case "xtreme_solos_template_ranked":
+                case "event_only_finals_v3_ranked":
                     return "ranked_solo_show";
                 case "event_only_fall_ball_trios_ranked":
                     return "ranked_trios_show";
