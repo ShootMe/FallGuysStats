@@ -2050,7 +2050,7 @@ namespace FallGuysStats {
                             int profileId = profile?.ProfileId ?? -1;
                             foreach (RoundInfo ri in roundInfoList) {
                                 if (profileId != -1) ri.Profile = profileId;
-                                ri.IsFinal = ri.Round == 5;
+                                ri.IsFinal = ri.Round == 5 || string.Equals(ri.RoundId, "kraken_attack_only_finals_final_ranked");
                             }
                             this.StatsDB.BeginTrans();
                             this.RoundDetails.Update(roundInfoList);
