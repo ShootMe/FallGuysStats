@@ -862,7 +862,7 @@ namespace FallGuysStats {
                         string showNameIdOne = Multilingual.GetShowName(one.ShowNameId) ?? @" ";
                         string showNameIdTwo = Multilingual.GetShowName(two.ShowNameId) ?? @" ";
                         int showNameIdCompare = showNameIdOne.CompareTo(showNameIdTwo);
-                        return showNameIdCompare != 0 ? showNameIdCompare : roundCompare;
+                        return showNameIdCompare != 0 ? showNameIdCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Round":
                         roundCompare = one.Round.CompareTo(two.Round);
                         return roundCompare != 0 ? roundCompare : showCompare;
