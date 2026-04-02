@@ -257,6 +257,8 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.438`
+    - Bugfix and program optimization
   - `1.437`
     - Bugfix and program optimization
   - `1.436`
