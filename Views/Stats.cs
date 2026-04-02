@@ -107,34 +107,37 @@ namespace FallGuysStats {
         private static readonly string LOGFILENAME = "Player.log";
 
         public static readonly (string Name, DateTime StartDate)[] Seasons = new (string Name, DateTime StartDate)[] {
-           ("S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc)),     // Season 1 (Ultimate Knockout)
-           ("S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc)),    // Season 2 (Medieval Knockout)
-           ("S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc)),   // Season 3 (Winter Knockout)
-           ("S4", new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc)),    // Season 4 (Fall Guys 4041)
-           ("S5", new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc)),    // Season 5 (Jungle Adventure)
-           ("S6", new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc)),   // Season 6 (Party Spectacular)
-           ("SS1", new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc)),   // Season 1 (Free For All)
-           ("SS2", new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc)),   // Season 2 (Satellite Scramble)
-           ("SS3", new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc)),  // Season 3 (Sunken Secrets)
-           ("SS4", new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc)),   // Season 4 (Creative Construction)
-           ("10.3", new DateTime(2023, 8, 16, 0, 0, 0, DateTimeKind.Utc)),  // Summer Breeze Update
-           ("10.4", new DateTime(2023, 9, 27, 0, 0, 0, DateTimeKind.Utc)),  // Fall Force Update
-           ("10.5", new DateTime(2023, 11, 7, 0, 0, 0, DateTimeKind.Utc)),  // Tool Up Update
-           ("10.6", new DateTime(2023, 12, 6, 0, 0, 0, DateTimeKind.Utc)),  // Power Party Update
-           ("10.7", new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)),  // Shapes and Stickers Update
-           ("10.8", new DateTime(2024, 2, 28, 0, 0, 0, DateTimeKind.Utc)),  // Survival Update
-           ("10.9", new DateTime(2024, 5, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall Forever Update
-           ("11.0", new DateTime(2024, 6, 11, 0, 0, 0, DateTimeKind.Utc)),  // June '24 Update
-           ("11.1", new DateTime(2024, 7, 23, 0, 0, 0, DateTimeKind.Utc)),  // July '24 Update
-           ("11.2", new DateTime(2024, 9, 3, 0, 0, 0, DateTimeKind.Utc)),   // Scrapyard Stumble Update
-           ("11.3", new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc)),  // Falloween 2024 Update
-           ("11.4", new DateTime(2024, 11, 7, 0, 0, 0, DateTimeKind.Utc)),  // November '24 Update
-           ("11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc)), // Winter Update
-           ("11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc)),   // Fall and Fantasy Update
-           ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),   // Ranked Knockout Update
-           ("19.0", new DateTime(2025, 5, 27, 0, 0, 0, DateTimeKind.Utc)),  // Yeetropolis Update
-           ("20.0", new DateTime(2025, 7, 29, 0, 0, 0, DateTimeKind.Utc)),  // Tropical Tides Update
-           ("21.0", new DateTime(2025, 9, 16, 0, 0, 0, DateTimeKind.Utc)),  // Slime Factory Update
+           ("S1", new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc)),        // Season 1 (Ultimate Knockout)
+           ("S2", new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc)),       // Season 2 (Medieval Knockout)
+           ("S3", new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc)),      // Season 3 (Winter Knockout)
+           ("S4", new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc)),       // Season 4 (Fall Guys 4041)
+           ("S5", new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc)),       // Season 5 (Jungle Adventure)
+           ("S6", new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc)),      // Season 6 (Party Spectacular)
+           ("SS1", new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc)),      // Season 1 (Free For All)
+           ("SS2", new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc)),      // Season 2 (Satellite Scramble)
+           ("SS3", new DateTime(2022, 11, 22, 0, 0, 0, DateTimeKind.Utc)),     // Season 3 (Sunken Secrets)
+           ("SS4", new DateTime(2023, 5, 10, 0, 0, 0, DateTimeKind.Utc)),      // Season 4 (Creative Construction)
+           ("10.3", new DateTime(2023, 8, 16, 0, 0, 0, DateTimeKind.Utc)),     // Summer Breeze Update
+           ("10.4", new DateTime(2023, 9, 27, 0, 0, 0, DateTimeKind.Utc)),     // Fall Force Update
+           ("10.5", new DateTime(2023, 11, 7, 0, 0, 0, DateTimeKind.Utc)),     // Tool Up Update
+           ("10.6", new DateTime(2023, 12, 6, 0, 0, 0, DateTimeKind.Utc)),     // Power Party Update
+           ("10.7", new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)),     // Shapes and Stickers Update
+           ("10.8", new DateTime(2024, 2, 28, 0, 0, 0, DateTimeKind.Utc)),     // Survival Update
+           ("10.9", new DateTime(2024, 5, 4, 0, 0, 0, DateTimeKind.Utc)),      // Fall Forever Update
+           ("11.0", new DateTime(2024, 6, 11, 0, 0, 0, DateTimeKind.Utc)),     // June '24 Update
+           ("11.1", new DateTime(2024, 7, 23, 0, 0, 0, DateTimeKind.Utc)),     // July '24 Update
+           ("11.2", new DateTime(2024, 9, 3, 0, 0, 0, DateTimeKind.Utc)),      // Scrapyard Stumble Update
+           ("11.3", new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc)),     // Falloween 2024 Update
+           ("11.4", new DateTime(2024, 11, 7, 0, 0, 0, DateTimeKind.Utc)),     // November '24 Update
+           ("11.5", new DateTime(2024, 12, 10, 0, 0, 0, DateTimeKind.Utc)),    // Winter Update
+           ("11.6", new DateTime(2025, 2, 4, 0, 0, 0, DateTimeKind.Utc)),      // Fall and Fantasy Update
+           ("18.0", new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc)),      // Ranked Knockout Update
+           ("19.0", new DateTime(2025, 5, 27, 0, 0, 0, DateTimeKind.Utc)),     // Yeetropolis Update
+           ("20.0", new DateTime(2025, 7, 29, 0, 0, 0, DateTimeKind.Utc)),     // Tropical Tides Update
+           ("21.0", new DateTime(2025, 9, 16, 0, 0, 0, DateTimeKind.Utc)),     // Slime Factory Update
+           ("21.0.1", new DateTime(2025, 11, 11, 0, 0, 0, DateTimeKind.Utc)),  // Arctic Adventures Update
+           ("21.1", new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)),      // Myths and Legends Update
+           ("21.2", new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Utc)),      // Fools Folly Update
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -301,7 +304,7 @@ namespace FallGuysStats {
         private readonly object dbTaskLock = new object();
         public List<Task> dbTasks = new List<Task>();
 
-        private readonly int currentDbVersion = 134;
+        private readonly int currentDbVersion = 135;
 
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -355,6 +358,7 @@ namespace FallGuysStats {
             "knockout_mode",
             // "knockout_duos",
             // "knockout_squads",
+            "reversed_knockout_show",
             "no_elimination_explore",
             "event_only_races_any_final_template",
             "event_only_fall_ball_trios_ranked",
@@ -2041,6 +2045,22 @@ namespace FallGuysStats {
         private void UpdateDatabaseVersion() {
             for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
+                    case 134: {
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "reversed_knockout_show")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                                ri.IsFinal = ri.Round == 3 || string.Equals(ri.Name, "round_door_dash");
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 133: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "event_only_finals_v3_ranked")
@@ -6079,6 +6099,7 @@ namespace FallGuysStats {
                 case "classic_solo_main_show":
                 case "ftue_uk_show":
                 case "knockout_mode":
+                case "reversed_knockout_show":
                 case "no_elimination_explore":
                 case "event_only_races_any_final_template":
                 case "turbo_2_show":

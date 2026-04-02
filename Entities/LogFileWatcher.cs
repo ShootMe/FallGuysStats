@@ -503,10 +503,11 @@ namespace FallGuysStats {
                    || string.Equals(showId, "event_blast_ball_banger_template")
                    || string.Equals(showId, "event_only_finals_v3_ranked")
                    // || showId.StartsWith("knockout_")
+                   || string.Equals(showId, "reversed_knockout_show") // "Tuokconk" Show
                    || showId.StartsWith("ranked_"); // "Ranked Knockout" Show
         }
 
-        private bool IsModeFinalException(string roundId) {
+        private bool IsModeFinalException(int roundNum, string roundId) {
             return ((roundId.IndexOf("round_1v1_button_basher_event_only", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_slimeclimb_2_event_only", StringComparison.OrdinalIgnoreCase) != -1
@@ -554,6 +555,10 @@ namespace FallGuysStats {
                      *    && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
                      *        || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
                      */
+
+                     // "Tuokconk" Show
+                     || (roundId.StartsWith("reversed_knockout_", StringComparison.OrdinalIgnoreCase)
+                         && (roundNum == 3 || string.Equals(roundId, "reversed_knockout_door_dash")))
 
                      // "Ranked Knockout" Show
                      || (roundId.StartsWith("ranked_", StringComparison.OrdinalIgnoreCase)
@@ -1033,7 +1038,7 @@ namespace FallGuysStats {
                 } else if (logRound.Info.UseShareCode || this.IsRealFinalRound(logRound.Info.Round, logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = true;
                 } else if (this.IsModeException(logRound.Info.Name, logRound.Info.ShowNameId)) {
-                    logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);
+                    logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Round, logRound.Info.Name);
                 } else if (logRound.Info.Name.StartsWith("wle_s10_") || logRound.Info.Name.StartsWith("wle_mrs_")) {
                     logRound.Info.IsFinal = this.StatsForm.StatLookup.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsFinal;
                 } else {
