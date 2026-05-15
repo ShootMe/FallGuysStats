@@ -230,13 +230,13 @@ namespace FallGuysStats {
             this.ForeColor = color;
         }
         public static void SetDefaultFont(float emSize, Language lang) {
-            DefaultFont = new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
+            DefaultFont = new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French || lang == Language.Spanish) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
         }
         public static Font GetDefaultFont(float emSize, Language lang) {
-            return new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
+            return new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French || lang == Language.Spanish) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(Language lang = Language.English) {
-            return (lang == Language.English || lang == Language.French) ? DefaultFontCollection.Families[2] : (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[0] : DefaultFontCollection.Families[1];
+            return (lang == Language.English || lang == Language.French || lang == Language.Spanish) ? DefaultFontCollection.Families[2] : (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[0] : DefaultFontCollection.Families[1];
         }
         public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, Language lang = Language.English) {
             return new Font(GetMainFontFamilies(lang), emSize, fontStyle, GraphicsUnit.Pixel);

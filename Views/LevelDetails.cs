@@ -402,12 +402,24 @@ namespace FallGuysStats {
             Language lang = Stats.CurrentLanguage;
             switch (this.statType) {
                 case StatType.Shows:
-                    return this.Width - (lang == Language.English ? -380 : lang == Language.French ? -400 : lang == Language.Korean ? -370 : lang == Language.Japanese ? -370 : -380);
+                    return this.Width - (lang == Language.English ? -380 :
+                                         lang == Language.French ? -400 :
+                                         lang == Language.Spanish ? -400 :
+                                         lang == Language.Korean ? -370 :
+                                         lang == Language.Japanese ? -370 : -380);
                 case StatType.Rounds:
                 case StatType.Levels:
-                    return this.Width + (lang == Language.English ? 1310 : lang == Language.French ? 1305 : lang == Language.Korean ? 1260 : lang == Language.Japanese ? 1260 : 1340);
+                    return this.Width + (lang == Language.English ? 1310 :
+                                         lang == Language.French ? 1305 :
+                                         lang == Language.Spanish ? 1305 :
+                                         lang == Language.Korean ? 1260 :
+                                         lang == Language.Japanese ? 1260 : 1340);
                 default:
-                    return this.Width + (lang == Language.English ? 1310 : lang == Language.French ? 1305 : lang == Language.Korean ? 1260 : lang == Language.Japanese ? 1260 : 1340);
+                    return this.Width + (lang == Language.English ? 1310 :
+                                         lang == Language.French ? 1305 :
+                                         lang == Language.Spanish ? 1305 :
+                                         lang == Language.Korean ? 1260 :
+                                         lang == Language.Japanese ? 1260 : 1340);
             }
         }
         

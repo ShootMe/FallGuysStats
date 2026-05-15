@@ -31,6 +31,7 @@
     public enum Language {
         English,
         French,
+        Spanish,
         Korean,
         Japanese,
         SimplifiedChinese,

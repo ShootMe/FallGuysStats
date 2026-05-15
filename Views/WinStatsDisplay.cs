@@ -443,6 +443,10 @@ namespace FallGuysStats {
                 this.chkShows.Location = new Point(1147, 35);
                 this.chkFinals.Location = new Point(1042, 35);
                 this.chkWins.Location = new Point(925, 35);
+            } else if (Stats.CurrentLanguage == Language.Spanish) {
+                this.chkShows.Location = new Point(1147, 35);
+                this.chkFinals.Location = new Point(1042, 35);
+                this.chkWins.Location = new Point(925, 35);
             } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.chkShows.Location = new Point(1187, 35);
                 this.chkFinals.Location = new Point(1088, 35);

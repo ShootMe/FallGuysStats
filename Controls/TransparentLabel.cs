@@ -135,7 +135,7 @@ namespace FallGuysStats {
         private float GetFontSizeFactor() {
             float factor;
             Language lang = Stats.CurrentLanguage;
-            bool isLangGroup1 = lang == Language.English || lang == Language.French;
+            bool isLangGroup1 = lang == Language.English || lang == Language.French || lang == Language.Spanish;
             bool isLangGroup2 = lang == Language.Korean || lang == Language.Japanese;
             bool isLangGroup3 = lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese;
             
@@ -202,7 +202,7 @@ namespace FallGuysStats {
             if (text.Length >= 9 && 30 >= text.Length) {
                 factor = 0.33f;
                 Language lang = Stats.CurrentLanguage;
-                bool isLangGroup1 = lang == Language.English || lang == Language.French;
+                bool isLangGroup1 = lang == Language.English || lang == Language.French || lang == Language.Spanish;
                 bool isLangGroup2 = lang == Language.Korean || lang == Language.Japanese;
                 bool isLangGroup3 = lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese;
                 if (isLangGroup1 && string.Equals(this.Font.FontFamily.Name, Overlay.GetDefaultFontFamilies(Language.English).Name)) {
