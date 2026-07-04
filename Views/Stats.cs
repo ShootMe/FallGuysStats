@@ -6781,11 +6781,11 @@ namespace FallGuysStats {
                     break;
                 case "Gold":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == Language.French ? 12 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.French ? 12 : CurrentLanguage == Language.Spanish ? 10 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
                     break;
                 case "Silver":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.Spanish || CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
                     break;
                 case "Bronze":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
@@ -6796,7 +6796,7 @@ namespace FallGuysStats {
                     break;
                 case "Fastest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.Spanish ? 10 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 case "Longest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
@@ -6804,7 +6804,7 @@ namespace FallGuysStats {
                     break;
                 case "AveFinish":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.Spanish ? 10 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 default:
                     return 0;

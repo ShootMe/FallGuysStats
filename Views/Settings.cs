@@ -1249,7 +1249,7 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
             });
             this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
-            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 140 : lang == Language.Spanish ? 140 : lang == Language.Korean ? 108 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 77 : lang == Language.TraditionalChinese ? 77 : 120;
+            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 140 : lang == Language.Spanish ? 158 : lang == Language.Korean ? 108 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 77 : lang == Language.TraditionalChinese ? 77 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.mlPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.mlPlayNotificationSounds.Location.Y);
@@ -1273,8 +1273,8 @@ namespace FallGuysStats {
             this.cboTheme.Width = lang == Language.English ? 90 : lang == Language.French ? 105 : lang == Language.Spanish ? 105 : lang == Language.Korean ? 100 : lang == Language.Japanese ? 100 : 85;
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 167);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
-            this.cboLockButtonLocation.Location = new Point(lang == Language.French ? 280 : 203, 450);
-            this.cboLockButtonLocation.Width = lang == Language.English ? 79 : lang == Language.French ? 81 : lang == Language.Japanese ? 47 : 63;
+            this.cboLockButtonLocation.Location = new Point(lang == Language.French ? 280 : lang == Language.Spanish ? 230 : 203, 450);
+            this.cboLockButtonLocation.Width = lang == Language.English || lang == Language.Spanish ? 79 : lang == Language.French ? 81 : lang == Language.Japanese ? 47 : 63;
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");

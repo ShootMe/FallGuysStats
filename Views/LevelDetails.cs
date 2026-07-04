@@ -457,7 +457,7 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Start":
-                    return 0;
+                    return 165;
                 case "End":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
