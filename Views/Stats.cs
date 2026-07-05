@@ -138,6 +138,8 @@ namespace FallGuysStats {
            ("21.0.1", new DateTime(2025, 11, 11, 0, 0, 0, DateTimeKind.Utc)),  // Arctic Adventures Update
            ("21.1", new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)),      // Myths and Legends Update
            ("21.2", new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Utc)),      // Fools Folly Update
+           ("FP25", new DateTime(2026, 5, 1, 0, 0, 0, DateTimeKind.Utc)),      // Aquatic Antics Fame Pass
+           ("FP26", new DateTime(2026, 7, 1, 0, 0, 0, DateTimeKind.Utc)),      // Fall Forests Fame Pass
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -304,7 +306,7 @@ namespace FallGuysStats {
         private readonly object dbTaskLock = new object();
         public List<Task> dbTasks = new List<Task>();
 
-        private readonly int currentDbVersion = 135;
+        private readonly int currentDbVersion = 136;
 
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -352,7 +354,9 @@ namespace FallGuysStats {
         };
 
         public readonly string[] PublicShowIdList2 = {
+            "event_only_button_bashers_ranked",
             "event_only_finals_v3_ranked",
+            "event_only_roll_out_ranked",
             "xtreme_solos_template_ranked",
             "ranked_show_knockout",
             "knockout_mode",
@@ -362,6 +366,7 @@ namespace FallGuysStats {
             "no_elimination_explore",
             "event_only_races_any_final_template",
             "event_only_fall_ball_trios_ranked",
+            "event_xtreme_squads_template_ranked",
             "greatestsquads_ranked",
             "greatestsquads_ltm",
             "teams_show_ltm",
@@ -2045,6 +2050,41 @@ namespace FallGuysStats {
         private void UpdateDatabaseVersion() {
             for (int version = this.CurrentSettings.Version; version < currentDbVersion; version++) {
                 switch (version) {
+                    case 135: {
+                            if (this.CurrentSettings.Multilingual >= 2) {
+                                ++this.CurrentSettings.Multilingual;
+                                CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
+                                Overlay.SetDefaultFont(18, CurrentLanguage);
+                            }
+                            
+                            List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_only_roll_out_ranked") ||
+                                                                   string.Equals(ri.ShowNameId, "event_only_button_bashers_ranked")
+                                                             select ri).ToList();
+                            
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "ranked_solo_show"));
+                            int profileId = profile?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList) {
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList);
+                            this.StatsDB.Commit();
+                            
+                            List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                             where string.Equals(ri.ShowNameId, "event_xtreme_squads_template_ranked")
+                                                             select ri).ToList();
+                            
+                            Profiles profile2 = this.Profiles.FindOne(Query.EQ("LinkedShowId", "ranked_squads_show"));
+                            profileId = profile2?.ProfileId ?? -1;
+                            foreach (RoundInfo ri in roundInfoList2) {
+                                if (profileId != -1) ri.Profile = profileId;
+                            }
+                            this.StatsDB.BeginTrans();
+                            this.RoundDetails.Update(roundInfoList2);
+                            this.StatsDB.Commit();
+                            break;
+                        }
                     case 134: {
                             List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                              where string.Equals(ri.ShowNameId, "reversed_knockout_show")
@@ -6090,10 +6130,13 @@ namespace FallGuysStats {
                 case "ranked_show_knockout":
                 case "xtreme_solos_template_ranked":
                 case "event_only_finals_v3_ranked":
+                case "event_only_roll_out_ranked":
+                case "event_only_button_bashers_ranked":
                     return "ranked_solo_show";
                 case "event_only_fall_ball_trios_ranked":
                     return "ranked_trios_show";
                 case "greatestsquads_ranked":
+                case "event_xtreme_squads_template_ranked":
                     return "ranked_squads_show";
                 // case "anniversary_fp12_ltm":
                 case "classic_solo_main_show":
@@ -6804,7 +6847,7 @@ namespace FallGuysStats {
                     break;
                 case "AveFinish":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == Language.Spanish ? 10 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.French || CurrentLanguage == Language.Spanish ? 10 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 default:
                     return 0;
