@@ -47,7 +47,7 @@
             // 
             this.cboLanguage.FormattingEnabled = true;
             this.cboLanguage.ItemHeight = 23;
-            this.cboLanguage.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
+            this.cboLanguage.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇪🇸 Español", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
             this.cboLanguage.Location = new System.Drawing.Point(120, 76);
             this.cboLanguage.Name = "cboLanguage";
             this.cboLanguage.Size = new System.Drawing.Size(120, 29);

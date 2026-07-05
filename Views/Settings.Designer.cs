@@ -540,7 +540,7 @@
             this.cboFastestFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
             this.cboFastestFilter.Location = new System.Drawing.Point(397, 155);
             this.cboFastestFilter.Name = "cboFastestFilter";
-            this.cboFastestFilter.Size = new System.Drawing.Size(227, 29);
+            this.cboFastestFilter.Size = new System.Drawing.Size(233, 29);
             this.cboFastestFilter.TabIndex = 17;
             this.cboFastestFilter.UseSelectable = true;
             // 
@@ -562,7 +562,7 @@
             this.cboQualifyFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
             this.cboQualifyFilter.Location = new System.Drawing.Point(397, 96);
             this.cboQualifyFilter.Name = "cboQualifyFilter";
-            this.cboQualifyFilter.Size = new System.Drawing.Size(227, 29);
+            this.cboQualifyFilter.Size = new System.Drawing.Size(233, 29);
             this.cboQualifyFilter.TabIndex = 15;
             this.cboQualifyFilter.UseSelectable = true;
             // 
@@ -584,7 +584,7 @@
             this.cboWinsFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
             this.cboWinsFilter.Location = new System.Drawing.Point(397, 36);
             this.cboWinsFilter.Name = "cboWinsFilter";
-            this.cboWinsFilter.Size = new System.Drawing.Size(227, 29);
+            this.cboWinsFilter.Size = new System.Drawing.Size(233, 29);
             this.cboWinsFilter.TabIndex = 13;
             this.cboWinsFilter.UseSelectable = true;
             // 

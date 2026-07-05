@@ -55,6 +55,7 @@ namespace FallGuysStats {
             List<ImageItem> flagItemArray = new List<ImageItem> {
                 new ImageItem(Properties.Resources.country_us_shiny_icon, "English", Overlay.GetMainFont(14f)),
                 new ImageItem(Properties.Resources.country_fr_shiny_icon, "Français", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_es_shiny_icon, "Español", Overlay.GetMainFont(14f)),
                 new ImageItem(Properties.Resources.country_kr_shiny_icon, "한국어", Overlay.GetMainFont(14f)),
                 new ImageItem(Properties.Resources.country_jp_shiny_icon, "日本語", Overlay.GetMainFont(14f)),
                 new ImageItem(Properties.Resources.country_cn_shiny_icon, "简体中文", Overlay.GetMainFont(14f)),
@@ -1014,7 +1015,7 @@ namespace FallGuysStats {
         }
         
         private void linkIPinfoToken_MouseEnter(object sender, EventArgs e) {
-            Point position = new Point(((MetroLink)sender).Right + (this.DisplayLang == Language.English ? 120 : this.DisplayLang == Language.French ? 85 : this.DisplayLang == Language.Korean ? 119 : this.DisplayLang == Language.Japanese ? 0 : this.DisplayLang == Language.SimplifiedChinese ? 192 : this.DisplayLang == Language.TraditionalChinese ? 196 : 120), ((MetroLink)sender).Top + 110);
+            Point position = new Point(((MetroLink)sender).Right + (this.DisplayLang == Language.English ? 120 : this.DisplayLang == Language.French ? 85 : this.DisplayLang == Language.Spanish ? 100 : this.DisplayLang == Language.Korean ? 119 : this.DisplayLang == Language.Japanese ? 0 : this.DisplayLang == Language.SimplifiedChinese ? 192 : this.DisplayLang == Language.TraditionalChinese ? 196 : 120), ((MetroLink)sender).Top + 110);
             this.StatsForm.AllocTooltip();
             this.StatsForm.ShowTooltip(Multilingual.GetWord("settings_link_to_get_ipinfo_token", this.DisplayLang), this, position);
         }
@@ -1248,7 +1249,7 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
             });
             this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
-            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 140 : lang == Language.Korean ? 108 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 77 : lang == Language.TraditionalChinese ? 77 : 120;
+            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 140 : lang == Language.Spanish ? 158 : lang == Language.Korean ? 108 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 77 : lang == Language.TraditionalChinese ? 77 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.mlPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.mlPlayNotificationSounds.Location.Y);
@@ -1269,11 +1270,11 @@ namespace FallGuysStats {
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 10);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
             this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, this.cboTheme.Location.Y);
-            this.cboTheme.Width = lang == Language.English ? 90 : lang == Language.French ? 105 : lang == Language.Korean ? 100 : lang == Language.Japanese ? 100 : 85;
+            this.cboTheme.Width = lang == Language.English ? 90 : lang == Language.French ? 105 : lang == Language.Spanish ? 105 : lang == Language.Korean ? 100 : lang == Language.Japanese ? 100 : 85;
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 167);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
-            this.cboLockButtonLocation.Location = new Point(lang == Language.French ? 280 : 203, 450);
-            this.cboLockButtonLocation.Width = lang == Language.English ? 79 : lang == Language.French ? 81 : lang == Language.Japanese ? 47 : 63;
+            this.cboLockButtonLocation.Location = new Point(lang == Language.French ? 280 : lang == Language.Spanish ? 230 : 203, 450);
+            this.cboLockButtonLocation.Width = lang == Language.English || lang == Language.Spanish ? 79 : lang == Language.French ? 81 : lang == Language.Japanese ? 47 : 63;
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");

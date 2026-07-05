@@ -217,6 +217,11 @@ namespace FallGuysStats {
                 this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Width = 525;
+            } else if (Stats.CurrentLanguage == Language.Spanish) {
+                this.Width = 525;
+                this.cboEditShows.Left = 185;
+                //this.cboEditShows.Size = new Size(198, 29);
+                this.lblEditShowsBackColor.Width = 525;
             } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.Width = 445;
                 this.cboEditShows.Left = 185;
