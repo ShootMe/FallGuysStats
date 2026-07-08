@@ -758,7 +758,7 @@ namespace FallGuysStats {
                                 MetroMessageBox.Show(this, Multilingual.GetWord("message_not_installed_epicGames", this.DisplayLang), Multilingual.GetWord("message_not_installed_epicGames_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
-                            
+
                             openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                             openFile.Filter = Multilingual.GetWord("settings_fall_guys_shortcut_openfile_filter", this.DisplayLang);
                             openFile.FileName = Multilingual.GetWord("settings_fall_guys_shortcut_openfile_name", this.DisplayLang);
@@ -793,11 +793,12 @@ namespace FallGuysStats {
                                 MetroMessageBox.Show(this, Multilingual.GetWord("message_not_installed_steam", this.DisplayLang), Multilingual.GetWord("message_not_installed_steam_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
-                            
+
                             FileInfo currentExeLocation = new FileInfo(this.txtGameExeLocation.Text);
                             if (currentExeLocation.Directory.Exists) {
                                 openFile.InitialDirectory = currentExeLocation.Directory.FullName;
                             }
+
                             openFile.Filter = Multilingual.GetWord("settings_fall_guys_exe_openfile_filter", this.DisplayLang);
                             openFile.FileName = Multilingual.GetWord("settings_fall_guys_exe_openfile_name", this.DisplayLang);
                             openFile.Title = Multilingual.GetWord("settings_fall_guys_exe_openfile_title", this.DisplayLang);

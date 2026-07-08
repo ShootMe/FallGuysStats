@@ -7802,10 +7802,18 @@ namespace FallGuysStats {
         
         public string FindEpicGamesShortcutLocation() {
             try {
-                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
-                if (regValue == null) { return string.Empty; }
-                
-                string epicGamesPath = Path.Combine((string)regValue, "Manifests");
+                string epicGamesPath;
+                object regValue = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Epic Games\\EOS", "ModSdkMetadataDir", null);
+                if (regValue != null) {
+                    epicGamesPath = Path.GetFullPath((string)regValue);
+                } else {
+                    regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
+                    if (regValue != null) {
+                        epicGamesPath = Path.Combine((string)regValue, "Manifests");
+                    } else {
+                        return string.Empty;
+                    }
+                }
                 
                 if (Directory.Exists(epicGamesPath)) {
                     DirectoryInfo di = new DirectoryInfo(epicGamesPath);
