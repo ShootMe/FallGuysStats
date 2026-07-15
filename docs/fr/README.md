@@ -38,13 +38,13 @@ Programme simple pour générer des statistiques pour le jeu Fall Guys. Lit le f
 ![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 # Table des matières
+  - [**Langues disponibles**](#langues-disponibles)
   - [**Téléchargement**](#téléchargement)
     - [**Première exécution**](#première-exécution)
   - [**Utilisation**](#utilisation)
   - [**Thème**](#thème)
     - [**Thème Clair**](#thème-clair)
     - [**Thème Sombre**](#thème-sombre)
-  - [**Langues disponibles**](#langues-disponibles)
   - [**Overlay**](#overlay)
     - [**Raccourcis**](#raccourcis)
     - [**Créer vos propres arrière-plans**](#créer-vos-propres-arrière-plans)
@@ -60,6 +60,15 @@ Programme simple pour générer des statistiques pour le jeu Fall Guys. Lit le f
   - [**Changelog**](#changelog)
 
 
+## Langues disponibles
+- Le Tracker Fall Guys supporte les langues suivantes:
+    - ![🇺🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/US.png) `Anglais`
+    - ![🇫🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/FR.png) `Français`
+    - ![🇪🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/ES.png) `Espagnol`
+    - ![🇰🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/KR.png) `Coréen`
+    - ![🇯🇵](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/JP.png) `Japonais`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Chinois Simplifié`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Chinois traditionnel`
 
 ## Téléchargement
 　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStats-download.svg)</a>
@@ -116,15 +125,6 @@ FallGuysStats est open source, ce qui signifie que tout le monde peut voir le co
 ![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindowDarkTheme.png)
 
 ![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindowDarkTheme.png)
-
-## Langues disponibles
-  - Le Tracker Fall Guys supporte les langues suivantes:
-    - 🇺🇸 `Anglais`
-    - 🇫🇷 `Français`
-    - 🇰🇷 `Coréen`
-    - 🇯🇵 `Japonais`
-    - 🇨🇳 `Chinois Simplifié`
-    - 🇨🇳 `Chinois traditionnel`
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)

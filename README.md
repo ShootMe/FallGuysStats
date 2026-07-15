@@ -28,7 +28,7 @@
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md#목차">🇰🇷 한국어</a>
   |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md#目次">🇯🇵 日本語</a>
-  <br>
+  <br>[README.md](docs/fr/README.md)
   <br>
   <b>This application is not affiliated with MediaTonic.<br>Images of FallGuys are the property of Mediatonic Limited.</b>
 </p>
@@ -38,13 +38,13 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Fall Guys Stats Welcome Logo](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 # Table of Contents
+  - [**Multilingual Support**](#multilingual-support)
   - [**Download**](#download)
     - [**First Run**](#first-run)
   - [**Usage**](#usage)
   - [**Theme**](#theme)
     - [**Light Theme**](#light-theme)
     - [**Dark Theme**](#dark-theme)
-  - [**Multilingual Support**](#multilingual-support)
   - [**Overlay**](#overlay)
     - [**Hotkey**](#hotkey)
     - [**Create your own overlays**](#create-your-own-overlays)
@@ -59,6 +59,15 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
     - [**How to set `Launch FallGuys` option in Epic Games**](#how-to-set-launch-fallguys-option-in-epic-games)
   - [**Changelog**](#changelog)
 
+## Multilingual Support
+- FallGuysStats supports the following languages.
+    - ![🇺🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/US.png) `English`
+    - ![🇫🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/FR.png) `French`
+    - ![🇪🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/ES.png) `Spanish`
+    - ![🇰🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/KR.png) `Korean`
+    - ![🇯🇵](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/JP.png) `Japanese`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Simplified Chinese`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Traditional Chinese`
 
 ## Download
 　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip">![FallGuysStats.zip](Resources/FallGuysStats-download.svg)</a>
@@ -124,15 +133,6 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 ![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindowDarkTheme.png)
 
 ![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindowDarkTheme.png)
-
-## Multilingual Support
-  - FallGuysStats supports the following languages.
-    - ![🇺🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/US.png) `English`
-    - ![🇫🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/FR.png) `French`
-    - ![🇰🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/KR.png) `Korean`
-    - ![🇯🇵](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/JP.png) `Japanese`
-    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Simplified Chinese`
-    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Traditional Chinese`
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
@@ -257,6 +257,9 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.439`
+    - Add Spanish language
+    - Bugfix and program optimization
   - `1.438`
     - Bugfix and program optimization
   - `1.437`
