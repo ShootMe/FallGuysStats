@@ -346,7 +346,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "Weekly Crown League is now open on Fallalytics" },
                             { "message_changelog_banning_users_using_hacking_programs", "Banning users using hacking programs" },
                             { "message_changelog_add_proxy_settings", "Add proxy settings" },
-                            { "message_add_spanish_language", "Spanish has been added as a main language" },
+                            { "message_changelog_add_spanish_language", "Spanish has been added as a main language" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "?" },
@@ -913,7 +913,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "La Ligue de la Couronne hebdomadaire est désormais ouverte sur FALLALYTICS" },
                             { "message_changelog_banning_users_using_hacking_programs", "Bannissement des utilisateurs ayant utilisés des programmes de triche" },
                             { "message_changelog_add_proxy_settings", "Ajout de la configuration d'un proxy" },
-                            { "message_add_spanish_language", "L'espagnol a été ajouté comme langue principale" },
+                            { "message_changelog_add_spanish_language", "L'espagnol a été ajouté comme langue principale" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", " ?" },
@@ -1480,7 +1480,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "La Liga Semanal de la Corona ya está abierta en Fallalytics" },
                             { "message_changelog_banning_users_using_hacking_programs", "Prohibición a usuarios que utilizan programas de pirateo" },
                             { "message_changelog_add_proxy_settings", "Agregar configuración de proxy" },
-                            { "message_add_spanish_language", "El español se ha añadido como idioma principal" },
+                            { "message_changelog_add_spanish_language", "El español se ha añadido como idioma principal" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "¿?" },
@@ -2047,7 +2047,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "폴라리틱스 주간 크라운 리그 출시" },
                             { "message_changelog_banning_users_using_hacking_programs", "해킹 프로그램 사용자 차단" },
                             { "message_changelog_add_proxy_settings", "프록시 설정 추가" },
-                            { "message_add_spanish_language", "스페인어가 주요 언어로 추가되었습니다" },
+                            { "message_changelog_add_spanish_language", "스페인어가 주요 언어로 추가되었습니다" },
 
                             { "numeric_suffix", "개" },
                             { "message_question_mark", ""},
@@ -2614,7 +2614,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "ウィークリー クラウン リーグが FALLALYTICS で公開されました。" },
                             { "message_changelog_banning_users_using_hacking_programs", "ハッキングプログラムのユーザーブロック" },
                             { "message_changelog_add_proxy_settings", "プロキシ設定を追加する" },
-                            { "message_add_spanish_language", "メイン言語でスペイン語を追加しました" },
+                            { "message_changelog_add_spanish_language", "メイン言語でスペイン語を追加しました" },
 
                             { "numeric_suffix", "つ" },
                             { "message_question_mark", ""},
@@ -3181,7 +3181,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每周皇冠联赛现已在 FALLALYTICS 上开放。" },
                             { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程序的用户。" },
                             { "message_changelog_add_proxy_settings", "添加代理设置" },
-                            { "message_add_spanish_language", "西班牙语已被添加为主要语言" },
+                            { "message_changelog_add_spanish_language", "西班牙语已被添加为主要语言" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
@@ -3748,7 +3748,7 @@ namespace FallGuysStats {
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每週皇冠聯賽現已在 FALLALYTICS 上開放。" },
                             { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程式的用戶。" },
                             { "message_changelog_add_proxy_settings", "新增代理設定" },
-                            { "message_add_spanish_language", "西班牙語已被添加為主要語言" },
+                            { "message_changelog_add_spanish_language", "西班牙語已被添加為主要語言" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
